@@ -91,5 +91,6 @@ Route::post('/anggota', [AnggotaController::class, 'store'])->name('anggota.stor
 
 
 Route::resource('buku', BukuController::class);
-
+Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
+Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
 

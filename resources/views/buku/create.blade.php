@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Tambah Anggota - Perpustakaan</title>
+    <title>Tambah Buku - Perpustakaan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Font & Icon -->
@@ -157,10 +157,10 @@
 
     <div class="menu">
         <a href="#"><i class="fa fa-home"></i> Dashboard</a>
-        <a href="{{ route('anggota.index') }}" class="active">
+        <a href="{{ route('anggota.index') }}">
             <i class="fa fa-users"></i> Data Anggota
         </a>
-        <a href="{{ route('buku.index') }}">
+        <a href="{{ route('buku.index') }}" class="active">
             <i class="fa fa-book"></i> Data Buku
         </a>
     </div>
@@ -169,7 +169,7 @@
 <div class="content">
 
     <div class="topbar">
-        <h2>Tambah Anggota</h2>
+        <h2>Tambah Buku</h2>
         <div class="admin">
             <i class="fa fa-user-circle"></i> Admin
         </div>
@@ -177,8 +177,9 @@
 
     <div class="form-wrapper">
         <div class="card">
-            <h3>Form Tambah Anggota</h3>
+            <h3>Form Tambah Buku</h3>
 
+            {{-- Error --}}
             @if ($errors->any())
                 <div class="error">
                     <ul>
@@ -189,33 +190,37 @@
                 </div>
             @endif
 
+            {{-- Success --}}
             @if(session('success'))
                 <div class="success">
                     {{ session('success') }}
                 </div>
             @endif
 
-            <form action="{{ route('anggota.store') }}" method="POST">
+            <form action="{{ route('buku.store') }}" method="POST">
                 @csrf
 
-                <label>Nama</label>
-                <input type="text" name="nama" value="{{ old('nama') }}" required>
+                <label>Judul Buku</label>
+                <input type="text" name="judul" value="{{ old('judul') }}" required>
 
-                <label>Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" required>
+                <label>Penulis</label>
+                <input type="text" name="penulis" value="{{ old('penulis') }}" required>
 
-                <label>No HP</label>
-                <input type="text" name="no_hp" value="{{ old('no_hp') }}" required>
+                <label>Penerbit</label>
+                <input type="text" name="penerbit" value="{{ old('penerbit') }}" required>
 
-                <label>Alamat</label>
-                <input type="text" name="alamat" value="{{ old('alamat') }}" required>
+                <label>Tahun</label>
+                <input type="number" name="tahun" value="{{ old('tahun') }}" required>
+
+                <label>Stok</label>
+                <input type="number" name="stok" value="{{ old('stok') }}" required>
 
                 <div class="button-group">
                     <button type="submit" class="btn-primary">
                         <i class="fa fa-save"></i> Simpan
                     </button>
 
-                    <a href="{{ route('anggota.index') }}" class="btn-secondary">
+                    <a href="{{ route('buku.index') }}" class="btn-secondary">
                         <i class="fa fa-arrow-left"></i> Kembali
                     </a>
                 </div>
