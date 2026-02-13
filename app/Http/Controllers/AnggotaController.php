@@ -74,8 +74,8 @@ class AnggotaController extends Controller
     // Hapus anggota
     public function destroy($id)
     {
-        $anggota = Anggota::findOrFail($id);
-        $anggota->delete();
+        $anggotas = Anggota::findOrFail($id);
+        $anggotas->delete();
 
         return redirect()->route('anggota.index')
                          ->with('success', 'Data anggota berhasil dihapus');
