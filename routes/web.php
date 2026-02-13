@@ -81,10 +81,15 @@ use Illuminate\Support\Facades\Route;
 // Route::post('cek_user',[ControllerAuth::class,'cek_akun'])->name('cek_user');
 
 // Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+// Route::get('/buku', [BukuController::class, 'buku'])->name('buku.index');
 
 Route::get('/home', [PageController::class, 'home'])->name('home');
+
 Route::resource('anggota', AnggotaController::class);
-// Route::get('/buku', [BukuController::class, 'buku'])->name('buku.index');
+Route::get('/anggota/create', [AnggotaController::class, 'create'])->name('anggota.create');
+Route::post('/anggota', [AnggotaController::class, 'store'])->name('anggota.store');
+
+
 Route::resource('buku', BukuController::class);
 
 

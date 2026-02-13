@@ -178,9 +178,9 @@
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h2>Daftar Anggota</h2>
 
-                <a href="{{ route('anggota.create') }}" class="btn btn-primary">
-                    <i class="fa fa-plus"></i> Tambah Anggota
-                </a>
+               <a href="{{ route('anggota.create') }}" class="btn btn-primary">
+                + Tambah Anggota
+</a>
             </div>
 
             <table>

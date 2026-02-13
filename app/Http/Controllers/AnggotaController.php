@@ -20,23 +20,25 @@ class AnggotaController extends Controller
         return view('anggota.create');
     }
 
-    // Simpan data anggota baru
+    // Simpan data anggota ke database
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
+            'nama'   => 'required',
+            'email'  => 'required|email',
+            'no_hp'  => 'required',
             'alamat' => 'required',
-            'telepon' => 'required'
         ]);
 
-        $anggotas = new Anggota();
-        $anggotas->nama = $request->nama;
-        $anggotas->alamat = $request->alamat;
-        $anggotas->telepon = $request->telepon;
-        $anggotas->save();
+        Anggota::create([
+            'nama'   => $request->nama,
+            'email'  => $request->email,
+            'no_hp'  => $request->no_hp,
+            'alamat' => $request->alamat,
+        ]);
 
         return redirect()->route('anggota.index')
-            ->with('success', 'Anggota berhasil ditambahkan');
+                         ->with('success', 'Data anggota berhasil ditambahkan');
     }
 
     // Tampilkan form edit anggota
@@ -49,20 +51,24 @@ class AnggotaController extends Controller
     // Update data anggota
     public function update(Request $request, $id)
     {
+        $anggotas = Anggota::findOrFail($id);
+
         $request->validate([
-            'nama' => 'required',
+            'nama'   => 'required',
+            'email'  => 'required|email',
+            'no_hp'  => 'required',
             'alamat' => 'required',
-            'telepon' => 'required'
         ]);
 
-        $anggotas = Anggota::findOrFail($id);
-        $anggotas->nama = $request->nama;
-        $anggotas->alamat = $request->alamat;
-        $anggotas->telepon = $request->telepon;
-        $anggotas->save();
+        $anggotas->update([
+            'nama'   => $request->nama,
+            'email'  => $request->email,
+            'no_hp'  => $request->no_hp,
+            'alamat' => $request->alamat,
+        ]);
 
         return redirect()->route('anggota.index')
-            ->with('success', 'Anggota berhasil diupdate');
+                         ->with('success', 'Data anggota berhasil diupdate');
     }
 
     // Hapus anggota
@@ -72,6 +78,6 @@ class AnggotaController extends Controller
         $anggota->delete();
 
         return redirect()->route('anggota.index')
-            ->with('success', 'Anggota berhasil dihapus');
+                         ->with('success', 'Data anggota berhasil dihapus');
     }
 }
