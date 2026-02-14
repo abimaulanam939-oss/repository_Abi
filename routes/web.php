@@ -98,11 +98,7 @@ Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create
 Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
 
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Dashboard (contoh)
-Route::get('/home', [PageController::class, 'home'])->name('home');
-
+Route::get('/login', function () { return view('login');})->name('login');
+Route::post('/login-proses', [AuthController::class, 'login'])->name('login.proses');
+Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
 

@@ -13,6 +13,7 @@ class HomeController extends Controller
         $totalAnggota = Anggota::count();
         $totalBuku = Buku::count();
 
-        return view('home', compact('totalAnggota', 'totalBuku'));
+        return view('dashboard.home', compact('totalAnggota', 'totalBuku'));
+
     }
 }

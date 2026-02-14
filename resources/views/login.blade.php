@@ -1,106 +1,194 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login disini</title>
-    <link rel="stylesheet" href="boostrap/css/bootstrap.min.css">
-    <script src="bootsrap/js/bootsrap.min.js"></script>
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden; /* Prevents scrollbars */
-        }
-        video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -1; /* Sends video behind other elements */
-            transform: translate(-50%, -50%);
-            object-fit: cover; /* Ensures the video covers the entire area */
-            filter: brightness(0.5); /* Menambahkan efek gelap */
-        }
-        .login-container {
-            max-width: 400px;
-            margin: auto;
-            padding: 30px;
-            margin-top: 100px;
-            background: rgba(255, 255, 255, 0.3); /* Lebih transparan */
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            /* backdrop-filter: blur(8px); /* Jika ingin menghapus blur, bisa hapus atau komentar ini */
-        }
-        h2 {
-            
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .form-control {
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            
-            transition: background-color 0.3s;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #1d2b64, #f8cdda);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Background floating blur effect */
+body::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: rgba(255,255,255,0.15);
+    filter: blur(150px);
+    border-radius: 50%;
+    top: -150px;
+    left: -150px;
+}
+
+body::after {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: rgba(0,0,0,0.2);
+    filter: blur(120px);
+    border-radius: 50%;
+    bottom: -100px;
+    right: -100px;
+}
+
+.login-card {
+    position: relative;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 50px 40px;
+    width: 360px;
+    box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+    text-align: center;
+    color: white;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.logo-box {
+    width: 100px;
+    height: 100px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 20px;
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-box img {
+    width: 60px;
+}
+
+h1 {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background: rgba(255,255,255,0.8);
+    transition: 0.3s;
+}
+
+input:focus {
+    background: white;
+    box-shadow: 0 0 0 2px #ffffff88;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.error {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #ffcccc;
+}
+
+.footer-text {
+    margin-top: 20px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+</style>
 </head>
+
 <body>
 
-    <video autoplay muted loop>
-        <source src="video/vidiotaruna.mp4" type="video/mp4">
-        Your browser does not support HTML5 video.
-    </video>
+<div class="login-card">
 
-    <div class="login-container">
-        <h2 class="text-center">Login</h2>
-        <form action="{{route('cek_user')}}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary btn-block">Masuk</button>
-            </di>
-        </form>
-
-       @if(@session()->has('pesan'))
-           {{session()->get('pesan')}}
-     
-        @endif
-            
-        <div class="text-center mt-3">
-            <a href="#">Lupa Password?</a>
-        </div>
-     
-        
-
+    <div class="logo-box">
+        <img src="{{ asset('logo.png') }}" alt="Logo">
     </div>
 
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to your account</p>
+
+    <form method="POST" action="{{ route('login.proses') }}">
+        @csrf
+
+        <div class="input-group">
+            <label>USERNAME</label>
+            <input type="text" name="username" placeholder="Enter username" required>
+        </div>
+
+        <div class="input-group">
+            <label>PASSWORD</label>
+            <input type="password" name="password" placeholder="Enter password" required>
+        </div>
+
+        <button type="submit">Login</button>
+
+        @if(session('error'))
+            <p class="error">{{ session('error') }}</p>
+        @endif
+    </form>
+
+    <div class="footer-text">
+        © 2026 Your Company
+    </div>
+
+</div>
 
 </body>
 </html>
