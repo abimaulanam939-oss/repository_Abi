@@ -7,10 +7,25 @@ use App\Models\Anggota;
 
 class AnggotaController extends Controller
 {
-    // Tampilkan semua anggota
-    public function index()
+    // Tampilkan semua anggota + search
+    public function index(Request $request)
     {
-        $anggotas = Anggota::all();
+        $query = Anggota::query();
+
+        // Jika ada pencarian
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('no_hp', 'like', "%{$search}%")
+                  ->orWhere('alamat', 'like', "%{$search}%");
+            });
+        }
+
+        $anggotas = $query->get();
+
         return view('anggota.index', compact('anggotas'));
     }
 

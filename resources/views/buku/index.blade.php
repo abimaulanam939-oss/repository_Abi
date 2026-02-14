@@ -15,7 +15,6 @@
             background-color: #f4f6f9;
         }
 
-        /* ===== SIDEBAR (DISAMAKAN DENGAN DASHBOARD) ===== */
         .sidebar {
             width: 250px;
             background: #0d0b2e;
@@ -69,7 +68,6 @@
             background: #1a174f;
         }
 
-        /* ===== MAIN CONTENT ===== */
         .main {
             flex: 1;
         }
@@ -100,15 +98,23 @@
             text-decoration: none;
             color: white;
             font-size: 14px;
+            border: none;
+            cursor: pointer;
         }
 
         .btn-primary { background: #3498db; }
         .btn-warning { background: #f39c12; }
-        .btn-danger { background: #e74c3c; border: none; cursor: pointer; }
+        .btn-danger { background: #e74c3c; }
 
         .btn-primary:hover { background: #2980b9; }
         .btn-warning:hover { background: #d68910; }
         .btn-danger:hover { background: #c0392b; }
+
+        .search-input {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
         table {
             width: 100%;
@@ -175,12 +181,29 @@
     <div class="content">
         <div class="card">
 
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                 <h2>Daftar Buku</h2>
 
-                <a href="{{ route('buku.create') }}" class="btn btn-primary">
-                    <i class="fa fa-plus"></i> Tambah Buku
-                </a>
+                <div style="display:flex; gap:10px; align-items:center;">
+                    
+                    <!-- SEARCH -->
+                    <form action="{{ route('buku.index') }}" method="GET" style="display:flex; gap:5px;">
+                        <input type="text" 
+                               name="search" 
+                               class="search-input"
+                               placeholder="Cari buku..."
+                               value="{{ request('search') }}">
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
+
+                    <!-- TAMBAH -->
+                    <a href="{{ route('buku.create') }}" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Tambah Buku
+                    </a>
+                </div>
             </div>
 
             <table>

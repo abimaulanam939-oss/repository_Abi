@@ -15,7 +15,6 @@
             background-color: #f4f6f9;
         }
 
-        /* ===== SIDEBAR (SUDAH DISAMAKAN DENGAN DASHBOARD) ===== */
         .sidebar {
             width: 250px;
             background: #0d0b2e;
@@ -69,7 +68,6 @@
             background: #1a174f;
         }
 
-        /* ===== MAIN CONTENT ===== */
         .main {
             flex: 1;
         }
@@ -129,6 +127,12 @@
         .text-center {
             text-align: center;
         }
+
+        .search-input {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -175,12 +179,29 @@
     <div class="content">
         <div class="card">
 
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                 <h2>Daftar Anggota</h2>
 
-               <a href="{{ route('anggota.create') }}" class="btn btn-primary">
-                + Tambah Anggota
-</a>
+                <div style="display:flex; gap:10px; align-items:center;">
+                    
+                    <!-- SEARCH -->
+                    <form action="{{ route('anggota.index') }}" method="GET" style="display:flex; gap:5px;">
+                        <input type="text" 
+                               name="search" 
+                               class="search-input"
+                               placeholder="Cari anggota..."
+                               value="{{ request('search') }}">
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
+
+                    <!-- TAMBAH -->
+                    <a href="{{ route('anggota.create') }}" class="btn btn-primary">
+                        + Tambah Anggota
+                    </a>
+                </div>
             </div>
 
             <table>

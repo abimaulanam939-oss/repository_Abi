@@ -7,75 +7,70 @@ use App\Models\Buku;
 
 class BukuController extends Controller
 {
-    // Tampilkan semua buku
-    public function index()
+    // Tampilkan semua buku + search
+    public function index(Request $request)
     {
-        $bukus = Buku::all();
+        $query = Buku::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', "%{$search}%")
+                  ->orWhere('pengarang', 'like', "%{$search}%")
+                  ->orWhere('penerbit', 'like', "%{$search}%")
+                  ->orWhere('tahun', 'like', "%{$search}%");
+            });
+        }
+
+        $bukus = $query->get();
+
         return view('buku.index', compact('bukus'));
     }
 
-    // Tampilkan form tambah buku
     public function create()
     {
         return view('buku.create');
     }
 
-    // Simpan data buku
     public function store(Request $request)
     {
         $request->validate([
             'judul'     => 'required',
-            'penulis'   => 'required',
+            'pengarang' => 'required',
             'penerbit'  => 'required',
-            'tahun'     => 'required|integer',
-            'stok'      => 'required|integer|min:0',
+            'tahun'     => 'required'
         ]);
 
-        Buku::create([
-            'judul'     => $request->judul,
-            'penulis'   => $request->penulis,
-            'penerbit'  => $request->penerbit,
-            'tahun'     => $request->tahun,
-            'stok'      => $request->stok,
-        ]);
+        Buku::create($request->all());
 
         return redirect()->route('buku.index')
                          ->with('success', 'Data buku berhasil ditambahkan');
     }
 
-    // Form edit
     public function edit($id)
     {
         $buku = Buku::findOrFail($id);
         return view('buku.edit', compact('buku'));
     }
 
-    // Update
     public function update(Request $request, $id)
     {
         $buku = Buku::findOrFail($id);
 
         $request->validate([
             'judul'     => 'required',
-            'penulis'   => 'required',
+            'pengarang' => 'required',
             'penerbit'  => 'required',
-            'tahun'     => 'required|integer',
-            'stok'      => 'required|integer|min:0',
+            'tahun'     => 'required'
         ]);
 
-        $buku->update([
-            'judul'     => $request->judul,
-            'penulis'   => $request->penulis,
-            'penerbit'  => $request->penerbit,
-            'tahun'     => $request->tahun,
-            'stok'      => $request->stok,
-        ]);
+        $buku->update($request->all());
 
         return redirect()->route('buku.index')
                          ->with('success', 'Data buku berhasil diupdate');
     }
 
-    // Hapus
     public function destroy($id)
     {
         $buku = Buku::findOrFail($id);

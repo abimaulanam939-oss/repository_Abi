@@ -87,7 +87,7 @@ body{
 /* STAT CARD */
 .stats{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2, 1fr);
     gap:20px;
     margin-bottom:40px;
 }
@@ -101,6 +101,7 @@ body{
     align-items:center;
     justify-content:space-between;
     transition:0.3s;
+    min-height:120px; /* sama untuk semua card */
 }
 
 .stat-card:hover{
@@ -112,6 +113,7 @@ body{
     padding:18px;
     border-radius:50%;
     color:white;
+    flex-shrink:0;
 }
 
 .bg-red{background:#e74c3c;}
@@ -132,6 +134,14 @@ body{
     <a href="{{ route('home') }}"><i class="fa fa-home"></i> Dashboard</a>
     <a href="{{ route('anggota.index') }}"><i class="fa fa-users"></i> Data Anggota</a>
     <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
+
+     <a href="#">
+        <i class="fa fa-right-left"></i> Transaksi
+    </a>
+
+    <a href="#">
+        <i class="fa fa-user"></i> Data Admin
+    </a>
 </div>
 
 <div class="content">
