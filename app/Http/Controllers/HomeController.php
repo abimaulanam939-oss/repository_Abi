@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Anggota;
+use App\Models\Buku;
 
 class HomeController extends Controller
 {
-     public function home()
+    public function index()
     {
-        return view('dashboard.home');
+        $totalAnggota = Anggota::count();
+        $totalBuku = Buku::count();
+
+        return view('home', compact('totalAnggota', 'totalBuku'));
     }
-    
 }
