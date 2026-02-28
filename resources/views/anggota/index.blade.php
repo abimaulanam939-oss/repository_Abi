@@ -158,8 +158,8 @@
         <i class="fa fa-book"></i> Data Buku
     </a>
 
-    <a href="#">
-        <i class="fa fa-right-left"></i> Transaksi
+    <a href="{{ route('transaksi.index') }}">
+        <i class="fa fa-exchange-alt"></i> Transaksi
     </a>
 
     <a href="#">
@@ -184,7 +184,6 @@
 
                 <div style="display:flex; gap:10px; align-items:center;">
                     
-                    <!-- SEARCH -->
                     <form action="{{ route('anggota.index') }}" method="GET" style="display:flex; gap:5px;">
                         <input type="text" 
                                name="search" 
@@ -197,7 +196,6 @@
                         </button>
                     </form>
 
-                    <!-- TAMBAH -->
                     <a href="{{ route('anggota.create') }}" class="btn btn-primary">
                         + Tambah Anggota
                     </a>
@@ -209,9 +207,8 @@
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
-                        <th>Email</th>
-                        <th>No HP</th>
-                        <th>Alamat</th>
+                        <th>Kelas</th>
+                        <th>Jurusan</th>
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -220,9 +217,8 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $b->nama }}</td>
-                        <td>{{ $b->email }}</td>
-                        <td>{{ $b->no_hp }}</td>
-                        <td>{{ $b->alamat }}</td>
+                        <td>{{ $b->kelas }}</td>
+                        <td>{{ $b->jurusan }}</td>
                         <td class="text-center">
                             <a href="{{ route('anggota.edit', $b->id) }}" class="btn btn-warning">
                                 <i class="fa fa-edit"></i>
@@ -239,7 +235,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="text-center">Data anggota belum tersedia</td>
+                        <td colspan="5" class="text-center">Data anggota belum tersedia</td>
                     </tr>
                     @endforelse
                 </tbody>

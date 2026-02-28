@@ -160,8 +160,8 @@
         <i class="fa fa-book"></i> Data Buku
     </a>
 
-    <a href="#">
-        <i class="fa fa-right-left"></i> Transaksi
+    <a href="{{ route('transaksi.index') }}" class="active">
+        <i class="fa fa-exchange-alt"></i> Transaksi
     </a>
 
     <a href="#">

@@ -17,7 +17,7 @@ class BukuController extends Controller
 
             $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('pengarang', 'like', "%{$search}%")
+                  ->orWhere('penulis', 'like', "%{$search}%")
                   ->orWhere('penerbit', 'like', "%{$search}%")
                   ->orWhere('tahun', 'like', "%{$search}%");
             });
@@ -37,7 +37,7 @@ class BukuController extends Controller
     {
         $request->validate([
             'judul'     => 'required',
-            'pengarang' => 'required',
+            'penulis' => 'required',
             'penerbit'  => 'required',
             'tahun'     => 'required'
         ]);
@@ -50,7 +50,7 @@ class BukuController extends Controller
 
     public function edit($id)
     {
-        $buku = Buku::findOrFail($id);
+        $bukus = Buku::findOrFail($id);
         return view('buku.edit', compact('buku'));
     }
 
@@ -60,7 +60,7 @@ class BukuController extends Controller
 
         $request->validate([
             'judul'     => 'required',
-            'pengarang' => 'required',
+            'penulis' => 'required',
             'penerbit'  => 'required',
             'tahun'     => 'required'
         ]);

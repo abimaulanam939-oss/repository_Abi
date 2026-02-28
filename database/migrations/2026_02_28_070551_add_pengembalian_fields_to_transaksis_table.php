@@ -11,7 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+      Schema::table('transaksis', function (Blueprint $table) {
+    $table->date('tanggal_kembali')->nullable();
+    $table->enum('status', ['dipinjam', 'dikembalikan'])->default('dipinjam');
+    $table->integer('denda')->default(0);
+});
     }
 
     /**
@@ -19,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('transaksis', function (Blueprint $table) {
+            //
+        });
     }
 };

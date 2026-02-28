@@ -18,9 +18,8 @@ class AnggotaController extends Controller
 
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('no_hp', 'like', "%{$search}%")
-                  ->orWhere('alamat', 'like', "%{$search}%");
+                  ->orWhere('kelas', 'like', "%{$search}%")
+                  ->orWhere('jurusan', 'like', "%{$search}%");
             });
         }
 
@@ -39,17 +38,15 @@ class AnggotaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama'   => 'required',
-            'email'  => 'required|email',
-            'no_hp'  => 'required',
-            'alamat' => 'required',
+            'nama'    => 'required',
+            'kelas'   => 'required',
+            'jurusan' => 'required',
         ]);
 
         Anggota::create([
-            'nama'   => $request->nama,
-            'email'  => $request->email,
-            'no_hp'  => $request->no_hp,
-            'alamat' => $request->alamat,
+            'nama'    => $request->nama,
+            'kelas'   => $request->kelas,
+            'jurusan' => $request->jurusan,
         ]);
 
         return redirect()->route('anggota.index')
@@ -69,17 +66,15 @@ class AnggotaController extends Controller
         $anggotas = Anggota::findOrFail($id);
 
         $request->validate([
-            'nama'   => 'required',
-            'email'  => 'required|email',
-            'no_hp'  => 'required',
-            'alamat' => 'required',
+            'nama'    => 'required',
+            'kelas'   => 'required',
+            'jurusan' => 'required',
         ]);
 
         $anggotas->update([
-            'nama'   => $request->nama,
-            'email'  => $request->email,
-            'no_hp'  => $request->no_hp,
-            'alamat' => $request->alamat,
+            'nama'    => $request->nama,
+            'kelas'   => $request->kelas,
+            'jurusan' => $request->jurusan,
         ]);
 
         return redirect()->route('anggota.index')

@@ -12,8 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\BukuController;
-use App\Http\Controllers\PeminjamanController;
-use App\Http\Controllers\PengembalianController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -88,6 +87,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/home', [PageController::class, 'home'])->name('home');
 
+
 Route::resource('anggota', AnggotaController::class);
 Route::get('/anggota/create', [AnggotaController::class, 'create'])->name('anggota.create');
 Route::post('/anggota', [AnggotaController::class, 'store'])->name('anggota.store');
@@ -98,7 +98,10 @@ Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create
 Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
 
 
-Route::get('/login', function () { return view('login');})->name('login');
-Route::post('/login-proses', [AuthController::class, 'login'])->name('login.proses');
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
-
+Route::resource('transaksi', TransaksiController::class);
+Route::get('transaksi/kembalikan/{id}', [TransaksiController::class, 'kembalikan'])->name('transaksi.kembalikan');
+Route::put('/transaksi/{id}/kembalikan', 
+    [TransaksiController::class, 'kembalikan']
+)->name('transaksi.kembalikan');
+Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy'])
+    ->name('transaksi.destroy');

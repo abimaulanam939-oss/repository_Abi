@@ -93,7 +93,7 @@
             width: 100%;
             padding: 12px;
             margin-top: 6px;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 14px;
@@ -189,26 +189,17 @@
                 </div>
             @endif
 
-            @if(session('success'))
-                <div class="success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             <form action="{{ route('anggota.store') }}" method="POST">
                 @csrf
 
                 <label>Nama</label>
                 <input type="text" name="nama" value="{{ old('nama') }}" required>
 
-                <label>Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" required>
+                <label>Kelas</label>
+                <input type="text" name="kelas" value="{{ old('kelas') }}" required>
 
-                <label>No HP</label>
-                <input type="text" name="no_hp" value="{{ old('no_hp') }}" required>
-
-                <label>Alamat</label>
-                <input type="text" name="alamat" value="{{ old('alamat') }}" required>
+                <label>Jurusan</label>
+                <input type="text" name="jurusan" value="{{ old('jurusan') }}" required>
 
                 <div class="button-group">
                     <button type="submit" class="btn-primary">
