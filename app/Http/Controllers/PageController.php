@@ -13,8 +13,16 @@ class PageController extends Controller
     {
         $totalAnggota = Anggota::count();
         $totalBuku = Buku::count();
-        $totalTransaksi = \App\Models\Transaksi::count();
+        $totalTransaksi = Transaksi::count();
 
-        return view('dashboard.home', compact('totalAnggota', 'totalBuku', 'totalTransaksi'));
+        // tambah ini ↓↓↓
+        $transaksiTerakhir = Transaksi::latest()->take(5)->get();
+
+        return view('dashboard.home', compact(
+            'totalAnggota',
+            'totalBuku',
+            'totalTransaksi',
+            'transaksiTerakhir'
+        ));
     }
 }

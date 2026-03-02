@@ -6,6 +6,7 @@
 <title>Dashboard Perpustakaan</title>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 *{
@@ -20,7 +21,6 @@ body{
     background:linear-gradient(135deg,#eef2f7,#e3e9f2);
 }
 
-/* SIDEBAR */
 .sidebar{
     width:260px;
     min-height:100vh;
@@ -33,7 +33,6 @@ body{
 .sidebar h3{
     text-align:center;
     margin-bottom:20px;
-    font-weight:600;
 }
 
 .sidebar .profile{
@@ -64,32 +63,23 @@ body{
     background:rgba(255,255,255,0.15);
 }
 
-/* CONTENT */
 .content{
     margin-left:260px;
     padding:40px;
     width:100%;
 }
 
-/* HEADER */
 .header{
     display:flex;
     justify-content:space-between;
-    align-items:center;
     margin-bottom:30px;
 }
 
-.header h2{
-    font-weight:600;
-    color:#333;
-}
-
-/* STAT CARD */
 .stats{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
     gap:20px;
-    margin-bottom:40px;
+    margin-bottom:30px;
 }
 
 .stat-card{
@@ -98,14 +88,8 @@ body{
     border-radius:15px;
     box-shadow:0 8px 25px rgba(0,0,0,0.05);
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    transition:0.3s;
-    min-height:120px;
-}
-
-.stat-card:hover{
-    transform:translateY(-5px);
+    align-items:center;
 }
 
 .stat-card i{
@@ -113,18 +97,44 @@ body{
     padding:18px;
     border-radius:50%;
     color:white;
-    flex-shrink:0;
 }
 
 .bg-red{background:#e74c3c;}
 .bg-yellow{background:#f1c40f;}
 .bg-blue{background:#3498db;}
+
+.panel{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.flex{
+    display:flex;
+    gap:20px;
+}
+
+.table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.table th, .table td{
+    border:1px solid #ddd;
+    padding:8px;
+}
+
+.table th{
+    background:#f4f4f4;
+}
 </style>
 </head>
 
 <body>
 
 <div class="sidebar">
+
     <h3>Perpustakaan</h3>
 
     <div class="profile">
@@ -137,53 +147,122 @@ body{
     <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
     <a href="{{ route('transaksi.index') }}"><i class="fa fa-exchange-alt"></i> Transaksi</a>
     <a href="#"><i class="fa fa-user"></i> Data Admin</a>
+
 </div>
+
 
 <div class="content">
 
-    <div class="header">
-        <h2>Dashboard</h2>
-        <div><i class="fa fa-user-circle"></i> Admin</div>
-    </div>
+<div class="header">
+<h2>Dashboard</h2>
+<div><i class="fa fa-user-circle"></i> Admin</div>
+</div>
 
-    <div class="stats">
 
-        <!-- TOTAL ANGGOTA -->
-        <a href="{{ route('anggota.index') }}" style="text-decoration:none; color:inherit;">
-            <div class="stat-card">
-                <div>
-                    <h3>{{ $totalAnggota }}</h3>
-                    <small>Total Anggota</small>
-                </div>
-                <i class="fa fa-users bg-red"></i>
-            </div>
-        </a>
+<div class="stats">
 
-        <!-- TOTAL BUKU -->
-        <a href="{{ route('buku.index') }}" style="text-decoration:none; color:inherit;">
-            <div class="stat-card">
-                <div>
-                    <h3>{{ $totalBuku }}</h3>
-                    <small>Total Buku</small>
-                </div>
-                <i class="fa fa-book bg-yellow"></i>
-            </div>
-        </a>
+<a href="{{ route('anggota.index') }}">
+<div class="stat-card">
+<div>
+<h3>{{ $totalAnggota }}</h3>
+<small>Total Anggota</small>
+</div>
+<i class="fa fa-users bg-red"></i>
+</div>
+</a>
 
-        <!-- TOTAL TRANSAKSI -->
-        <a href="{{ route('transaksi.index') }}" style="text-decoration:none; color:inherit;">
-            <div class="stat-card">
-                <div>
-                    <h3>{{ $totalTransaksi }}</h3>
-                    <small>Total Transaksi</small>
-                </div>
-                <i class="fa fa-exchange-alt bg-blue"></i>
-            </div>
-        </a>
 
-    </div>
+<a href="{{ route('buku.index') }}">
+<div class="stat-card">
+<div>
+<h3>{{ $totalBuku }}</h3>
+<small>Total Buku</small>
+</div>
+<i class="fa fa-book bg-yellow"></i>
+</div>
+</a>
+
+
+<a href="{{ route('transaksi.index') }}">
+<div class="stat-card">
+<div>
+<h3>{{ $totalTransaksi }}</h3>
+<small>Total Transaksi</small>
+</div>
+<i class="fa fa-exchange-alt bg-blue"></i>
+</div>
+</a>
 
 </div>
+
+
+
+<div class="flex">
+
+<div class="panel" style="flex:2">
+
+<h3>Transaksi Terakhir</h3>
+
+<table class="table">
+
+<tr>
+<th>Nama</th>
+<th>Buku</th>
+<th>Status</th>
+</tr>
+
+@foreach($transaksiTerakhir as $t)
+<tr>
+<td>{{ $t->anggota->nama }}</td>
+<td>{{ $t->buku->judul }}</td>
+<td>{{ $t->status }}</td>
+</tr>
+@endforeach
+
+</table>
+
+</div>
+
+
+<div class="panel" style="flex:1">
+
+<h3>Notifikasi</h3>
+
+<p>Total transaksi : {{ $totalTransaksi }}</p>
+<p>Total buku : {{ $totalBuku }}</p>
+<p>Total anggota : {{ $totalAnggota }}</p>
+
+</div>
+
+</div>
+
+
+
+<div class="panel" style="margin-top:20px">
+
+<h3>Grafik Peminjaman</h3>
+
+<canvas id="chart"></canvas>
+
+</div>
+
+</div>
+
+
+<script>
+
+new Chart(document.getElementById("chart"), {
+type: 'bar',
+data: {
+labels: ["Jan","Feb","Mar","Apr","Mei"],
+datasets: [{
+label: "Peminjaman",
+data: [5,3,6,2,4]
+}]
+}
+});
+
+</script>
 
 </body>
 </html>
