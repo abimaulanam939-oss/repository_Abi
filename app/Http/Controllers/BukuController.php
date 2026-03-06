@@ -28,49 +28,69 @@ class BukuController extends Controller
         return view('buku.index', compact('bukus'));
     }
 
+    // Form tambah buku
     public function create()
     {
         return view('buku.create');
     }
 
+    // Simpan buku
     public function store(Request $request)
     {
         $request->validate([
-            'judul'     => 'required',
-            'penulis' => 'required',
-            'penerbit'  => 'required',
-            'tahun'     => 'required'
+            'judul'    => 'required',
+            'penulis'  => 'required',
+            'penerbit' => 'required',
+            'tahun'    => 'required',
+            'stok'     => 'required|numeric'
         ]);
 
-        Buku::create($request->all());
+        Buku::create([
+            'judul'    => $request->judul,
+            'penulis'  => $request->penulis,
+            'penerbit' => $request->penerbit,
+            'tahun'    => $request->tahun,
+            'stok'     => $request->stok,
+        ]);
 
         return redirect()->route('buku.index')
                          ->with('success', 'Data buku berhasil ditambahkan');
     }
 
+    // Form edit buku
     public function edit($id)
     {
-        $bukus = Buku::findOrFail($id);
+        $buku = Buku::findOrFail($id);
+
         return view('buku.edit', compact('buku'));
     }
 
+    // Update buku
     public function update(Request $request, $id)
     {
         $buku = Buku::findOrFail($id);
 
         $request->validate([
-            'judul'     => 'required',
-            'penulis' => 'required',
-            'penerbit'  => 'required',
-            'tahun'     => 'required'
+            'judul'    => 'required',
+            'penulis'  => 'required',
+            'penerbit' => 'required',
+            'tahun'    => 'required',
+            'stok'     => 'required|numeric'
         ]);
 
-        $buku->update($request->all());
+        $buku->update([
+            'judul'    => $request->judul,
+            'penulis'  => $request->penulis,
+            'penerbit' => $request->penerbit,
+            'tahun'    => $request->tahun,
+            'stok'     => $request->stok,
+        ]);
 
         return redirect()->route('buku.index')
                          ->with('success', 'Data buku berhasil diupdate');
     }
 
+    // Hapus buku
     public function destroy($id)
     {
         $buku = Buku::findOrFail($id);

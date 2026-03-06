@@ -12,7 +12,6 @@ class AnggotaController extends Controller
     {
         $query = Anggota::query();
 
-        // Jika ada pencarian
         if ($request->filled('search')) {
             $search = $request->search;
 
@@ -34,7 +33,7 @@ class AnggotaController extends Controller
         return view('anggota.create');
     }
 
-    // Simpan data anggota ke database
+    // Simpan data anggota
     public function store(Request $request)
     {
         $request->validate([
@@ -56,14 +55,15 @@ class AnggotaController extends Controller
     // Tampilkan form edit anggota
     public function edit($id)
     {
-        $anggotas = Anggota::findOrFail($id);
-        return view('anggota.edit', compact('anggotas'));
+        $anggota = Anggota::findOrFail($id);
+
+        return view('anggota.edit', compact('anggota'));
     }
 
     // Update data anggota
     public function update(Request $request, $id)
     {
-        $anggotas = Anggota::findOrFail($id);
+        $anggota = Anggota::findOrFail($id);
 
         $request->validate([
             'nama'    => 'required',
@@ -71,7 +71,7 @@ class AnggotaController extends Controller
             'jurusan' => 'required',
         ]);
 
-        $anggotas->update([
+        $anggota->update([
             'nama'    => $request->nama,
             'kelas'   => $request->kelas,
             'jurusan' => $request->jurusan,
@@ -84,8 +84,8 @@ class AnggotaController extends Controller
     // Hapus anggota
     public function destroy($id)
     {
-        $anggotas = Anggota::findOrFail($id);
-        $anggotas->delete();
+        $anggota = Anggota::findOrFail($id);
+        $anggota->delete();
 
         return redirect()->route('anggota.index')
                          ->with('success', 'Data anggota berhasil dihapus');
