@@ -9,8 +9,9 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void{
-        Schema::create('buku', function (Blueprint $table) {
+    public function up(): void
+    {
+        Schema::create('bukus', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
             $table->string('penulis');
@@ -20,7 +21,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.

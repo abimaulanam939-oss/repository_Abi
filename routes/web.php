@@ -13,8 +13,9 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\TransaksiController;
-use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,64 +27,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/keg', function () {
-//     return view('kegiatan');
-// });
-
-// Route::get('/ind', function () {
-//     return view('index');
-// });
-
-// Route::get('/cont', function () {
-//     return view('contact');
-// });
-
-// Route::get('/cont/srv', function () {
-//     return view('conn');
-// });
-
-
-// Route::get('/pres', function () {
-//     return view('prestasi');
-// });
-
-
-// Route::get('/log', function () {
-//     return view('login');
-// });
-
-// Route::get('/prof', function () {
-//     return view('profil');
-
-// Route::get('/kegiatan',[KegiatanController::class,'Kegiatan']);
-
-// Route::get('/Prestasi',[ContactController::class,'Prestasi']);
-
-// Route::get('/Profil',[ContactController::class,'Profil']);
-
-// Route::get('/User',[UserController::class,'tambahdata']);
-
-// Route::get('/orders',[OrdersController::class,'index'])->name('Orders');
-
-// Route::get('/customer',[CustomerController::class,'index'])->name('Customer');
-
-// Route::get('/products',[ProductController::class,'index'])->name('Products');
-
-// Route::get('/Index',[ContactController::class,'Index']);
-
-// Route::post('contact',[ContactController::class,'store'])->name('contact.store');
-
-// Route::get('/login',[ControllerAuth::class,'Index'])->name('index');
-
-// Route::post('cek_user',[ControllerAuth::class,'cek_akun'])->name('cek_user');
-
-// Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-// Route::get('/buku', [BukuController::class, 'buku'])->name('buku.index');
 
 Route::get('/home', [PageController::class, 'home'])->name('home');
 
@@ -105,3 +48,10 @@ Route::put('/transaksi/{id}/kembalikan',
 )->name('transaksi.kembalikan');
 Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy'])
     ->name('transaksi.destroy');
+
+
+
+
+Route::get('/login',[AuthController::class,'login']);
+Route::post('/login',[AuthController::class,'authenticate']);
+Route::get('/home',[PageController::class,'home'])->name('home');
