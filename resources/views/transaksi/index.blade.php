@@ -229,7 +229,7 @@ font-size:13px;
 
 <form action="{{ route('logout') }}" method="POST">
     @csrf
-    <button type="submit" style="background:none;border:none;color:white;cursor:pointer;">
+    <button type="submit" style="background:none;border:none;color:rgb(135, 126, 143);cursor:pointer;">
         <i class="fa fa-sign-out-alt"></i> Logout
     </button>
 </form>

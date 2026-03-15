@@ -15,6 +15,7 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\DetailTransaksiController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 
@@ -57,8 +58,20 @@ Route::put('/transaksi/{id}', [TransaksiController::class,'update'])->name('tran
 Route::put('/detail/{id}', [DetailTransaksiController::class,'update'])->name('detail.update');
 Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
 
+/* route login */
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate']);
+
+/* route yang wajib login */
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    Route::resource('anggota', AnggotaController::class);
+    Route::resource('buku', BukuController::class);
+    Route::resource('transaksi', TransaksiController::class);
+
+});
 
 Route::middleware(['auth'])->group(function () {
 
