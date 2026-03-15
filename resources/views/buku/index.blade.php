@@ -159,14 +159,11 @@
     <a href="{{ route('buku.index') }}" class="active">
         <i class="fa fa-book"></i> Data Buku
     </a>
-
     <a href="{{ route('transaksi.index') }}" class="active">
-        <i class="fa fa-exchange-alt"></i> Transaksi
+        <i class="fa fa-book"></i> Data Transaksi
     </a>
 
-    <a href="#">
-        <i class="fa fa-user"></i> Data Admin
-    </a>
+  
 </div>
 
 <div class="main">

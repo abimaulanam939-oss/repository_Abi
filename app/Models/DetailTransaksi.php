@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class DetailTransaksi extends Model
 {
-    protected $table = 'detail_transaksi';
+    protected $table = 'detail_transaksis';
 
-    protected $fillable = [
-        'transaksi_id',
-        'buku_id'
-    ];
+  protected $fillable = [
+    'transaksi_id',
+    'buku_id',
+    'kondisi'
+];
 
     public function transaksi()
     {

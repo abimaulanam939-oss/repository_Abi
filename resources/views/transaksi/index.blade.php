@@ -1,380 +1,431 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Data Transaksi - Perpustakaan Sekolah</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Data Transaksi - Perpustakaan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
-
 body{
-    display:flex;
-    background:#f1f5f9;
+font-family: Arial, Helvetica, sans-serif;
+background:#f4f6f9;
+margin:0;
+display:flex;
 }
 
-/* ===== SIDEBAR SAMA DENGAN DASHBOARD ===== */
+/* SIDEBAR */
 
 .sidebar{
-    width:260px;
-    min-height:100vh;
-    background:linear-gradient(180deg,#141e30,#243b55);
-    color:white;
-    padding:25px 20px;
-    position:fixed;
+width:230px;
+background:#0b0a2a;
+min-height:100vh;
+color:white;
+position:fixed;
+left:0;
+top:0;
 }
 
-.sidebar h3{
-    text-align:center;
-    margin-bottom:20px;
+.sidebar h2{
+text-align:center;
+padding:20px 0;
+font-size:20px;
+font-weight:bold;
+border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 .profile{
-    text-align:center;
-    margin-bottom:30px;
+text-align:center;
+padding:20px 0;
+border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 .profile img{
-    width:80px;
-    border-radius:50%;
-    border:3px solid white;
-    margin-bottom:10px;
+width:70px;
+height:70px;
+border-radius:50%;
+background:white;
+padding:5px;
+}
+
+.profile p{
+margin-top:8px;
+font-weight:bold;
+font-size:14px;
 }
 
 .sidebar a{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:12px;
-    margin-bottom:8px;
-    text-decoration:none;
-    color:white;
-    border-radius:8px;
-    transition:0.3s;
+display:flex;
+align-items:center;
+gap:10px;
+padding:12px 20px;
+color:white;
+text-decoration:none;
+font-size:14px;
+transition:0.3s;
 }
 
 .sidebar a:hover{
-    background:rgba(255,255,255,0.15);
+background:#1b1955;
 }
 
-
-/* ===== CONTENT ===== */
-
-.content{
-    margin-left:260px;
-    padding:40px;
-    width:100%;
+.sidebar i{
+width:18px;
+text-align:center;
 }
 
-.card{
-    background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+/* CONTENT */
+
+.main{
+margin-left:230px;
+width:100%;
 }
 
 .header{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:15px;
+background:#ffffff;
+padding:15px 25px;
+font-size:20px;
+font-weight:bold;
+border-bottom:1px solid #ddd;
+}
+
+.container{
+width:95%;
+margin:30px auto;
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+h2{
+margin-bottom:20px;
+color:#333;
 }
 
 .btn{
-    padding:8px 14px;
-    border-radius:8px;
-    border:none;
-    cursor:pointer;
-    font-size:13px;
-    text-decoration:none;
-    color:white;
+padding:6px 12px;
+border:none;
+border-radius:5px;
+font-size:12px;
+cursor:pointer;
+text-decoration:none;
+margin:2px;
 }
 
-.btn-primary{background:#0ea5e9;}
-.btn-warning{background:#f59e0b;}
-.btn-danger{background:#ef4444;}
-.btn-success{background:#16a34a;}
+.btn-add{background:#27ae60;color:white;}
+.btn-kembali{background:#3498db;color:white;}
+.btn-edit{background:#8e44ad;color:white;}
+.btn-save{background:#e67e22;color:white;}
+.btn-delete{background:#e74c3c;color:white;}
 
 table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-thead{
-    background:#0f172a;
-    color:white;
+width:100%;
+border-collapse:collapse;
 }
 
 th,td{
-    padding:12px;
-    text-align:center;
+padding:10px;
+border-bottom:1px solid #ddd;
+text-align:left;
+font-size:14px;
 }
 
-tbody tr{
-    border-bottom:1px solid #e2e8f0;
+th{
+background:#34495e;
+color:white;
 }
 
-.badge{
-    padding:5px 12px;
-    border-radius:20px;
-    font-size:12px;
+.status{
+padding:5px 10px;
+border-radius:5px;
+font-size:12px;
+color:white;
 }
 
-.badge-success{
-    background:#dcfce7;
-    color:#16a34a;
+.dipinjam{background:#3498db;}
+.dikembalikan{background:#27ae60;}
+
+.denda{
+color:#e74c3c;
+font-weight:bold;
 }
 
-.badge-danger{
-    background:#fee2e2;
-    color:#dc2626;
+.select-kondisi{
+padding:4px;
+font-size:12px;
+margin-left:5px;
 }
+
+.telat{
+color:red;
+font-size:12px;
+font-weight:bold;
+}
+
+.batas{
+font-size:12px;
+color:#666;
+}
+
+/* SEARCH */
 
 .search-box{
-    display:flex;
-    gap:8px;
-    margin-bottom:20px;
+margin-top:15px;
+margin-bottom:15px;
 }
 
 .search-box input{
-    padding:8px;
-    width:280px;
-    border-radius:6px;
-    border:1px solid #cbd5e1;
+padding:7px 10px;
+width:250px;
+border:1px solid #ccc;
+border-radius:5px;
+font-size:13px;
+}
+
+.search-box button{
+padding:7px 12px;
+border:none;
+background:#3498db;
+color:white;
+border-radius:5px;
+cursor:pointer;
+font-size:13px;
 }
 
 </style>
 </head>
+
 <body>
 
-
-<!-- ===== SIDEBAR ===== -->
-
+<!-- SIDEBAR -->
 <div class="sidebar">
 
-    <h3>Perpustakaan</h3>
+<h2>Perpustakaan</h2>
 
-    <div class="profile">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-        <p>Admin</p>
-    </div>
-
-    <a href="{{ route('home') }}">
-        <i class="fa fa-home"></i> Dashboard
-    </a>
-
-    <a href="{{ route('anggota.index') }}">
-        <i class="fa fa-users"></i> Data Anggota
-    </a>
-
-    <a href="{{ route('buku.index') }}">
-        <i class="fa fa-book"></i> Data Buku
-    </a>
-
-    <a href="{{ route('transaksi.index') }}">
-        <i class="fa fa-exchange-alt"></i> Transaksi
-    </a>
-
-    <a href="#">
-        <i class="fa fa-user"></i> Data Admin
-    </a>
-
+<div class="profile">
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+<p>Admin</p>
 </div>
 
-
-<!-- ===== CONTENT ===== -->
-
-<div class="content">
-
-<div class="card">
-
-<div class="header">
-    <h2>Data Transaksi</h2>
-
-    <a href="{{ route('transaksi.create') }}" class="btn btn-primary">
-        Tambah
-    </a>
-</div>
-
-
-<form action="{{ route('transaksi.index') }}" method="GET" class="search-box">
-
-<input type="text"
-    name="search"
-    value="{{ request('search') }}"
-placeholder="Cari nama / buku / status">
-
-<button type="submit" class="btn btn-primary">
-Cari
-</button>
-
-@if(request('search'))
-
-<a href="{{ route('transaksi.index') }}"
-class="btn btn-danger">
-Reset
+<a href="{{ route('home') }}">
+<i class="fa fa-home"></i> Dashboard
 </a>
 
-@endif
+<a href="{{ route('anggota.index') }}">
+<i class="fa fa-users"></i> Data Anggota
+</a>
+
+<a href="{{ route('buku.index') }}">
+<i class="fa fa-book"></i> Data Buku
+</a>
+
+<a href="{{ route('transaksi.index') }}">
+<i class="fa fa-file-lines"></i> Data Transaksi
+</a>
+
+<form action="{{ route('logout') }}" method="POST">
+    @csrf
+    <button type="submit" style="background:none;border:none;color:white;cursor:pointer;">
+        <i class="fa fa-sign-out-alt"></i> Logout
+    </button>
+</form>
+
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<div class="header">
+<i class="fa-solid fa-book"></i> Sistem Perpustakaan
+</div>
+
+<div class="container">
+
+<h2><i class="fa-solid fa-file-lines"></i> Data Transaksi</h2>
+
+<a href="{{ route('transaksi.create') }}" class="btn btn-add">
+<i class="fa fa-plus"></i> Tambah Transaksi
+</a>
+
+<!-- SEARCH -->
+<form method="GET" action="{{ route('transaksi.index') }}" class="search-box">
+
+<input type="text" name="search" placeholder="Cari anggota / buku..." value="{{ request('search') }}">
+
+<button type="submit">
+<i class="fa fa-search"></i> Cari
+</button>
 
 </form>
 
-
 <table>
-
-<thead>
 
 <tr>
 <th>No</th>
-<th>Nama</th>
-<th>Judul Buku</th>
-<th>Tgl Pinjam</th>
-<th>Batas</th>
-<th>Dikembalikan</th>
+<th>Anggota</th>
+<th>Buku</th>
+<th>Tanggal Pinjam</th>
+<th>Tanggal Kembali</th>
 <th>Denda</th>
 <th>Status</th>
 <th>Aksi</th>
 </tr>
 
-</thead>
+@foreach($transaksis->filter(function($t){
+$search = request('search');
+if(!$search) return true;
 
-<tbody>
-
-@forelse ($transaksis as $key => $transaksi)
+return str_contains(strtolower($t->anggota->nama), strtolower($search)) ||
+$t->detail->contains(function($d) use ($search){
+return str_contains(strtolower($d->buku->judul), strtolower($search));
+});
+}) as $i => $t)
 
 <tr>
 
-<td>{{ $key+1 }}</td>
+<td>{{ $i+1 }}</td>
 
-<td>{{ $transaksi->anggota->nama }}</td>
-
-
-<td>
-
-<ul style="margin:0;padding-left:15px;text-align:left;">
-
-@foreach($transaksi->detail as $detail)
-
-<li>{{ $detail->buku->judul }}</li>
-
-@endforeach
-
-</ul>
-
-</td>
-
-
-<td>{{ $transaksi->tanggal_pinjam->format('d-m-Y') }}</td>
-
-<td>{{ $transaksi->tanggal_kembali->format('d-m-Y') }}</td>
-
+<td>{{ $t->anggota->nama }}</td>
 
 <td>
 
-{{ $transaksi->tanggal_dikembalikan
-? $transaksi->tanggal_dikembalikan->format('d-m-Y')
-: '-' }}
+@foreach($t->detail as $d)
 
-</td>
-
-
-<td>
-
-Rp {{ number_format($transaksi->denda ?? 0,0,',','.') }}
-
-</td>
-
-
-<td>
-
-@if($transaksi->status=='dikembalikan')
-
-<span class="badge badge-success">
-Kembali
-</span>
-
-@else
-
-<span class="badge badge-danger">
-Dipinjam
-</span>
-
-@endif
-
-</td>
-
-
-<td>
-
-<div style="display:flex;gap:6px;justify-content:center">
-
-@if($transaksi->status=='dipinjam')
-
-<form
-action="{{ route('transaksi.kembalikan',$transaksi->id) }}"
-method="POST">
+<form action="{{ route('detail.update',$d->id) }}" method="POST">
 
 @csrf
 @method('PUT')
 
-<button class="btn btn-success">
-Kembalikan
+• {{ $d->buku->judul }}
+
+<select name="kondisi" class="select-kondisi">
+
+<option value="dipinjam" {{ $d->kondisi == 'dipinjam' ? 'selected' : '' }}>Dipinjam</option>
+<option value="dikembalikan" {{ $d->kondisi == 'dikembalikan' ? 'selected' : '' }}>Kembali</option>
+<option value="rusak" {{ $d->kondisi == 'rusak' ? 'selected' : '' }}>Rusak</option>
+<option value="hilang" {{ $d->kondisi == 'hilang' ? 'selected' : '' }}>Hilang</option>
+
+</select>
+
+<button type="submit" class="btn btn-save">
+<i class="fa fa-save"></i>
 </button>
 
 </form>
+
+<br>
+
+@endforeach
+
+</td>
+
+<td>{{ $t->tanggal_pinjam }}</td>
+
+<td>
+
+<strong>{{ $t->tanggal_kembali }}</strong>
+
+<br>
+
+@if(\Carbon\Carbon::now()->gt($t->tanggal_kembali) && $t->status == 'dipinjam')
+
+<span class="telat">
+Telat {{ \Carbon\Carbon::parse($t->tanggal_kembali)->diffInDays(now()) }} hari
+</span>
+
+@else
+
+<span class="batas">
+Batas Pengembalian
+</span>
 
 @endif
 
+</td>
 
-<a href="{{ route('transaksi.edit', $transaksi->id) }}" class="btn btn-warning btn-sm">
-    Edit
+<td class="denda">
+Rp {{ number_format($t->denda) }}
+</td>
+
+<td>
+
+@if($t->status == 'dipinjam')
+
+<a href="{{ route('transaksi.kembalikan',$t->id) }}" class="btn btn-kembali">
+<i class="fa fa-undo"></i> Kembalikan
 </a>
 
+@else
 
-<form
-action="{{ route('transaksi.destroy',$transaksi->id) }}"
-method="POST">
+<span class="status dikembalikan">Dikembalikan</span>
 
+@endif
+
+</td>
+
+<td>
+
+<a href="{{ route('transaksi.edit',$t->id) }}" class="btn btn-edit">
+<i class="fa fa-pen"></i>
+</a>
+
+<form action="{{ route('transaksi.destroy',$t->id) }}" method="POST" style="display:inline;">
 @csrf
 @method('DELETE')
 
-<button class="btn btn-danger">
-Hapus
+<button type="submit" class="btn btn-delete"
+onclick="return confirm('Yakin ingin menghapus transaksi ini?')">
+<i class="fa fa-trash"></i>
 </button>
 
 </form>
 
-</div>
-
 </td>
 
 </tr>
 
-@empty
-
-<tr>
-<td colspan="9">
-Belum ada data
-</td>
-</tr>
-
-@endforelse
-
-</tbody>
+@endforeach
 
 </table>
 
 </div>
 
 </div>
+
+<script>
+
+document.querySelectorAll('.select-kondisi').forEach(function(select){
+
+select.addEventListener('change', function(){
+
+let row = this.closest('tr');
+let dendaCell = row.querySelector('.denda');
+
+let totalDenda = 0;
+
+row.querySelectorAll('.select-kondisi').forEach(function(s){
+
+if(s.value === "rusak"){
+totalDenda += 10000;
+}
+
+if(s.value === "hilang"){
+totalDenda += 50000;
+}
+
+});
+
+dendaCell.innerHTML = "Rp " + totalDenda.toLocaleString('id-ID');
+
+});
+
+});
+
+</script>
 
 </body>
 </html>

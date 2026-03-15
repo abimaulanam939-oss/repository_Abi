@@ -12,201 +12,141 @@ use Illuminate\Support\Facades\DB;
 
 class TransaksiController extends Controller
 {
-    public function index(Request $request)
+
+    public function index()
     {
-        $search = $request->search;
-
-        $transaksis = Transaksi::with('anggota', 'detail.buku')
-            ->when($search, function ($query) use ($search) {
-                $query->whereHas('anggota', function ($q) use ($search) {
-                    $q->where('nama', 'like', "%{$search}%");
-                })
-                ->orWhereHas('detail.buku', function ($q) use ($search) {
-                    $q->where('judul', 'like', "%{$search}%");
-                })
-                ->orWhere('status', 'like', "%{$search}%");
-            })
-            ->latest()
-            ->get();
-
-        return view('transaksi.index', compact('transaksis', 'search'));
+        $transaksis = Transaksi::with('anggota','detail.buku')->get();
+        return view('transaksi.index', compact('transaksis'));
     }
 
     public function create()
     {
         $anggotas = Anggota::all();
-        $bukus = Buku::where('stok', '>', 0)->get();
+        $bukus = Buku::all();
 
-        return view('transaksi.create', compact('anggotas', 'bukus'));
+        return view('transaksi.create', compact('anggotas','bukus'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'anggota_id' => 'required',
-            'buku_id' => 'required|array',
-            'tanggal_pinjam' => 'required|date',
-            'tanggal_kembali' => 'required|date|after_or_equal:tanggal_pinjam',
+            'anggota_id'=>'required',
+            'buku_id'=>'required'
         ]);
 
         DB::beginTransaction();
 
-        try {
+        try{
+
+            $tanggalPinjam = Carbon::now();
+
+            // BATAS PENGEMBALIAN 3 HARI
+            $tanggalKembali = Carbon::now()->addDays(3);
 
             $transaksi = Transaksi::create([
-                'anggota_id' => $request->anggota_id,
-                'tanggal_pinjam' => $request->tanggal_pinjam,
-                'tanggal_kembali' => $request->tanggal_kembali,
-                'status' => 'dipinjam',
-                'denda' => 0
+                'anggota_id'=>$request->anggota_id,
+                'tanggal_pinjam'=>$tanggalPinjam,
+                'tanggal_kembali'=>$tanggalKembali,
+                'status'=>'dipinjam',
+                'denda'=>0
             ]);
 
-            foreach ($request->buku_id as $id_buku) {
+            $bukuIds = (array) $request->buku_id;
 
-                $buku = Buku::findOrFail($id_buku);
-
-                if ($buku->stok <= 0) {
-                    throw new \Exception("Stok buku {$buku->judul} habis.");
-                }
+            foreach($bukuIds as $buku){
 
                 DetailTransaksi::create([
-                    'transaksi_id' => $transaksi->id,
-                    'buku_id' => $id_buku
+                    'transaksi_id'=>$transaksi->id,
+                    'buku_id'=>$buku
                 ]);
 
-                $buku->decrement('stok');
-            }
-
-            DB::commit();
-
-            return redirect()->route('transaksi.index')
-                ->with('success', 'Transaksi berhasil disimpan.');
-
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-            return back()->with('error', $e->getMessage());
-        }
-    }
-
-
-    // ==========================
-    // KEMBALIKAN (DENDA 10000)
-    // ==========================
-
-    public function kembalikan($id)
-    {
-        $transaksi = Transaksi::with('detail.buku')->findOrFail($id);
-
-        DB::beginTransaction();
-
-        try {
-
-            $tanggalDikembalikan = Carbon::now();
-            $batasKembali = Carbon::parse($transaksi->tanggal_kembali);
-
-            // ✅ DENDA PER HARI
-            $dendaPerHari = 10000;
-
-            $selisihHari = $tanggalDikembalikan->diffInDays($batasKembali, false);
-
-            $denda = 0;
-
-            if ($selisihHari < 0) {
-                $denda = abs($selisihHari) * $dendaPerHari;
-            }
-
-            $transaksi->update([
-                'tanggal_dikembalikan' => $tanggalDikembalikan,
-                'status' => 'dikembalikan',
-                'denda' => $denda
-            ]);
-
-            foreach ($transaksi->detail as $detail) {
-                $detail->buku->increment('stok');
+                Buku::where('id',$buku)->decrement('stok');
             }
 
             DB::commit();
 
             return redirect()->route('transaksi.index');
 
-        } catch (\Exception $e) {
+        }catch(\Exception $e){
 
             DB::rollBack();
-            return back()->with('error', $e->getMessage());
+            return back()->with('error',$e->getMessage());
         }
     }
 
-
-    public function edit($id)
-    {
-        $transaksi = Transaksi::findOrFail($id);
-        $anggotas = Anggota::all();
-        $bukus = Buku::all();
-
-        return view('transaksi.edit', compact('transaksi', 'anggotas', 'bukus'));
-    }
-
-
-    // ==========================
-    // UPDATE (DENDA 10000)
-    // ==========================
-
-    public function update(Request $request, $id)
+    // KEMBALIKAN BUKU
+    public function kembalikan($id)
     {
         $transaksi = Transaksi::findOrFail($id);
 
-        $batas = Carbon::parse($request->tanggal_kembali);
         $hariIni = Carbon::now();
-
-        $dendaPerHari = 10000;
-
-        $selisihHari = $hariIni->diffInDays($batas, false);
+        $batas = Carbon::parse($transaksi->tanggal_kembali);
 
         $denda = 0;
 
-        if ($request->status == 'dikembalikan' && $selisihHari < 0) {
-            $denda = abs($selisihHari) * $dendaPerHari;
+        // HITUNG TELAT
+        if($hariIni->gt($batas)){
+
+            $telat = $hariIni->diffInDays($batas);
+
+            $denda = $telat * 1000; // 1000 per hari
         }
 
         $transaksi->update([
-            'anggota_id' => $request->anggota_id,
-            'tanggal_pinjam' => $request->tanggal_pinjam,
-            'tanggal_kembali' => $request->tanggal_kembali,
-            'status' => $request->status,
-            'denda' => $denda,
-            'tanggal_dikembalikan' => $request->status == 'dikembalikan' ? $hariIni : null,
+            'tanggal_dikembalikan'=>$hariIni,
+            'status'=>'dikembalikan',
+            'denda'=>$transaksi->denda + $denda
         ]);
 
-        return redirect()->route('transaksi.index')
-            ->with('success', 'Data berhasil diupdate');
+        $details = DetailTransaksi::where('transaksi_id',$id)->get();
+
+        foreach($details as $d){
+            Buku::where('id',$d->buku_id)->increment('stok');
+        }
+
+        return redirect()->route('transaksi.index');
     }
 
+    // BUKU HILANG
+    public function hilang($id)
+    {
+        $transaksi = Transaksi::with('detail')->findOrFail($id);
+
+        $jumlahBuku = $transaksi->detail->count();
+
+        $denda = $jumlahBuku * 50000;
+
+        $transaksi->update([
+            'status'=>'hilang',
+            'denda'=>$denda
+        ]);
+
+        return redirect()->route('transaksi.index');
+    }
+
+    // BUKU RUSAK
+    public function rusak($id)
+    {
+        $transaksi = Transaksi::with('detail')->findOrFail($id);
+
+        $jumlahBuku = $transaksi->detail->count();
+
+        $denda = $jumlahBuku * 30000;
+
+        $transaksi->update([
+            'status'=>'rusak',
+            'denda'=>$denda
+        ]);
+
+        return redirect()->route('transaksi.index');
+    }
 
     public function destroy($id)
-    {
-        $transaksi = Transaksi::with('detail.buku')->findOrFail($id);
+{
+    $transaksi = Transaksi::findOrFail($id);
+    $transaksi->delete();
 
-        DB::beginTransaction();
-
-        try {
-
-            foreach ($transaksi->detail as $detail) {
-                $detail->buku->increment('stok');
-            }
-
-            $transaksi->detail()->delete();
-            $transaksi->delete();
-
-            DB::commit();
-
-            return redirect()->route('transaksi.index');
-
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-
-            return back()->with('error', $e->getMessage());
-        }
-    }
+    return redirect()->route('transaksi.index')
+    ->with('success','Data berhasil dihapus');
+}
 }

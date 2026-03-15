@@ -145,9 +145,15 @@ body{
     <a href="{{ route('home') }}"><i class="fa fa-home"></i> Dashboard</a>
     <a href="{{ route('anggota.index') }}"><i class="fa fa-users"></i> Data Anggota</a>
     <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
-    <a href="{{ route('transaksi.index') }}"><i class="fa fa-exchange-alt"></i> Transaksi</a>
-    <a href="#"><i class="fa fa-user"></i> Data Admin</a>
-
+    <a href="{{ route('transaksi.index') }}"><i class="fa fa-exchange-alt"></i> Data Transaksi</a>
+   <form action="{{ route('logout') }}" method="POST">
+    @csrf
+    <button type="submit" class="logout-btn">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+    </button>
+</form>
+</form>
 </div>
 
 
@@ -183,86 +189,9 @@ body{
 </a>
 
 
-<a href="{{ route('transaksi.index') }}">
-<div class="stat-card">
-<div>
-<h3>{{ $totalTransaksi }}</h3>
-<small>Total Transaksi</small>
-</div>
-<i class="fa fa-exchange-alt bg-blue"></i>
-</div>
-</a>
-
-</div>
 
 
 
-<div class="flex">
-
-<div class="panel" style="flex:2">
-
-<h3>Transaksi Terakhir</h3>
-
-<table class="table">
-
-<tr>
-<th>Nama</th>
-<th>Buku</th>
-<th>Status</th>
-</tr>
-
-@foreach($transaksiTerakhir as $t)
-<tr>
-<td>{{ $t->anggota->nama }}</td>
-<td>{{ $t->buku->judul }}</td>
-<td>{{ $t->status }}</td>
-</tr>
-@endforeach
-
-</table>
-
-</div>
-
-
-<div class="panel" style="flex:1">
-
-<h3>Notifikasi</h3>
-
-<p>Total transaksi : {{ $totalTransaksi }}</p>
-<p>Total buku : {{ $totalBuku }}</p>
-<p>Total anggota : {{ $totalAnggota }}</p>
-
-</div>
-
-</div>
-
-
-
-<div class="panel" style="margin-top:20px">
-
-<h3>Grafik Peminjaman</h3>
-
-<canvas id="chart"></canvas>
-
-</div>
-
-</div>
-
-
-<script>
-
-new Chart(document.getElementById("chart"), {
-type: 'bar',
-data: {
-labels: ["Jan","Feb","Mar","Apr","Mei"],
-datasets: [{
-label: "Peminjaman",
-data: [5,3,6,2,4]
-}]
-}
-});
-
-</script>
 
 </body>
 </html>
