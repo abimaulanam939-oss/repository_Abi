@@ -219,8 +219,10 @@ tr:hover{
 <a href="{{ route('transaksi.index') }}"><i class="fa fa-file-lines"></i> Data Transaksi</a>
 
 <form action="{{ route('logout') }}" method="POST">
-@csrf
-<button type="submit"><i class="fa fa-sign-out-alt"></i> Logout</button>
+    @csrf
+    <button type="submit" style="background:none;border:none;color:white;cursor:pointer;">
+        <i class="fa fa-sign-out-alt"></i> Logout
+    </button>
 </form>
 
 </div>
