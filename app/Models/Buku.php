@@ -15,9 +15,6 @@ class Buku extends Model
     // Kolom yang bisa diisi lewat mass assignment
     protected $fillable = [
         'judul',
-        'penulis',
-        'penerbit',
-        'tahun',
-        'stok',
+        'no_seri',
     ];
 }

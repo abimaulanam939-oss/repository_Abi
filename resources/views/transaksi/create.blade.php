@@ -10,75 +10,74 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <style>
 
 body{
-    font-family:Arial;
-    background:#f4f6f9;
-    margin:0;
+font-family:Arial;
+background:#f4f6f9;
+margin:0;
 }
 
 .header{
-    background:#2c3e50;
-    color:white;
-    padding:15px;
+background:#2c3e50;
+color:white;
+padding:15px;
 }
 
 .container{
-    width:600px;
-    margin:auto;
-    margin-top:40px;
+width:600px;
+margin:auto;
+margin-top:40px;
 }
 
 .card{
-    background:white;
-    padding:25px;
-    border-radius:8px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+background:white;
+padding:25px;
+border-radius:8px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
 label{
-    font-weight:bold;
+font-weight:bold;
 }
 
 input,select{
-    width:100%;
-    padding:8px;
-    margin-top:5px;
-    margin-bottom:15px;
-    border:1px solid #ccc;
-    border-radius:5px;
+width:100%;
+padding:8px;
+margin-top:5px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:5px;
 }
 
 select[multiple]{
-    height:150px;
+height:150px;
 }
 
 .info{
-    font-size:12px;
-    color:#666;
-    margin-top:-10px;
-    margin-bottom:15px;
+font-size:12px;
+color:#666;
+margin-top:-10px;
+margin-bottom:15px;
 }
 
 .btn{
-    padding:10px 15px;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
+padding:10px 15px;
+border:none;
+border-radius:5px;
+cursor:pointer;
 }
 
 .btn-simpan{
-    background:#27ae60;
-    color:white;
+background:#27ae60;
+color:white;
 }
 
 .btn-kembali{
-    background:#e74c3c;
-    color:white;
-    text-decoration:none;
-    padding:10px 15px;
+background:#e74c3c;
+color:white;
+text-decoration:none;
+padding:10px 15px;
 }
 
 </style>
-
 </head>
 <body>
 
@@ -87,16 +86,13 @@ select[multiple]{
 </div>
 
 <div class="container">
-
 <div class="card">
 
 <form action="{{ route('transaksi.store') }}" method="POST">
-
 @csrf
 
 <label>Anggota</label>
 <select name="anggota_id" required>
-
 <option value="">-- pilih anggota --</option>
 
 @foreach($anggotas as $a)
@@ -104,7 +100,6 @@ select[multiple]{
 {{ $a->nama }}
 </option>
 @endforeach
-
 </select>
 
 
@@ -113,7 +108,7 @@ select[multiple]{
 
 @foreach($bukus as $b)
 <option value="{{ $b->id }}">
-{{ $b->judul }} (stok : {{ $b->stok }})
+{{ $b->no }} - {{ $b->judul }} - {{ $b->no_seri }}
 </option>
 @endforeach
 
@@ -123,18 +118,13 @@ select[multiple]{
 Gunakan <b>CTRL + Klik</b> untuk memilih lebih dari satu buku
 </div>
 
-
 <label>Tanggal Pinjam</label>
 <input type="date" name="tanggal_pinjam" required>
-
 
 <label>Tanggal Kembali</label>
 <input type="date" name="tanggal_kembali" required>
 
-
-<!-- kondisi default -->
 <input type="hidden" name="kondisi" value="baik">
-
 
 <button type="submit" class="btn btn-simpan">
 <i class="fa fa-save"></i> Simpan
@@ -147,7 +137,6 @@ Gunakan <b>CTRL + Klik</b> untuk memilih lebih dari satu buku
 </form>
 
 </div>
-
 </div>
 
 </body>

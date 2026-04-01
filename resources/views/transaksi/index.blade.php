@@ -11,109 +11,100 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <style>
 
 body{
-font-family: Arial, Helvetica, sans-serif;
-background:#f4f6f9;
-margin:0;
-display:flex;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    display:flex;
 }
 
 /* SIDEBAR */
-
 .sidebar{
-width:230px;
-background:#0b0a2a;
-min-height:100vh;
-color:white;
-position:fixed;
-left:0;
-top:0;
+    width:230px;
+    background:#0b0a2a;
+    min-height:100vh;
+    color:white;
+    position:fixed;
 }
 
 .sidebar h2{
-text-align:center;
-padding:20px 0;
-font-size:20px;
-font-weight:bold;
-border-bottom:1px solid rgba(255,255,255,0.1);
+    text-align:center;
+    padding:20px 0;
+    font-size:20px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 .profile{
-text-align:center;
-padding:20px 0;
-border-bottom:1px solid rgba(255,255,255,0.1);
+    text-align:center;
+    padding:20px 0;
+    border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 .profile img{
-width:70px;
-height:70px;
-border-radius:50%;
-background:white;
-padding:5px;
+    width:70px;
+    border-radius:50%;
+    background:white;
+    padding:5px;
 }
 
 .profile p{
-margin-top:8px;
-font-weight:bold;
-font-size:14px;
+    margin-top:8px;
+    font-size:14px;
+    font-weight:bold;
 }
 
-.sidebar a{
-display:flex;
-align-items:center;
-gap:10px;
-padding:12px 20px;
-color:white;
-text-decoration:none;
-font-size:14px;
-transition:0.3s;
+.sidebar a, .sidebar button{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 20px;
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+    background:none;
+    border:none;
+    width:100%;
+    cursor:pointer;
 }
 
-.sidebar a:hover{
-background:#1b1955;
-}
-
-.sidebar i{
-width:18px;
-text-align:center;
+.sidebar a:hover, .sidebar button:hover{
+    background:#1b1955;
 }
 
 /* CONTENT */
-
 .main{
-margin-left:230px;
-width:100%;
+    margin-left:230px;
+    width:100%;
 }
 
 .header{
-background:#ffffff;
-padding:15px 25px;
-font-size:20px;
-font-weight:bold;
-border-bottom:1px solid #ddd;
+    background:#fff;
+    padding:15px 25px;
+    font-size:20px;
+    font-weight:bold;
+    border-bottom:1px solid #ddd;
 }
 
 .container{
-width:95%;
-margin:30px auto;
-background:white;
-padding:25px;
-border-radius:10px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    width:95%;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
 h2{
-margin-bottom:20px;
-color:#333;
+    margin-bottom:15px;
 }
 
+/* BUTTON */
 .btn{
-padding:6px 12px;
-border:none;
-border-radius:5px;
-font-size:12px;
-cursor:pointer;
-text-decoration:none;
-margin:2px;
+    padding:6px 12px;
+    border:none;
+    border-radius:6px;
+    font-size:12px;
+    cursor:pointer;
+    text-decoration:none;
 }
 
 .btn-add{background:#27ae60;color:white;}
@@ -122,78 +113,90 @@ margin:2px;
 .btn-save{background:#e67e22;color:white;}
 .btn-delete{background:#e74c3c;color:white;}
 
+/* TABLE */
 table{
-width:100%;
-border-collapse:collapse;
-}
-
-th,td{
-padding:10px;
-border-bottom:1px solid #ddd;
-text-align:left;
-font-size:14px;
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
 }
 
 th{
-background:#34495e;
-color:white;
+    background:#34495e;
+    color:white;
+    padding:12px;
+    font-size:13px;
 }
 
+td{
+    padding:12px;
+    font-size:13px;
+    border-bottom:1px solid #eee;
+    vertical-align:top;
+}
+
+tr:hover{
+    background:#f9fafb;
+}
+
+/* STATUS */
 .status{
-padding:5px 10px;
-border-radius:5px;
-font-size:12px;
-color:white;
+    padding:5px 10px;
+    border-radius:5px;
+    font-size:12px;
+    color:white;
 }
 
-.dipinjam{background:#3498db;}
 .dikembalikan{background:#27ae60;}
 
+/* DENDA */
 .denda{
-color:#e74c3c;
-font-weight:bold;
+    color:#e74c3c;
+    font-weight:bold;
 }
 
+/* SELECT */
 .select-kondisi{
-padding:4px;
-font-size:12px;
-margin-left:5px;
+    padding:4px;
+    border-radius:5px;
+    border:1px solid #ccc;
+    font-size:12px;
+    margin-left:5px;
 }
 
+/* TEXT */
 .telat{
-color:red;
-font-size:12px;
-font-weight:bold;
+    color:red;
+    font-size:12px;
+    font-weight:bold;
 }
 
 .batas{
-font-size:12px;
-color:#666;
+    font-size:12px;
+    color:#777;
 }
 
 /* SEARCH */
-
 .search-box{
-margin-top:15px;
-margin-bottom:15px;
+    margin-top:10px;
+    margin-bottom:15px;
+    display:flex;
+    gap:10px;
 }
 
 .search-box input{
-padding:7px 10px;
-width:250px;
-border:1px solid #ccc;
-border-radius:5px;
-font-size:13px;
+    padding:7px;
+    width:250px;
+    border:1px solid #ccc;
+    border-radius:5px;
 }
 
 .search-box button{
-padding:7px 12px;
-border:none;
-background:#3498db;
-color:white;
-border-radius:5px;
-cursor:pointer;
-font-size:13px;
+    padding:7px 12px;
+    background:#3498db;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
 }
 
 </style>
@@ -201,7 +204,6 @@ font-size:13px;
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
 
 <h2>Perpustakaan</h2>
@@ -211,55 +213,35 @@ font-size:13px;
 <p>Admin</p>
 </div>
 
-<a href="{{ route('home') }}">
-<i class="fa fa-home"></i> Dashboard
-</a>
-
-<a href="{{ route('anggota.index') }}">
-<i class="fa fa-users"></i> Data Anggota
-</a>
-
-<a href="{{ route('buku.index') }}">
-<i class="fa fa-book"></i> Data Buku
-</a>
-
-<a href="{{ route('transaksi.index') }}">
-<i class="fa fa-file-lines"></i> Data Transaksi
-</a>
+<a href="{{ route('home') }}"><i class="fa fa-home"></i> Dashboard</a>
+<a href="{{ route('anggota.index') }}"><i class="fa fa-users"></i> Data Anggota</a>
+<a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
+<a href="{{ route('transaksi.index') }}"><i class="fa fa-file-lines"></i> Data Transaksi</a>
 
 <form action="{{ route('logout') }}" method="POST">
-    @csrf
-    <button type="submit" style="background:none;border:none;color:white;cursor:pointer;">
-        <i class="fa fa-sign-out-alt"></i> Logout
-    </button>
+@csrf
+<button type="submit"><i class="fa fa-sign-out-alt"></i> Logout</button>
 </form>
 
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="main">
 
 <div class="header">
-<i class="fa-solid fa-book"></i> Sistem Perpustakaan
+<i class="fa fa-book"></i> Sistem Perpustakaan
 </div>
 
 <div class="container">
 
-<h2><i class="fa-solid fa-file-lines"></i> Data Transaksi</h2>
+<h2><i class="fa fa-file-lines"></i> Data Transaksi</h2>
 
 <a href="{{ route('transaksi.create') }}" class="btn btn-add">
 <i class="fa fa-plus"></i> Tambah Transaksi
 </a>
 
-<!-- SEARCH -->
 <form method="GET" action="{{ route('transaksi.index') }}" class="search-box">
-
 <input type="text" name="search" placeholder="Cari anggota / buku..." value="{{ request('search') }}">
-
-<button type="submit">
-<i class="fa fa-search"></i> Cari
-</button>
-
+<button type="submit"><i class="fa fa-search"></i> Cari</button>
 </form>
 
 <table>
@@ -267,108 +249,78 @@ font-size:13px;
 <tr>
 <th>No</th>
 <th>Anggota</th>
+<th>Kelas</th>
+<th>Jurusan</th>
 <th>Buku</th>
-<th>Tanggal Pinjam</th>
-<th>Tanggal Kembali</th>
+<th>Tgl Pinjam</th>
+<th>Tgl Kembali</th>
 <th>Denda</th>
 <th>Status</th>
 <th>Aksi</th>
 </tr>
 
-@foreach($transaksis->filter(function($t){
-$search = request('search');
-if(!$search) return true;
-
-return str_contains(strtolower($t->anggota->nama), strtolower($search)) ||
-$t->detail->contains(function($d) use ($search){
-return str_contains(strtolower($d->buku->judul), strtolower($search));
-});
-}) as $i => $t)
+@foreach($transaksis as $i => $t)
 
 <tr>
 
 <td>{{ $i+1 }}</td>
-
 <td>{{ $t->anggota->nama }}</td>
+<td>{{ $t->anggota->kelas }}</td>
+<td>{{ $t->anggota->jurusan }}</td>
 
 <td>
-
 @foreach($t->detail as $d)
 
-<form action="{{ route('detail.update',$d->id) }}" method="POST">
-
+<div style="margin-bottom:6px;">
+<form action="{{ route('detail.update',$d->id) }}" method="POST" style="display:inline;">
 @csrf
 @method('PUT')
 
-• {{ $d->buku->judul }}
+{{ $d->buku->judul ?? '-' }}
 
 <select name="kondisi" class="select-kondisi">
-
-<option value="dipinjam" {{ $d->kondisi == 'dipinjam' ? 'selected' : '' }}>Dipinjam</option>
-<option value="dikembalikan" {{ $d->kondisi == 'dikembalikan' ? 'selected' : '' }}>Kembali</option>
-<option value="rusak" {{ $d->kondisi == 'rusak' ? 'selected' : '' }}>Rusak</option>
-<option value="hilang" {{ $d->kondisi == 'hilang' ? 'selected' : '' }}>Hilang</option>
-
+<option value="dipinjam" {{ $d->kondisi=='dipinjam'?'selected':'' }}>Dipinjam</option>
+<option value="dikembalikan" {{ $d->kondisi=='dikembalikan'?'selected':'' }}>Kembali</option>
+<option value="rusak" {{ $d->kondisi=='rusak'?'selected':'' }}>Rusak</option>
+<option value="hilang" {{ $d->kondisi=='hilang'?'selected':'' }}>Hilang</option>
 </select>
 
-<button type="submit" class="btn btn-save">
-<i class="fa fa-save"></i>
-</button>
+<button class="btn btn-save"><i class="fa fa-save"></i></button>
 
 </form>
-
-<br>
+</div>
 
 @endforeach
-
 </td>
 
 <td>{{ $t->tanggal_pinjam }}</td>
 
 <td>
+<strong>{{ $t->tanggal_kembali }}</strong><br>
 
-<strong>{{ $t->tanggal_kembali }}</strong>
-
-<br>
-
-@if(\Carbon\Carbon::now()->gt($t->tanggal_kembali) && $t->status == 'dipinjam')
-
+@if(now()->gt($t->tanggal_kembali) && $t->status=='dipinjam')
 <span class="telat">
 Telat {{ \Carbon\Carbon::parse($t->tanggal_kembali)->diffInDays(now()) }} hari
 </span>
-
 @else
-
-<span class="batas">
-Batas Pengembalian
-</span>
-
+<span class="batas">Batas Pengembalian</span>
 @endif
 
 </td>
 
-<td class="denda">
-Rp {{ number_format($t->denda) }}
-</td>
+<td class="denda">Rp {{ number_format($t->denda) }}</td>
 
 <td>
-
-@if($t->status == 'dipinjam')
-
+@if($t->status=='dipinjam')
 <a href="{{ route('transaksi.kembalikan',$t->id) }}" class="btn btn-kembali">
-<i class="fa fa-undo"></i> Kembalikan
+<i class="fa fa-undo"></i>
 </a>
-
 @else
-
-<span class="status dikembalikan">Dikembalikan</span>
-
+<span class="status dikembalikan">Selesai</span>
 @endif
-
 </td>
 
 <td>
-
 <a href="{{ route('transaksi.edit',$t->id) }}" class="btn btn-edit">
 <i class="fa fa-pen"></i>
 </a>
@@ -376,14 +328,10 @@ Rp {{ number_format($t->denda) }}
 <form action="{{ route('transaksi.destroy',$t->id) }}" method="POST" style="display:inline;">
 @csrf
 @method('DELETE')
-
-<button type="submit" class="btn btn-delete"
-onclick="return confirm('Yakin ingin menghapus transaksi ini?')">
+<button class="btn btn-delete" onclick="return confirm('Yakin?')">
 <i class="fa fa-trash"></i>
 </button>
-
 </form>
-
 </td>
 
 </tr>
@@ -393,38 +341,25 @@ onclick="return confirm('Yakin ingin menghapus transaksi ini?')">
 </table>
 
 </div>
-
 </div>
 
 <script>
-
 document.querySelectorAll('.select-kondisi').forEach(function(select){
-
 select.addEventListener('change', function(){
 
 let row = this.closest('tr');
 let dendaCell = row.querySelector('.denda');
-
-let totalDenda = 0;
+let total = 0;
 
 row.querySelectorAll('.select-kondisi').forEach(function(s){
-
-if(s.value === "rusak"){
-totalDenda += 10000;
-}
-
-if(s.value === "hilang"){
-totalDenda += 50000;
-}
-
+if(s.value === "rusak") total += 10000;
+if(s.value === "hilang") total += 50000;
 });
 
-dendaCell.innerHTML = "Rp " + totalDenda.toLocaleString('id-ID');
+dendaCell.innerHTML = "Rp " + total.toLocaleString('id-ID');
 
 });
-
 });
-
 </script>
 
 </body>

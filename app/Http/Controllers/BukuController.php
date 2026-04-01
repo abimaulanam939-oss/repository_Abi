@@ -17,9 +17,7 @@ class BukuController extends Controller
 
             $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('penulis', 'like', "%{$search}%")
-                  ->orWhere('penerbit', 'like', "%{$search}%")
-                  ->orWhere('tahun', 'like', "%{$search}%");
+                  ->orWhere('no_seri', 'like', "%{$search}%");
             });
         }
 
@@ -38,19 +36,13 @@ class BukuController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul'    => 'required',
-            'penulis'  => 'required',
-            'penerbit' => 'required',
-            'tahun'    => 'required',
-            'stok'     => 'required|numeric'
+            'judul'   => 'required',
+            'no_seri' => 'required'
         ]);
 
         Buku::create([
-            'judul'    => $request->judul,
-            'penulis'  => $request->penulis,
-            'penerbit' => $request->penerbit,
-            'tahun'    => $request->tahun,
-            'stok'     => $request->stok,
+            'judul'   => $request->judul,
+            'no_seri' => $request->no_seri,
         ]);
 
         return redirect()->route('buku.index')
@@ -71,19 +63,13 @@ class BukuController extends Controller
         $buku = Buku::findOrFail($id);
 
         $request->validate([
-            'judul'    => 'required',
-            'penulis'  => 'required',
-            'penerbit' => 'required',
-            'tahun'    => 'required',
-            'stok'     => 'required|numeric'
+            'judul'   => 'required',
+            'no_seri' => 'required'
         ]);
 
         $buku->update([
-            'judul'    => $request->judul,
-            'penulis'  => $request->penulis,
-            'penerbit' => $request->penerbit,
-            'tahun'    => $request->tahun,
-            'stok'     => $request->stok,
+            'judul'   => $request->judul,
+            'no_seri' => $request->no_seri,
         ]);
 
         return redirect()->route('buku.index')

@@ -1,253 +1,269 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Data Buku - Perpustakaan</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Data Buku - Perpustakaan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            background-color: #f4f6f9;
-        }
+<style>
 
-        .sidebar {
-            width: 250px;
-            background: #0d0b2e;
-            color: white;
-            height: 100vh;
-            padding-top: 20px;
-        }
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    display:flex;
+    background:#f4f6f9;
+}
 
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
+/* SIDEBAR */
+.sidebar{
+    width:230px;
+    background:#0b0a2a;
+    color:white;
+    min-height:100vh;
+    position:fixed;
+}
 
-        .profile {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+.sidebar h2{
+    text-align:center;
+    padding:20px 0;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
 
-        .profile img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: white;
-            padding: 5px;
-        }
+.profile{
+    text-align:center;
+    padding:20px 0;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
 
-        .profile p {
-            margin-top: 10px;
-            font-weight: bold;
-        }
+.profile img{
+    width:70px;
+    border-radius:50%;
+    background:white;
+    padding:5px;
+}
 
-        .sidebar a {
-            display: block;
-            padding: 15px 25px;
-            color: white;
-            text-decoration: none;
-            font-size: 15px;
-            transition: 0.3s;
-        }
+.profile p{
+    margin-top:8px;
+    font-size:14px;
+    font-weight:bold;
+}
 
-        .sidebar a i {
-            margin-right: 10px;
-        }
+.sidebar a, .sidebar button{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 20px;
+    color:white;
+    text-decoration:none;
+    background:none;
+    border:none;
+    width:100%;
+    cursor:pointer;
+    font-size:14px;
+}
 
-        .sidebar a:hover {
-            background: #1a174f;
-        }
+.sidebar a:hover, .sidebar button:hover{
+    background:#1b1955;
+}
 
-        .sidebar .active {
-            background: #1a174f;
-        }
+.sidebar .active{
+    background:#1b1955;
+}
 
-        .main {
-            flex: 1;
-        }
+/* MAIN */
+.main{
+    margin-left:230px;
+    width:100%;
+}
 
-        .navbar {
-            background: white;
-            padding: 15px 25px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.navbar{
+    background:white;
+    padding:15px 25px;
+    font-weight:bold;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    justify-content:space-between;
+}
 
-        .content {
-            padding: 20px;
-        }
+.content{
+    padding:25px;
+}
 
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
 
-        .btn {
-            padding: 7px 12px;
-            border-radius: 5px;
-            text-decoration: none;
-            color: white;
-            font-size: 14px;
-            border: none;
-            cursor: pointer;
-        }
+/* BUTTON */
+.btn{
+    padding:6px 12px;
+    border-radius:6px;
+    color:white;
+    font-size:13px;
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+}
 
-        .btn-primary { background: #3498db; }
-        .btn-warning { background: #f39c12; }
-        .btn-danger { background: #e74c3c; }
+.btn-primary{background:#3498db;}
+.btn-warning{background:#f39c12;}
+.btn-danger{background:#e74c3c;}
 
-        .btn-primary:hover { background: #2980b9; }
-        .btn-warning:hover { background: #d68910; }
-        .btn-danger:hover { background: #c0392b; }
+.btn-primary:hover{background:#2980b9;}
+.btn-warning:hover{background:#d68910;}
+.btn-danger:hover{background:#c0392b;}
 
-        .search-input {
-            padding: 6px 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+/* SEARCH */
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
+.search-box{
+    display:flex;
+    gap:8px;
+}
 
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
+.search-box input{
+    padding:7px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
 
-        th {
-            background: #f1f1f1;
-        }
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
 
-        .text-center {
-            text-align: center;
-        }
-    </style>
+th{
+    background:#34495e;
+    color:white;
+    padding:12px;
+    font-size:13px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+    font-size:13px;
+}
+
+tr:hover{
+    background:#f9fafb;
+}
+
+.text-center{
+    text-align:center;
+}
+
+.empty{
+    text-align:center;
+    padding:20px;
+    color:#777;
+}
+
+</style>
 </head>
 
 <body>
 
 <div class="sidebar">
-    <h2>Perpustakaan</h2>
+<h2>Perpustakaan</h2>
 
-    <div class="profile">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-        <p>Admin</p>
-    </div>
+<div class="profile">
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+<p>Admin</p>
+</div>
 
-    <a href="{{ route('home') }}">
-        <i class="fa fa-home"></i> Dashboard
-    </a>
+<a href="{{ route('home') }}"><i class="fa fa-home"></i> Dashboard</a>
+<a href="{{ route('anggota.index') }}"><i class="fa fa-users"></i> Data Anggota</a>
+<a href="{{ route('buku.index') }}" class="active"><i class="fa fa-book"></i> Data Buku</a>
+<a href="{{ route('transaksi.index') }}"><i class="fa fa-file-lines"></i> Data Transaksi</a>
 
-    <a href="{{ route('anggota.index') }}">
-        <i class="fa fa-users"></i> Data Anggota
-    </a>
+<form action="{{ route('logout') }}" method="POST">
+@csrf
+<button type="submit"><i class="fa fa-sign-out-alt"></i> Logout</button>
+</form>
 
-    <a href="{{ route('buku.index') }}" class="active">
-        <i class="fa fa-book"></i> Data Buku
-    </a>
-    <a href="{{ route('transaksi.index') }}" class="active">
-        <i class="fa fa-book"></i> Data Transaksi
-    </a>
-
-  
 </div>
 
 <div class="main">
 
-    <div class="navbar">
-        <h3>Data Buku</h3>
-        <div>
-            <i class="fa fa-user-circle"></i> Admin
-        </div>
-    </div>
+<div class="navbar">
+<span>📚 Data Buku</span>
+<span><i class="fa fa-user-circle"></i> Admin</span>
+</div>
 
-    <div class="content">
-        <div class="card">
+<div class="content">
+<div class="card">
 
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h2>Daftar Buku</h2>
+<div class="top-bar">
+<h2>Daftar Buku</h2>
 
-                <div style="display:flex; gap:10px; align-items:center;">
-                    
-                    <!-- SEARCH -->
-                    <form action="{{ route('buku.index') }}" method="GET" style="display:flex; gap:5px;">
-                        <input type="text" 
-                               name="search" 
-                               class="search-input"
-                               placeholder="Cari buku..."
-                               value="{{ request('search') }}">
-                        
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </form>
+<div style="display:flex; gap:10px; align-items:center;">
 
-                    <!-- TAMBAH -->
-                    <a href="{{ route('buku.create') }}" class="btn btn-primary">
-                        <i class="fa fa-plus"></i> Tambah Buku
-                    </a>
-                </div>
-            </div>
+<form action="{{ route('buku.index') }}" method="GET" class="search-box">
+<input type="text" name="search" placeholder="Cari buku..." value="{{ request('search') }}">
+<button class="btn btn-primary"><i class="fa fa-search"></i></button>
+</form>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Judul Buku</th>
-                        <th>Penulis</th>
-                        <th>Penerbit</th>
-                        <th>Tahun</th>
-                        <th>Stok</th>
-                        <th class="text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($bukus as $index => $b)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $b->judul }}</td>
-                        <td>{{ $b->penulis }}</td>
-                        <td>{{ $b->penerbit }}</td>
-                        <td>{{ $b->tahun }}</td>
-                        <td>{{ $b->stok }}</td>
-                        <td class="text-center">
-                            <a href="{{ route('buku.edit', $b->id) }}" class="btn btn-warning">
-                                <i class="fa fa-edit"></i>
-                            </a>
+<a href="{{ route('buku.create') }}" class="btn btn-primary">
+<i class="fa fa-plus"></i> Tambah
+</a>
 
-                            <form action="{{ route('buku.destroy', $b->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="7" class="text-center">Data buku belum tersedia</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+</div>
+</div>
 
-        </div>
-    </div>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>Judul</th>
+<th>No Seri Buku</th>
+<th class="text-center">Aksi</th>
+</tr>
+</thead>
+
+<tbody>
+@forelse ($bukus as $i => $b)
+<tr>
+<td>{{ $i+1 }}</td>
+<td>{{ $b->judul }}</td>
+<td>{{ $b->no_seri }}</td>
+
+<td class="text-center">
+<a href="{{ route('buku.edit',$b->id) }}" class="btn btn-warning">
+<i class="fa fa-pen"></i>
+</a>
+
+<form action="{{ route('buku.destroy',$b->id) }}" method="POST" style="display:inline;">
+@csrf
+@method('DELETE')
+<button class="btn btn-danger" onclick="return confirm('Yakin hapus?')">
+<i class="fa fa-trash"></i>
+</button>
+</form>
+</td>
+</tr>
+
+@empty
+<tr>
+<td colspan="4" class="empty">Belum ada data buku</td>
+</tr>
+@endforelse
+</tbody>
+
+</table>
+
+</div>
+</div>
 
 </div>
 

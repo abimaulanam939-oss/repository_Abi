@@ -39,8 +39,6 @@ class TransaksiController extends Controller
         try{
 
             $tanggalPinjam = Carbon::now();
-
-            // BATAS PENGEMBALIAN 3 HARI
             $tanggalKembali = Carbon::now()->addDays(3);
 
             $transaksi = Transaksi::create([
@@ -60,7 +58,6 @@ class TransaksiController extends Controller
                     'buku_id'=>$buku
                 ]);
 
-                Buku::where('id',$buku)->decrement('stok');
             }
 
             DB::commit();
@@ -84,12 +81,9 @@ class TransaksiController extends Controller
 
         $denda = 0;
 
-        // HITUNG TELAT
         if($hariIni->gt($batas)){
-
             $telat = $hariIni->diffInDays($batas);
-
-            $denda = $telat * 1000; // 1000 per hari
+            $denda = $telat * 1000;
         }
 
         $transaksi->update([
@@ -97,12 +91,6 @@ class TransaksiController extends Controller
             'status'=>'dikembalikan',
             'denda'=>$transaksi->denda + $denda
         ]);
-
-        $details = DetailTransaksi::where('transaksi_id',$id)->get();
-
-        foreach($details as $d){
-            Buku::where('id',$d->buku_id)->increment('stok');
-        }
 
         return redirect()->route('transaksi.index');
     }
@@ -113,7 +101,6 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::with('detail')->findOrFail($id);
 
         $jumlahBuku = $transaksi->detail->count();
-
         $denda = $jumlahBuku * 50000;
 
         $transaksi->update([
@@ -130,7 +117,6 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::with('detail')->findOrFail($id);
 
         $jumlahBuku = $transaksi->detail->count();
-
         $denda = $jumlahBuku * 30000;
 
         $transaksi->update([
@@ -142,11 +128,11 @@ class TransaksiController extends Controller
     }
 
     public function destroy($id)
-{
-    $transaksi = Transaksi::findOrFail($id);
-    $transaksi->delete();
+    {
+        $transaksi = Transaksi::findOrFail($id);
+        $transaksi->delete();
 
-    return redirect()->route('transaksi.index')
-    ->with('success','Data berhasil dihapus');
-}
+        return redirect()->route('transaksi.index')
+        ->with('success','Data berhasil dihapus');
+    }
 }

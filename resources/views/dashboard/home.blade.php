@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,92 +9,125 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: Arial, sans-serif;
 }
 
 body{
     display:flex;
-    background:linear-gradient(135deg,#eef2f7,#e3e9f2);
+    background:#f4f6f9;
 }
 
+/* SIDEBAR */
 .sidebar{
-    width:260px;
+    width:230px;
     min-height:100vh;
-    background:linear-gradient(180deg,#141e30,#243b55);
+    background:#0b0a2a;
     color:white;
-    padding:25px 20px;
     position:fixed;
 }
 
-.sidebar h3{
+.sidebar h2{
     text-align:center;
-    margin-bottom:20px;
+    padding:20px 0;
+    border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
-.sidebar .profile{
+.profile{
     text-align:center;
-    margin-bottom:30px;
+    padding:20px 0;
+    border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
-.sidebar .profile img{
-    width:80px;
+.profile img{
+    width:70px;
     border-radius:50%;
-    border:3px solid white;
-    margin-bottom:10px;
+    background:white;
+    padding:5px;
 }
 
-.sidebar a{
+.profile p{
+    margin-top:8px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.sidebar a, .sidebar button{
     display:flex;
     align-items:center;
     gap:10px;
-    padding:12px;
-    margin-bottom:8px;
-    text-decoration:none;
+    padding:12px 20px;
     color:white;
-    border-radius:8px;
-    transition:0.3s;
+    text-decoration:none;
+    background:none;
+    border:none;
+    width:100%;
+    cursor:pointer;
+    font-size:14px;
 }
 
-.sidebar a:hover{
-    background:rgba(255,255,255,0.15);
+.sidebar a:hover, .sidebar button:hover{
+    background:#1b1955;
 }
 
+.sidebar .active{
+    background:#1b1955;
+}
+
+/* MAIN */
 .content{
-    margin-left:260px;
-    padding:40px;
+    margin-left:230px;
+    padding:25px;
     width:100%;
 }
 
+/* HEADER */
 .header{
     display:flex;
     justify-content:space-between;
-    margin-bottom:30px;
+    align-items:center;
+    margin-bottom:25px;
 }
 
+/* STATS */
 .stats{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
     gap:20px;
-    margin-bottom:30px;
 }
 
 .stat-card{
     background:white;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.05);
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
     display:flex;
     justify-content:space-between;
     align-items:center;
+    text-decoration:none;
+    color:black;
+    transition:0.2s;
 }
 
-.stat-card i{
-    font-size:30px;
-    padding:18px;
+.stat-card:hover{
+    transform:translateY(-3px);
+}
+
+.stat-card h3{
+    font-size:22px;
+}
+
+.stat-card small{
+    color:#777;
+}
+
+.icon{
+    font-size:22px;
+    padding:15px;
     border-radius:50%;
     color:white;
 }
@@ -103,31 +136,6 @@ body{
 .bg-yellow{background:#f1c40f;}
 .bg-blue{background:#3498db;}
 
-.panel{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.05);
-}
-
-.flex{
-    display:flex;
-    gap:20px;
-}
-
-.table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-.table th, .table td{
-    border:1px solid #ddd;
-    padding:8px;
-}
-
-.table th{
-    background:#f4f4f4;
-}
 </style>
 </head>
 
@@ -135,27 +143,24 @@ body{
 
 <div class="sidebar">
 
-    <h3>Perpustakaan</h3>
+<h2>Perpustakaan</h2>
 
-    <div class="profile">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-        <p>Admin</p>
-    </div>
-
-    <a href="{{ route('home') }}"><i class="fa fa-home"></i> Dashboard</a>
-    <a href="{{ route('anggota.index') }}"><i class="fa fa-users"></i> Data Anggota</a>
-    <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
-    <a href="{{ route('transaksi.index') }}"><i class="fa fa-exchange-alt"></i> Data Transaksi</a>
-   <form action="{{ route('logout') }}" method="POST">
-    @csrf
-    <button type="submit" class="logout-btn">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Logout
-    </button>
-</form>
-</form>
+<div class="profile">
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+<p>Admin</p>
 </div>
 
+<a href="{{ route('home') }}" class="active"><i class="fa fa-home"></i> Dashboard</a>
+<a href="{{ route('anggota.index') }}"><i class="fa fa-users"></i> Data Anggota</a>
+<a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
+<a href="{{ route('transaksi.index') }}"><i class="fa fa-file-lines"></i> Data Transaksi</a>
+
+<form action="{{ route('logout') }}" method="POST">
+@csrf
+<button type="submit"><i class="fa fa-sign-out-alt"></i> Logout</button>
+</form>
+
+</div>
 
 <div class="content">
 
@@ -164,34 +169,35 @@ body{
 <div><i class="fa fa-user-circle"></i> Admin</div>
 </div>
 
-
 <div class="stats">
 
-<a href="{{ route('anggota.index') }}">
-<div class="stat-card">
+<a href="{{ route('anggota.index') }}" class="stat-card">
 <div>
 <h3>{{ $totalAnggota }}</h3>
 <small>Total Anggota</small>
 </div>
-<i class="fa fa-users bg-red"></i>
-</div>
+<i class="fa fa-users icon bg-red"></i>
 </a>
 
-
-<a href="{{ route('buku.index') }}">
-<div class="stat-card">
+<a href="{{ route('buku.index') }}" class="stat-card">
 <div>
 <h3>{{ $totalBuku }}</h3>
 <small>Total Buku</small>
 </div>
-<i class="fa fa-book bg-yellow"></i>
-</div>
+<i class="fa fa-book icon bg-yellow"></i>
 </a>
 
+<a href="{{ route('transaksi.index') }}" class="stat-card">
+<div>
+<h3>{{ $totalTransaksi }}</h3>
+<small>Total Transaksi</small>
+</div>
+<i class="fa fa-file-lines icon bg-blue"></i>
+</a>
 
+</div>
 
-
-
+</div>
 
 </body>
 </html>
