@@ -9,104 +9,123 @@
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: Arial, sans-serif;
+}
+
 body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    display:flex;
-    background:#f4f6f9;
+display:flex;
+background:#f4f6f9;
 }
 
 /* SIDEBAR */
 .sidebar{
-    width:230px;
-    background:#0b0a2a;
-    color:white;
-    min-height:100vh;
-    position:fixed;
+width:230px;
+background:#0b0a2a;
+color:white;
+min-height:100vh;
+position:fixed;
+left:0;
+top:0;
 }
 
 .sidebar h2{
-    text-align:center;
-    padding:20px 0;
-    border-bottom:1px solid rgba(255,255,255,0.1);
+text-align:center;
+padding:18px 0;
+border-bottom:1px solid rgba(255,255,255,0.1);
+font-size:18px;
 }
 
 .profile{
-    text-align:center;
-    padding:20px 0;
-    border-bottom:1px solid rgba(255,255,255,0.1);
+text-align:center;
+padding:20px 0;
+border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 .profile img{
-    width:70px;
-    border-radius:50%;
-    background:white;
-    padding:5px;
+width:70px;
+border-radius:50%;
+background:white;
+padding:5px;
 }
 
 .profile p{
-    margin-top:8px;
-    font-size:14px;
-    font-weight:bold;
+margin-top:8px;
+font-size:14px;
+font-weight:bold;
 }
 
-.sidebar a, .sidebar button{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:12px 20px;
-    color:white;
-    text-decoration:none;
-    background:none;
-    border:none;
-    width:100%;
-    cursor:pointer;
-    font-size:14px;
+.sidebar a,
+.sidebar button{
+display:flex;
+align-items:center;
+gap:10px;
+padding:13px 20px;
+color:white;
+text-decoration:none;
+background:none;
+border:none;
+width:100%;
+cursor:pointer;
+font-size:14px;
+transition:0.2s;
 }
 
-.sidebar a:hover, .sidebar button:hover{
-    background:#1b1955;
+.sidebar a:hover,
+.sidebar button:hover{
+background:#1b1955;
 }
 
 .sidebar .active{
-    background:#1b1955;
+background:#1b1955;
 }
 
 /* MAIN */
 .main{
-    margin-left:230px;
-    width:100%;
+margin-left:230px;
+width:100%;
+min-height:100vh;
 }
 
+/* NAVBAR */
 .navbar{
-    background:white;
-    padding:15px 25px;
-    border-bottom:1px solid #ddd;
-    display:flex;
-    justify-content:space-between;
-    font-weight:bold;
+background:white;
+padding:15px 25px;
+border-bottom:1px solid #e5e7eb;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-weight:bold;
 }
 
+/* CONTENT */
 .content{
-    padding:25px;
+padding:25px;
 }
 
+/* CARD */
 .card{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
 }
 
 /* BUTTON */
 .btn{
-    padding:6px 12px;
-    border-radius:6px;
-    color:white;
-    font-size:13px;
-    border:none;
-    cursor:pointer;
-    text-decoration:none;
+padding:7px 13px;
+border-radius:6px;
+color:white;
+font-size:13px;
+border:none;
+cursor:pointer;
+text-decoration:none;
+display:inline-flex;
+align-items:center;
+gap:5px;
 }
 
 .btn-primary{background:#3498db;}
@@ -119,54 +138,65 @@ body{
 
 /* TOP BAR */
 .top-bar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
 }
 
+.top-bar h2{
+font-size:18px;
+}
+
+/* SEARCH */
 .search-box{
-    display:flex;
-    gap:8px;
+display:flex;
+gap:8px;
 }
 
 .search-box input{
-    padding:7px;
-    border:1px solid #ccc;
-    border-radius:5px;
+padding:8px 10px;
+border:1px solid #ddd;
+border-radius:6px;
+outline:none;
+}
+
+.search-box input:focus{
+border-color:#3498db;
 }
 
 /* TABLE */
 table{
-    width:100%;
-    border-collapse:collapse;
+width:100%;
+border-collapse:collapse;
 }
 
 th{
-    background:#34495e;
-    color:white;
-    padding:12px;
-    font-size:13px;
+background:#34495e;
+color:white;
+padding:12px;
+font-size:13px;
+text-align:left;
 }
 
 td{
-    padding:12px;
-    border-bottom:1px solid #eee;
-    font-size:13px;
+padding:12px;
+border-bottom:1px solid #eee;
+font-size:13px;
 }
 
 tr:hover{
-    background:#f9fafb;
+background:#f8fafc;
 }
 
 .text-center{
-    text-align:center;
+text-align:center;
 }
 
 .empty{
-    text-align:center;
-    padding:20px;
-    color:#777;
+text-align:center;
+padding:20px;
+color:#777;
 }
 
 </style>

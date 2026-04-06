@@ -10,193 +10,224 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: Arial, Helvetica, sans-serif;
+}
+
 body{
-    font-family: Arial, Helvetica, sans-serif;
-    background:#f4f6f9;
-    margin:0;
-    display:flex;
+display:flex;
+background:#f4f6f9;
 }
 
 /* SIDEBAR */
 .sidebar{
-    width:230px;
-    background:#0b0a2a;
-    min-height:100vh;
-    color:white;
-    position:fixed;
+width:230px;
+background:#0b0a2a;
+min-height:100vh;
+color:white;
+position:fixed;
+left:0;
+top:0;
 }
 
 .sidebar h2{
-    text-align:center;
-    padding:20px 0;
-    font-size:20px;
-    border-bottom:1px solid rgba(255,255,255,0.1);
+text-align:center;
+padding:18px 0;
+font-size:18px;
+border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 .profile{
-    text-align:center;
-    padding:20px 0;
-    border-bottom:1px solid rgba(255,255,255,0.1);
+text-align:center;
+padding:20px 0;
+border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 .profile img{
-    width:70px;
-    border-radius:50%;
-    background:white;
-    padding:5px;
+width:70px;
+border-radius:50%;
+background:white;
+padding:5px;
 }
 
 .profile p{
-    margin-top:8px;
-    font-size:14px;
-    font-weight:bold;
+margin-top:8px;
+font-size:14px;
+font-weight:bold;
 }
 
-.sidebar a, .sidebar button{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:12px 20px;
-    color:white;
-    text-decoration:none;
-    font-size:14px;
-    background:none;
-    border:none;
-    width:100%;
-    cursor:pointer;
+.sidebar a,
+.sidebar button{
+display:flex;
+align-items:center;
+gap:10px;
+padding:13px 20px;
+color:white;
+text-decoration:none;
+font-size:14px;
+background:none;
+border:none;
+width:100%;
+cursor:pointer;
+transition:0.2s;
 }
 
-.sidebar a:hover, .sidebar button:hover{
-    background:#1b1955;
+.sidebar a:hover,
+.sidebar button:hover{
+background:#1b1955;
+}
+
+/* MAIN */
+.main{
+margin-left:230px;
+width:100%;
+min-height:100vh;
+}
+
+/* NAVBAR */
+.navbar{
+background:white;
+padding:15px 25px;
+font-weight:bold;
+border-bottom:1px solid #e5e7eb;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 /* CONTENT */
-.main{
-    margin-left:230px;
-    width:100%;
+.content{
+padding:25px;
 }
 
-.header{
-    background:#fff;
-    padding:15px 25px;
-    font-size:20px;
-    font-weight:bold;
-    border-bottom:1px solid #ddd;
-}
-
-.container{
-    width:95%;
-    margin:30px auto;
-    background:white;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.08);
-}
-
-h2{
-    margin-bottom:15px;
+/* CARD */
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
 }
 
 /* BUTTON */
 .btn{
-    padding:6px 12px;
-    border:none;
-    border-radius:6px;
-    font-size:12px;
-    cursor:pointer;
-    text-decoration:none;
+padding:6px 12px;
+border:none;
+border-radius:6px;
+font-size:12px;
+cursor:pointer;
+text-decoration:none;
+display:inline-flex;
+align-items:center;
+gap:5px;
+color:white;
 }
 
-.btn-add{background:#27ae60;color:white;}
-.btn-kembali{background:#3498db;color:white;}
-.btn-edit{background:#8e44ad;color:white;}
-.btn-save{background:#e67e22;color:white;}
-.btn-delete{background:#e74c3c;color:white;}
+.btn-add{background:#27ae60;}
+.btn-kembali{background:#3498db;}
+.btn-edit{background:#8e44ad;}
+.btn-save{background:#e67e22;}
+.btn-delete{background:#e74c3c;}
+
+.btn-add:hover{background:#219150;}
+.btn-kembali:hover{background:#2980b9;}
+.btn-edit:hover{background:#6c3483;}
+.btn-save:hover{background:#ca6f1e;}
+.btn-delete:hover{background:#c0392b;}
+
+/* SEARCH */
+.top-bar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.search-box{
+display:flex;
+gap:10px;
+}
+
+.search-box input{
+padding:8px 10px;
+width:250px;
+border:1px solid #ddd;
+border-radius:6px;
+outline:none;
+}
+
+.search-box button{
+padding:8px 12px;
+background:#3498db;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
 
 /* TABLE */
 table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:15px;
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
 }
 
 th{
-    background:#34495e;
-    color:white;
-    padding:12px;
-    font-size:13px;
+background:#34495e;
+color:white;
+padding:12px;
+font-size:13px;
+text-align:left;
 }
 
 td{
-    padding:12px;
-    font-size:13px;
-    border-bottom:1px solid #eee;
-    vertical-align:top;
+padding:12px;
+font-size:13px;
+border-bottom:1px solid #eee;
+vertical-align:top;
 }
 
 tr:hover{
-    background:#f9fafb;
+background:#f8fafc;
 }
 
 /* STATUS */
 .status{
-    padding:5px 10px;
-    border-radius:5px;
-    font-size:12px;
-    color:white;
+padding:5px 10px;
+border-radius:5px;
+font-size:12px;
+color:white;
 }
 
 .dikembalikan{background:#27ae60;}
 
 /* DENDA */
 .denda{
-    color:#e74c3c;
-    font-weight:bold;
+color:#e74c3c;
+font-weight:bold;
 }
 
 /* SELECT */
 .select-kondisi{
-    padding:4px;
-    border-radius:5px;
-    border:1px solid #ccc;
-    font-size:12px;
-    margin-left:5px;
+padding:4px;
+border-radius:5px;
+border:1px solid #ccc;
+font-size:12px;
+margin-left:5px;
 }
 
 /* TEXT */
 .telat{
-    color:red;
-    font-size:12px;
-    font-weight:bold;
+color:red;
+font-size:12px;
+font-weight:bold;
 }
 
 .batas{
-    font-size:12px;
-    color:#777;
-}
-
-/* SEARCH */
-.search-box{
-    margin-top:10px;
-    margin-bottom:15px;
-    display:flex;
-    gap:10px;
-}
-
-.search-box input{
-    padding:7px;
-    width:250px;
-    border:1px solid #ccc;
-    border-radius:5px;
-}
-
-.search-box button{
-    padding:7px 12px;
-    background:#3498db;
-    color:white;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
+font-size:12px;
+color:#777;
 }
 
 </style>
@@ -219,31 +250,35 @@ tr:hover{
 <a href="{{ route('transaksi.index') }}"><i class="fa fa-file-lines"></i> Data Transaksi</a>
 
 <form action="{{ route('logout') }}" method="POST">
-    @csrf
-    <button type="submit" style="background:none;border:none;color:white;cursor:pointer;">
-        <i class="fa fa-sign-out-alt"></i> Logout
-    </button>
+@csrf
+<button type="submit">
+<i class="fa fa-sign-out-alt"></i> Logout
+</button>
 </form>
 
 </div>
 
 <div class="main">
 
-<div class="header">
-<i class="fa fa-book"></i> Sistem Perpustakaan
+<div class="navbar">
+<span>📄 Data Transaksi</span>
+<span><i class="fa fa-user-circle"></i> Admin</span>
 </div>
 
-<div class="container">
+<div class="content">
+<div class="card">
 
-<h2><i class="fa fa-file-lines"></i> Data Transaksi</h2>
+<div class="top-bar">
+<h2>Data Transaksi</h2>
 
 <a href="{{ route('transaksi.create') }}" class="btn btn-add">
-<i class="fa fa-plus"></i> Tambah Transaksi
+<i class="fa fa-plus"></i> Tambah
 </a>
+</div>
 
 <form method="GET" action="{{ route('transaksi.index') }}" class="search-box">
 <input type="text" name="search" placeholder="Cari anggota / buku..." value="{{ request('search') }}">
-<button type="submit"><i class="fa fa-search"></i> Cari</button>
+<button type="submit"><i class="fa fa-search"></i></button>
 </form>
 
 <table>
@@ -287,7 +322,9 @@ tr:hover{
 <option value="hilang" {{ $d->kondisi=='hilang'?'selected':'' }}>Hilang</option>
 </select>
 
-<button class="btn btn-save"><i class="fa fa-save"></i></button>
+<button class="btn btn-save">
+<i class="fa fa-save"></i>
+</button>
 
 </form>
 </div>
@@ -323,6 +360,7 @@ Telat {{ \Carbon\Carbon::parse($t->tanggal_kembali)->diffInDays(now()) }} hari
 </td>
 
 <td>
+
 <a href="{{ route('transaksi.edit',$t->id) }}" class="btn btn-edit">
 <i class="fa fa-pen"></i>
 </a>
@@ -334,6 +372,7 @@ Telat {{ \Carbon\Carbon::parse($t->tanggal_kembali)->diffInDays(now()) }} hari
 <i class="fa fa-trash"></i>
 </button>
 </form>
+
 </td>
 
 </tr>
@@ -343,6 +382,8 @@ Telat {{ \Carbon\Carbon::parse($t->tanggal_kembali)->diffInDays(now()) }} hari
 </table>
 
 </div>
+</div>
+
 </div>
 
 <script>

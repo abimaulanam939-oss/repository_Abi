@@ -21,14 +21,22 @@ use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| LOGIN
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
+
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+/*
+|--------------------------------------------------------------------------
+| WAJIB LOGIN
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('ceklogin')->group(function () {
 
 Route::get('/home', [PageController::class, 'home'])->name('home');
 
@@ -51,34 +59,11 @@ Route::get('/transaksi/kembalikan/{id}',[TransaksiController::class,'kembalikan'
 Route::get('/transaksi/hilang/{id}',[TransaksiController::class,'hilang'])->name('transaksi.hilang');
 Route::get('/transaksi/rusak/{id}',[TransaksiController::class,'rusak'])->name('transaksi.rusak');
 
-Route::get('/transaksi/kembalikan/{id}', [TransaksiController::class,'kembalikan'])->name('transaksi.kembalikan');
 Route::post('/transaksi/kembalikan/{id}', [TransaksiController::class,'prosesKembali'])->name('transaksi.prosesKembali');
 Route::get('/transaksi/{id}/edit', [TransaksiController::class,'edit'])->name('transaksi.edit');
 Route::put('/transaksi/{id}', [TransaksiController::class,'update'])->name('transaksi.update');
+
 Route::put('/detail/{id}', [DetailTransaksiController::class,'update'])->name('detail.update');
 Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
 
-/* route login */
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'authenticate']);
-
-/* route yang wajib login */
-// Route::middleware(['auth'])->group(function () {
-
-//     Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-//     Route::resource('anggota', AnggotaController::class);
-//     Route::resource('buku', BukuController::class);
-//     Route::resource('transaksi', TransaksiController::class);
-
-// });
-
-Route::middleware(['auth'])->group(function () {
-
-    Route::post('/logout', [AuthController::class,'logout'])->name('logout');
 });
-
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-})->name('logout');

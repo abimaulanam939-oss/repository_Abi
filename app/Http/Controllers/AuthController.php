@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -14,12 +15,26 @@ class AuthController extends Controller
 
     public function authenticate(Request $request)
     {
-        $credentials = $request->only('username', 'password');
+        $user = DB::table('users')
+            ->where('username', $request->username)
+            ->first();
 
-        if (Auth::attempt($credentials)) {
+        if ($user && Hash::check($request->password, $user->password)) {
+
+            session([
+                'login' => true,
+                'user' => $user->username
+            ]);
+
             return redirect('/home');
         }
 
-        return back()->with('error','Username atau password salah');
+        return back()->with('error','Username / Password salah');
+    }
+
+    public function logout()
+    {
+        session()->flush();
+        return redirect('/login');
     }
 }

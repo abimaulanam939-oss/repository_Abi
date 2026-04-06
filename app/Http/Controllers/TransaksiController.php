@@ -13,9 +13,26 @@ use Illuminate\Support\Facades\DB;
 class TransaksiController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $transaksis = Transaksi::with('anggota','detail.buku')->get();
+        $query = Transaksi::with('anggota','detail.buku');
+
+        // TAMBAHAN SEARCH
+        if($request->search){
+            $search = $request->search;
+
+            $query->whereHas('anggota', function($q) use ($search){
+                $q->where('nama','like','%'.$search.'%')
+                  ->orWhere('kelas','like','%'.$search.'%')
+                  ->orWhere('jurusan','like','%'.$search.'%');
+            })
+            ->orWhereHas('detail.buku', function($q) use ($search){
+                $q->where('judul','like','%'.$search.'%');
+            });
+        }
+
+        $transaksis = $query->get();
+
         return view('transaksi.index', compact('transaksis'));
     }
 
@@ -74,7 +91,7 @@ class TransaksiController extends Controller
     // KEMBALIKAN BUKU
     public function kembalikan($id)
     {
-        $transaksi = Transaksi::findOrFail($id);
+        $transaksi = Transaksi::with('detail')->findOrFail($id);
 
         $hariIni = Carbon::now();
         $batas = Carbon::parse($transaksi->tanggal_kembali);
@@ -91,6 +108,12 @@ class TransaksiController extends Controller
             'status'=>'dikembalikan',
             'denda'=>$transaksi->denda + $denda
         ]);
+
+        foreach($transaksi->detail as $detail){
+            $detail->update([
+                'kondisi' => 'dikembalikan'
+            ]);
+        }
 
         return redirect()->route('transaksi.index');
     }
@@ -135,4 +158,3 @@ class TransaksiController extends Controller
         return redirect()->route('transaksi.index')
         ->with('success','Data berhasil dihapus');
     }
-}
