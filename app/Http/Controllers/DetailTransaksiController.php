@@ -18,7 +18,7 @@ class DetailTransaksiController extends Controller
         ]);
 
         // ambil transaksi
-        $transaksi = Transaksi::with('detail')->find($detail->transaksi_id);
+        $transaksi = Transaksi::with('detail')->find($detail->id_transaksi);
 
         $denda = 0;
 

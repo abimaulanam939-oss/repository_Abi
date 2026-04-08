@@ -15,8 +15,6 @@ class PageController extends Controller
         $totalBuku = Buku::count();
         $totalTransaksi = Transaksi::count();
 
-
-
         return view('dashboard.home', compact(
             'totalAnggota',
             'totalBuku',
@@ -24,4 +22,3 @@ class PageController extends Controller
         ));
     }
 }
-         

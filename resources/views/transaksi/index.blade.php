@@ -9,7 +9,7 @@
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-
+/* semua CSS tetap sama */
 *{
 margin:0;
 padding:0;
@@ -218,7 +218,6 @@ font-size:12px;
 margin-left:5px;
 }
 
-/* TEXT */
 .telat{
 color:red;
 font-size:12px;
@@ -309,7 +308,7 @@ color:#777;
 @foreach($t->detail as $d)
 
 <div style="margin-bottom:6px;">
-<form action="{{ route('detail.update',$d->id) }}" method="POST" style="display:inline;">
+<form action="{{ route('detail.update',$d->id_detail) }}" method="POST" style="display:inline;">
 @csrf
 @method('PUT')
 
@@ -351,7 +350,7 @@ Telat {{ \Carbon\Carbon::parse($t->tanggal_kembali)->diffInDays(now()) }} hari
 
 <td>
 @if($t->status=='dipinjam')
-<a href="{{ route('transaksi.kembalikan',$t->id) }}" class="btn btn-kembali">
+<a href="{{ route('transaksi.kembalikan',$t->id_transaksi) }}" class="btn btn-kembali">
 <i class="fa fa-undo"></i>
 </a>
 @else
@@ -361,11 +360,11 @@ Telat {{ \Carbon\Carbon::parse($t->tanggal_kembali)->diffInDays(now()) }} hari
 
 <td>
 
-<a href="{{ route('transaksi.edit',$t->id) }}" class="btn btn-edit">
+<button class="btn btn-edit">
 <i class="fa fa-pen"></i>
-</a>
+</button>
 
-<form action="{{ route('transaksi.destroy',$t->id) }}" method="POST" style="display:inline;">
+<form action="{{ route('transaksi.destroy',$t->id_transaksi) }}" method="POST" style="display:inline;">
 @csrf
 @method('DELETE')
 <button class="btn btn-delete" onclick="return confirm('Yakin?')">

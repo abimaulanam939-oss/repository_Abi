@@ -262,18 +262,18 @@ color:#777;
 </thead>
 
 <tbody>
-@forelse ($bukus as $i => $b)
+@forelse ($m_bukus as $i => $b)
 <tr>
 <td>{{ $i+1 }}</td>
 <td>{{ $b->judul }}</td>
 <td>{{ $b->no_seri }}</td>
 
 <td class="text-center">
-<a href="{{ route('buku.edit',$b->id) }}" class="btn btn-warning">
+<a href="{{ route('buku.edit',$b->buku_id) }}" class="btn btn-warning">
 <i class="fa fa-pen"></i>
 </a>
 
-<form action="{{ route('buku.destroy',$b->id) }}" method="POST" style="display:inline;">
+<form action="{{ route('buku.destroy',$b->buku_id) }}" method="POST" style="display:inline;">
 @csrf
 @method('DELETE')
 <button class="btn btn-danger" onclick="return confirm('Yakin hapus?')">

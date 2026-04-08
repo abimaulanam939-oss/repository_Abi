@@ -9,10 +9,10 @@ class Buku extends Model
 {
     use HasFactory;
 
-    // Nama tabel kalau pakai default Laravel: 'buku'
-    // protected $table = 'buku'; // opsional
+    protected $table = 'm_bukus';
+    protected $primaryKey = 'buku_id'; // WAJIB
+    public $incrementing = true;
 
-    // Kolom yang bisa diisi lewat mass assignment
     protected $fillable = [
         'judul',
         'no_seri',

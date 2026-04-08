@@ -9,6 +9,8 @@ class Anggota extends Model
 {
     use HasFactory;
 
+    protected $table = 'm_anggotas';
+
     protected $fillable = [
         'nama',
         'kelas',
