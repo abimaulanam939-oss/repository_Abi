@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Buku;
+use Illuminate\Database\QueryException;
 
 class BukuController extends Controller
 {
@@ -21,9 +22,10 @@ class BukuController extends Controller
             });
         }
 
-        $bukus = $query->get();
+        // Pakai m_bukus agar sinkron dengan View
+        $m_bukus = $query->get();
 
-        return view('buku.index', compact('bukus'));
+        return view('buku.index', compact('m_bukus'));
     }
 
     // Form tambah buku
@@ -76,13 +78,12 @@ class BukuController extends Controller
                          ->with('success', 'Data buku berhasil diupdate');
     }
 
-    // Hapus buku
-    public function destroy($id)
+    // Hapus buku (DENGAN PROTEKSI ERROR)
+   public function destroy($id_buku)
     {
-        $buku = Buku::findOrFail($id);
+        $buku = Buku::findOrFail($id_buku);
         $buku->delete();
 
-        return redirect()->route('buku.index')
-                         ->with('success', 'Data buku berhasil dihapus');
+        return redirect()->route('buku.index')->with('success', 'Data dihapus');
     }
 }

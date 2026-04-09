@@ -262,32 +262,30 @@ color:#777;
 </thead>
 
 <tbody>
-@forelse ($m_bukus as $i => $b)
-<tr>
-<td>{{ $i+1 }}</td>
-<td>{{ $b->judul }}</td>
-<td>{{ $b->no_seri }}</td>
-
-<td class="text-center">
-<a href="{{ route('buku.edit',$b->buku_id) }}" class="btn btn-warning">
-<i class="fa fa-pen"></i>
-</a>
-
-<form action="{{ route('buku.destroy',$b->buku_id) }}" method="POST" style="display:inline;">
-@csrf
-@method('DELETE')
-<button class="btn btn-danger" onclick="return confirm('Yakin hapus?')">
-<i class="fa fa-trash"></i>
-</button>
-</form>
-</td>
-</tr>
-
-@empty
-<tr>
-<td colspan="4" class="empty">Belum ada data buku</td>
-</tr>
-@endforelse
+    {{-- Pastikan variabelnya $m_bukus --}}
+    @forelse ($m_bukus as $i => $b)
+    <tr>
+        <td>{{ $i + 1 }}</td>
+        <td>{{ $b->judul }}</td>
+        <td>{{ $b->no_seri }}</td>
+        <td class="text-center">
+            <a href="{{ route('buku.edit', $b->buku_id) }}" class="btn btn-warning">
+                <i class="fa fa-pen"></i>
+            </a>
+            <form action="{{ route('buku.destroy', $b->buku_id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-danger" onclick="return confirm('Yakin hapus?')">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </form>
+        </td>
+    </tr>
+    @empty
+    <tr>
+        <td colspan="4" class="text-center">Data buku kosong</td>
+    </tr>
+    @endforelse
 </tbody>
 
 </table>
