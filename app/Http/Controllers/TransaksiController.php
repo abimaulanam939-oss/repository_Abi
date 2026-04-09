@@ -14,6 +14,7 @@ class TransaksiController extends Controller
 {
     public function index(Request $request)
     {
+        // Eager Loading agar query efisien
         $query = Transaksi::with(['anggota', 'detail.buku']);
 
         if ($request->search) {
@@ -41,7 +42,6 @@ class TransaksiController extends Controller
 
     public function store(Request $request)
     {
-        // 1. Validasi harus menyertakan tanggal karena di Blade kita buat input tanggal
         $request->validate([
             'anggota_id' => 'required',
             'buku_id'    => 'required|array',
@@ -50,9 +50,7 @@ class TransaksiController extends Controller
         ]);
 
         DB::beginTransaction();
-
         try {
-            // 2. Gunakan data dari $request agar tanggal sesuai pilihan di form
             $transaksi = Transaksi::create([
                 'anggota_id'      => $request->anggota_id,
                 'tanggal_pinjam'  => $request->tanggal_pinjam,
@@ -61,47 +59,68 @@ class TransaksiController extends Controller
                 'denda'           => 0
             ]);
 
-            // 3. Pastikan mengambil value ID yang benar untuk looping
-            foreach ($request->buku_id as $buku_id) {
+            foreach ($request->buku_id as $b_id) {
+                // AMBIL no_seri dari tabel buku (m_bukus)
+                $buku = Buku::findOrFail($b_id);
+
                 DetailTransaksi::create([
-                    // Pakai id_transaksi karena itu Primary Key di model/table kamu
                     'id_transaksi' => $transaksi->id_transaksi, 
-                    'buku_id'      => $buku_id,
-                    'kondisi'      => 'dipinjam'
+                    'buku_id'      => $b_id,
+                    'kondisi'      => 'dipinjam',
+                    'no_seri'      => $buku->no_seri // <-- No seri otomatis masuk ke detail
                 ]);
             }
 
             DB::commit();
             return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil disimpan!');
-
         } catch (\Exception $e) {
             DB::rollBack();
-            // Kembalikan pesan error asli supaya kamu tahu kalau ada kolom yang kurang di $fillable
-            return back()->withInput()->with('error', 'Gagal menyimpan: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Gagal: ' . $e->getMessage());
         }
     }
 
-    // Fungsi lainnya (kembalikan, hilang, rusak, destroy) sudah cukup oke, 
-    // tapi pastikan penulisan ID konsisten.
-    
+    /**
+     * Update kondisi buku satuan dari Index
+     */
+    public function updateDetail(Request $request, $id_detail)
+    {
+        $detail = DetailTransaksi::findOrFail($id_detail);
+        $detail->update(['kondisi' => $request->kondisi]);
+
+        // Hitung ulang total denda transaksi ini
+        $transaksi = Transaksi::with('detail')->findOrFail($detail->id_transaksi);
+        $totalDenda = 0;
+
+        // 1. Denda Kerusakan/Hilang
+        foreach ($transaksi->detail as $item) {
+            if ($item->kondisi == 'rusak') $totalDenda += 10000;
+            if ($item->kondisi == 'hilang') $totalDenda += 50000;
+        }
+
+        // 2. Denda Keterlambatan
+        $batas = Carbon::parse($transaksi->tanggal_kembali);
+        if (now()->gt($batas) && $transaksi->status == 'dipinjam') {
+            $hariTelat = now()->diffInDays($batas);
+            $totalDenda += ($hariTelat * 1000);
+        }
+
+        $transaksi->update(['denda' => $totalDenda]);
+
+        return redirect()->back()->with('success', 'Kondisi buku dan denda diperbarui!');
+    }
+
     public function kembalikan($id_transaksi)
     {
         $transaksi = Transaksi::with('detail')->findOrFail($id_transaksi);
         $hariIni = Carbon::now();
-        $batas = Carbon::parse($transaksi->tanggal_kembali);
-
-        $denda = 0;
-        if ($hariIni->gt($batas)) {
-            $telat = $hariIni->diffInDays($batas);
-            $denda = $telat * 1000;
-        }
-
+        
+        // Logika update status header
         $transaksi->update([
             'tanggal_dikembalikan' => $hariIni->format('Y-m-d'),
-            'status' => 'dikembalikan',
-            'denda'  => $transaksi->denda + $denda
+            'status' => 'dikembalikan'
         ]);
 
+        // Semua buku otomatis jadi 'dikembalikan' jika admin klik tombol kembali utama
         foreach ($transaksi->detail as $detail) {
             $detail->update(['kondisi' => 'dikembalikan']);
         }
@@ -111,12 +130,10 @@ class TransaksiController extends Controller
 
     public function destroy($id_transaksi)
     {
-        $transaksi = Transaksi::with('detail')->findOrFail($id_transaksi);
-        
-        // Hapus detail dulu baru headernya (karena ada Foreign Key)
-        $transaksi->detail()->delete();
+        $transaksi = Transaksi::findOrFail($id_transaksi);
+        $transaksi->detail()->delete(); // Hapus detail dulu
         $transaksi->delete();
 
-        return redirect()->route('transaksi.index')->with('success', 'Data berhasil dihapus');
+        return redirect()->route('transaksi.index')->with('success', 'Data dihapus');
     }
 }

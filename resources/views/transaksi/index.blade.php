@@ -229,6 +229,19 @@ font-size:12px;
 color:#777;
 }
 
+/* Tambahan Style No Seri agar rapi */
+.badge-seri {
+    display: inline-block;
+    background: #e8f4fd;
+    color: #2980b9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 10px;
+    margin-bottom: 4px;
+    border: 1px solid #d1e9fb;
+}
+
 </style>
 </head>
 
@@ -287,7 +300,7 @@ color:#777;
 <th>Anggota</th>
 <th>Kelas</th>
 <th>Jurusan</th>
-<th>Buku</th>
+<th>Buku & No Seri</th>
 <th>Tgl Pinjam</th>
 <th>Tgl Kembali</th>
 <th>Denda</th>
@@ -307,10 +320,13 @@ color:#777;
 <td>
 @foreach($t->detail as $d)
 
-<div style="margin-bottom:6px;">
+<div style="margin-bottom:10px; border-bottom: 1px dashed #eee; padding-bottom: 5px;">
 <form action="{{ route('detail.update',$d->id_detail) }}" method="POST" style="display:inline;">
 @csrf
 @method('PUT')
+
+<!-- Menampilkan No Seri -->
+<span class="badge-seri">SN: {{ $d->no_seri ?? '-' }}</span><br>
 
 {{ $d->buku->judul ?? '-' }}
 
@@ -321,7 +337,7 @@ color:#777;
 <option value="hilang" {{ $d->kondisi=='hilang'?'selected':'' }}>Hilang</option>
 </select>
 
-<button class="btn btn-save">
+<button class="btn btn-save" style="padding: 2px 5px;">
 <i class="fa fa-save"></i>
 </button>
 

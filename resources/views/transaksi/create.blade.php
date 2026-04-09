@@ -54,9 +54,9 @@
             <label>Pilih Buku</label>
             <select name="buku_id[]" multiple required>
                 @foreach($m_bukus as $b)
-                    {{-- PERBAIKAN: Gunakan $b->buku_id sesuai SQL kamu --}}
+                    {{-- Menampilkan No Seri dan Judul Buku --}}
                     <option value="{{ $b->buku_id }}">
-                        {{ $b->no_seri }} - {{ $b->judul }}
+                        [{{ $b->no_seri ?? 'No Seri -' }}] - {{ $b->judul }}
                     </option>
                 @endforeach
             </select>
