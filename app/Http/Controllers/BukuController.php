@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Buku;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 
 class BukuController extends Controller
@@ -79,11 +80,29 @@ class BukuController extends Controller
     }
 
     // Hapus buku (DENGAN PROTEKSI ERROR)
-   public function destroy($id_buku)
-    {
-        $buku = Buku::findOrFail($id_buku);
-        $buku->delete();
+   public function destroy($buku_id)
+{
+    try {
+        // Kita gunakan DB Transaction agar aman
+        DB::transaction(function () use ($buku_id) {
+            
+            // LANGKAH 1: Hapus dulu data di tabel detail_transaksis
+            // Ini untuk melepas "kunci" Foreign Key
+            DB::table('detail_transaksis')->where('buku_id', $buku_id)->delete();
 
-        return redirect()->route('buku.index')->with('success', 'Data dihapus');
+            // LANGKAH 2: Cari data buku di tabel m_bukus
+            $buku = Buku::findOrFail($buku_id);
+            
+            // LANGKAH 3: Hapus bukunya
+            $buku->delete();
+        });
+
+        // Jika berhasil, balik ke halaman daftar buku
+        return redirect()->route('buku.index')->with('success', 'Buku dan riwayat transaksinya berhasil dihapus!');
+
+    } catch (\Exception $e) {
+        // Jika gagal (misal ada error koneksi), balik ke index dengan pesan error
+        return redirect()->route('buku.index')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
     }
+}
 }
