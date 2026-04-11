@@ -11,9 +11,12 @@ class Anggota extends Model
 
     protected $table = 'm_anggotas';
 
+    // Daftarkan nipd di sini agar bisa disimpan (Mass Assignment)
     protected $fillable = [
         'nama',
+        'nipd',
         'kelas',
-        'jurusan'
+        'jurusan',
+        'denda'
     ];
 }

@@ -57,13 +57,15 @@ label {
 font-size: 14px; 
 font-weight: 500; 
 color: #444; 
+display: block;
+margin-top: 10px;
 }
 
 input {
 width: 100%;
 padding: 12px;
 margin-top: 6px;
-margin-bottom: 15px;
+margin-bottom: 10px;
 border: 1px solid #ddd;
 border-radius: 8px;
 font-size: 14px;
@@ -84,7 +86,7 @@ margin-bottom: 20px;
 }
 
 .button-group {
-margin-top: 15px;
+margin-top: 25px;
 display: flex;
 gap: 10px;
 }
@@ -96,6 +98,10 @@ border: none;
 padding: 12px 20px;
 border-radius: 8px;
 cursor: pointer;
+font-weight: 500;
+display: inline-flex;
+align-items: center;
+gap: 8px;
 }
 
 .btn-secondary {
@@ -104,6 +110,10 @@ color: white;
 padding: 12px 20px;
 border-radius: 8px;
 text-decoration: none;
+font-size: 14px;
+display: inline-flex;
+align-items: center;
+gap: 8px;
 }
 </style>
 </head>
@@ -134,18 +144,26 @@ text-decoration: none;
 <form action="{{ route('anggota.store') }}" method="POST">
 @csrf
 
-<label>Nama</label>
-<input type="text" name="nama" value="{{ old('nama') }}" required>
+<label>Nama Lengkap</label>
+<input type="text" name="nama" value="{{ old('nama') }}" placeholder="Masukkan nama lengkap" required>
 
-<label>Kelas</label>
-<input type="text" name="kelas" value="{{ old('kelas') }}" required>
+<label>NIPD</label>
+<input type="text" name="nipd" value="{{ old('nipd') }}" placeholder="Masukkan NIPD anggota" required>
 
-<label>Jurusan</label>
-<input type="text" name="jurusan" value="{{ old('jurusan') }}" required>
+<div style="display: flex; gap: 20px;">
+    <div style="flex: 1;">
+        <label>Kelas</label>
+        <input type="text" name="kelas" value="{{ old('kelas') }}" placeholder="Contoh: XII" required>
+    </div>
+    <div style="flex: 1;">
+        <label>Jurusan</label>
+        <input type="text" name="jurusan" value="{{ old('jurusan') }}" placeholder="Contoh: RPL" required>
+    </div>
+</div>
 
 <div class="button-group">
 <button type="submit" class="btn-primary">
-<i class="fa fa-save"></i> Simpan
+<i class="fa fa-save"></i> Simpan Anggota
 </button>
 
 <a href="{{ route('anggota.index') }}" class="btn-secondary">

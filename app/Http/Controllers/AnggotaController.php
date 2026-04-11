@@ -17,6 +17,7 @@ class AnggotaController extends Controller
 
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('nipd', 'like', "%{$search}%") // Tambahan search NIPD
                   ->orWhere('kelas', 'like', "%{$search}%")
                   ->orWhere('jurusan', 'like', "%{$search}%");
             });
@@ -38,12 +39,14 @@ class AnggotaController extends Controller
     {
         $request->validate([
             'nama'    => 'required',
+            'nipd'    => 'required|unique:m_anggotas,nipd', // NIPD divalidasi harus unik
             'kelas'   => 'required',
             'jurusan' => 'required',
         ]);
 
         Anggota::create([
             'nama'    => $request->nama,
+            'nipd'    => $request->nipd, // Tambahkan ini
             'kelas'   => $request->kelas,
             'jurusan' => $request->jurusan,
         ]);
@@ -67,12 +70,14 @@ class AnggotaController extends Controller
 
         $request->validate([
             'nama'    => 'required',
+            'nipd'    => 'required|unique:m_anggotas,nipd,'.$id, // Unik kecuali ID yang sedang diedit
             'kelas'   => 'required',
             'jurusan' => 'required',
         ]);
 
         $anggota->update([
             'nama'    => $request->nama,
+            'nipd'    => $request->nipd, // Tambahkan ini
             'kelas'   => $request->kelas,
             'jurusan' => $request->jurusan,
         ]);

@@ -256,6 +256,7 @@ color:#777;
 <tr>
 <th>No</th>
 <th>Nama</th>
+<th>NIPD</th>
 <th>Kelas</th>
 <th>Jurusan</th>
 <th class="text-center">Aksi</th>
@@ -266,7 +267,8 @@ color:#777;
 @forelse ($anggotas as $i => $a)
 <tr>
 <td>{{ $i+1 }}</td>
-<td>{{ $a->nama }}</td>
+<td><strong>{{ $a->nama }}</strong></td>
+<td style="color: #2980b9; font-weight: bold;">{{ $a->nipd ?? '-' }}</td>
 <td>{{ $a->kelas }}</td>
 <td>{{ $a->jurusan }}</td>
 
@@ -278,7 +280,7 @@ color:#777;
 <form action="{{ route('anggota.destroy',$a->id) }}" method="POST" style="display:inline;">
 @csrf
 @method('DELETE')
-<button class="btn btn-danger" onclick="return confirm('Yakin hapus?')">
+<button class="btn btn-danger" onclick="return confirm('Yakin hapus anggota {{ $a->nama }}?')">
 <i class="fa fa-trash"></i>
 </button>
 </form>
@@ -287,7 +289,7 @@ color:#777;
 
 @empty
 <tr>
-<td colspan="5" class="empty">Belum ada data anggota</td>
+<td colspan="6" class="empty">Belum ada data anggota</td>
 </tr>
 @endforelse
 </tbody>
