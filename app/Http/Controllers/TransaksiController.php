@@ -14,7 +14,6 @@ class TransaksiController extends Controller
 {
     public function index(Request $request)
     {
-        // Eager Loading agar query efisien
         $query = Transaksi::with(['anggota', 'detail.buku']);
 
         if ($request->search) {
@@ -60,14 +59,13 @@ class TransaksiController extends Controller
             ]);
 
             foreach ($request->buku_id as $b_id) {
-                // AMBIL no_seri dari tabel buku (m_bukus)
                 $buku = Buku::findOrFail($b_id);
 
                 DetailTransaksi::create([
                     'id_transaksi' => $transaksi->id_transaksi, 
                     'buku_id'      => $b_id,
                     'kondisi'      => 'dipinjam',
-                    'no_seri'      => $buku->no_seri // <-- No seri otomatis masuk ke detail
+                    'no_seri'      => $buku->no_seri
                 ]);
             }
 
@@ -80,58 +78,87 @@ class TransaksiController extends Controller
     }
 
     /**
-     * Update kondisi buku satuan dari Index
+     * Update kondisi buku satuan dan hitung denda secara real-time
      */
-    public function updateDetail(Request $request, $id_detail)
-    {
-        $detail = DetailTransaksi::findOrFail($id_detail);
-        $detail->update(['kondisi' => $request->kondisi]);
+  public function updateDetail(Request $request, $id_detail)
+{
+    $detail = DetailTransaksi::findOrFail($id_detail);
+    $detail->update(['kondisi' => $request->kondisi]);
 
-        // Hitung ulang total denda transaksi ini
-        $transaksi = Transaksi::with('detail')->findOrFail($detail->id_transaksi);
-        $totalDenda = 0;
+    // Ambil data transaksi induknya
+    $transaksi = Transaksi::with('detail')->findOrFail($detail->id_transaksi);
+    
+    $dendaTelat = 0;
+    $dendaKondisi = 0;
 
-        // 1. Denda Kerusakan/Hilang
-        foreach ($transaksi->detail as $item) {
-            if ($item->kondisi == 'rusak') $totalDenda += 10000;
-            if ($item->kondisi == 'hilang') $totalDenda += 50000;
-        }
+    // 1. HITUNG DENDA TELAT (Berdasarkan tgl hari ini vs tgl kembali)
+    $batas = Carbon::parse($transaksi->tanggal_kembali);
+    // Jika sudah dikembalikan, pakai tgl kembali asli. Jika belum, pakai waktu sekarang.
+    $waktuAcuan = $transaksi->tanggal_dikembalikan ? Carbon::parse($transaksi->tanggal_dikembalikan) : Carbon::now();
 
-        // 2. Denda Keterlambatan
-        $batas = Carbon::parse($transaksi->tanggal_kembali);
-        if (now()->gt($batas) && $transaksi->status == 'dipinjam') {
-            $hariTelat = now()->diffInDays($batas);
-            $totalDenda += ($hariTelat * 1000);
-        }
-
-        $transaksi->update(['denda' => $totalDenda]);
-
-        return redirect()->back()->with('success', 'Kondisi buku dan denda diperbarui!');
+    if ($waktuAcuan->gt($batas)) {
+        $hariTelat = $waktuAcuan->diffInDays($batas);
+        $dendaTelat = $hariTelat * 1000;
     }
 
-    public function kembalikan($id_transaksi)
-    {
-        $transaksi = Transaksi::with('detail')->findOrFail($id_transaksi);
-        $hariIni = Carbon::now();
-        
-        // Logika update status header
-        $transaksi->update([
-            'tanggal_dikembalikan' => $hariIni->format('Y-m-d'),
-            'status' => 'dikembalikan'
-        ]);
+    // 2. HITUNG DENDA KONDISI SEMUA BUKU
+    foreach ($transaksi->detail as $item) {
+        if ($item->kondisi == 'rusak') $dendaKondisi += 10000;
+        if ($item->kondisi == 'hilang') $dendaKondisi += 50000;
+    }
 
-        // Semua buku otomatis jadi 'dikembalikan' jika admin klik tombol kembali utama
-        foreach ($transaksi->detail as $detail) {
+    // 3. UPDATE TOTAL DENDA KE TABEL TRANSAKSI
+    $transaksi->update([
+        'denda' => $dendaTelat + $dendaKondisi
+    ]);
+
+    return redirect()->back()->with('success', 'Denda diperbarui otomatis!');
+}
+
+    /**
+     * Logika Pengembalian Total
+     */
+  public function kembalikan($id_transaksi)
+{
+    $transaksi = Transaksi::with('detail')->findOrFail($id_transaksi);
+    $hariIni = Carbon::now();
+    $batas = Carbon::parse($transaksi->tanggal_kembali);
+    
+    // Mulai dari nol
+    $totalDenda = 0;
+
+    // 1. HITUNG DENDA TELAT (Hanya dihitung jika tgl hari ini lewat batas)
+    if ($hariIni->gt($batas)) {
+        $hariTelat = $hariIni->diffInDays($batas);
+        $totalDenda = $hariTelat * 1000; 
+    }
+
+    // 2. HITUNG & TAMBAHKAN DENDA KONDISI BUKU
+    foreach ($transaksi->detail as $detail) {
+        if ($detail->kondisi == 'rusak') {
+            $totalDenda += 10000; // Tambah 10rb ke denda yang sudah ada
+        } elseif ($detail->kondisi == 'hilang') {
+            $totalDenda += 50000; // Tambah 50rb ke denda yang sudah ada
+        } else {
+            // Jika statusnya masih 'dipinjam', ubah jadi 'dikembalikan'
             $detail->update(['kondisi' => 'dikembalikan']);
         }
-
-        return redirect()->route('transaksi.index')->with('success', 'Buku berhasil dikembalikan');
     }
+
+    // 3. SIMPAN KE DATABASE
+    $transaksi->update([
+        'tanggal_dikembalikan' => $hariIni->toDateString(),
+        'status' => 'dikembalikan',
+        'denda' => $totalDenda // Hasil akhir gabungan telat + kondisi
+    ]);
+
+    return redirect()->route('transaksi.index')->with('success', 'Buku Kembali. Total Denda (Telat + Kondisi): Rp ' . number_format($totalDenda));
+}
 
     public function destroy($id_transaksi)
     {
         $transaksi = Transaksi::findOrFail($id_transaksi);
-        $transaksi->detail()->delete(); // Hapus detail dulu
+        $transaksi->detail()->delete();
         $transaksi->delete();
 
         return redirect()->route('transaksi.index')->with('success', 'Data dihapus');
