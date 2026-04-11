@@ -256,18 +256,25 @@ color:#777;
 <tr>
 <th>No</th>
 <th>Judul</th>
-<th>No Seri Buku</th>
+<th>No Seri</th>
+<th>Pengarang</th>
+<th>Penerbit</th>
+<th>Tahun</th>
+<th>Hal</th>
 <th class="text-center">Aksi</th>
 </tr>
 </thead>
 
 <tbody>
-    {{-- Pastikan variabelnya $m_bukus --}}
     @forelse ($m_bukus as $i => $b)
     <tr>
         <td>{{ $i + 1 }}</td>
         <td>{{ $b->judul }}</td>
         <td>{{ $b->no_seri }}</td>
+        <td>{{ $b->pengarang ?? '-' }}</td>
+        <td>{{ $b->penerbit ?? '-' }}</td>
+        <td>{{ $b->tahun_terbit ?? '-' }}</td>
+        <td>{{ $b->jumlah_halaman ?? '-' }}</td>
         <td class="text-center">
             <a href="{{ route('buku.edit', $b->buku_id) }}" class="btn btn-warning">
                 <i class="fa fa-pen"></i>
@@ -283,7 +290,7 @@ color:#777;
     </tr>
     @empty
     <tr>
-        <td colspan="4" class="text-center">Data buku kosong</td>
+        <td colspan="8" class="text-center">Data buku tidak ditemukan</td>
     </tr>
     @endforelse
 </tbody>

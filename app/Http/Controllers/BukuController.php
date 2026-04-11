@@ -19,7 +19,9 @@ class BukuController extends Controller
 
             $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('no_seri', 'like', "%{$search}%");
+                  ->orWhere('no_seri', 'like', "%{$search}%")
+                  ->orWhere('pengarang', 'like', "%{$search}%")
+                  ->orWhere('penerbit', 'like', "%{$search}%");
             });
         }
 
@@ -40,12 +42,16 @@ class BukuController extends Controller
     {
         $request->validate([
             'judul'   => 'required',
-            'no_seri' => 'required'
+            'no_seri' => 'required|unique:m_bukus,no_seri'
         ]);
 
         Buku::create([
-            'judul'   => $request->judul,
-            'no_seri' => $request->no_seri,
+            'judul'           => $request->judul,
+            'no_seri'         => $request->no_seri,
+            'pengarang'       => $request->pengarang,
+            'penerbit'        => $request->penerbit,
+            'tahun_terbit'    => $request->tahun_terbit,
+            'jumlah_halaman'  => $request->jumlah_halaman,
         ]);
 
         return redirect()->route('buku.index')
@@ -67,12 +73,16 @@ class BukuController extends Controller
 
         $request->validate([
             'judul'   => 'required',
-            'no_seri' => 'required'
+            'no_seri' => 'required|unique:m_bukus,no_seri,'.$id.',buku_id'
         ]);
 
         $buku->update([
-            'judul'   => $request->judul,
-            'no_seri' => $request->no_seri,
+            'judul'           => $request->judul,
+            'no_seri'         => $request->no_seri,
+            'pengarang'       => $request->pengarang,
+            'penerbit'        => $request->penerbit,
+            'tahun_terbit'    => $request->tahun_terbit,
+            'jumlah_halaman'  => $request->jumlah_halaman,
         ]);
 
         return redirect()->route('buku.index')
@@ -80,29 +90,29 @@ class BukuController extends Controller
     }
 
     // Hapus buku (DENGAN PROTEKSI ERROR)
-   public function destroy($buku_id)
-{
-    try {
-        // Kita gunakan DB Transaction agar aman
-        DB::transaction(function () use ($buku_id) {
-            
-            // LANGKAH 1: Hapus dulu data di tabel detail_transaksis
-            // Ini untuk melepas "kunci" Foreign Key
-            DB::table('detail_transaksis')->where('buku_id', $buku_id)->delete();
+    public function destroy($buku_id)
+    {
+        try {
+            // Kita gunakan DB Transaction agar aman
+            DB::transaction(function () use ($buku_id) {
+                
+                // LANGKAH 1: Hapus dulu data di tabel detail_transaksis
+                // Ini untuk melepas "kunci" Foreign Key
+                DB::table('detail_transaksis')->where('buku_id', $buku_id)->delete();
 
-            // LANGKAH 2: Cari data buku di tabel m_bukus
-            $buku = Buku::findOrFail($buku_id);
-            
-            // LANGKAH 3: Hapus bukunya
-            $buku->delete();
-        });
+                // LANGKAH 2: Cari data buku di tabel m_bukus
+                $buku = Buku::findOrFail($buku_id);
+                
+                // LANGKAH 3: Hapus bukunya
+                $buku->delete();
+            });
 
-        // Jika berhasil, balik ke halaman daftar buku
-        return redirect()->route('buku.index')->with('success', 'Buku dan riwayat transaksinya berhasil dihapus!');
+            // Jika berhasil, balik ke halaman daftar buku
+            return redirect()->route('buku.index')->with('success', 'Buku dan riwayat transaksinya berhasil dihapus!');
 
-    } catch (\Exception $e) {
-        // Jika gagal (misal ada error koneksi), balik ke index dengan pesan error
-        return redirect()->route('buku.index')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            // Jika gagal (misal ada error koneksi), balik ke index dengan pesan error
+            return redirect()->route('buku.index')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
     }
-}
 }

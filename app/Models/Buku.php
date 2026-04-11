@@ -13,8 +13,13 @@ class Buku extends Model
     protected $primaryKey = 'buku_id'; // WAJIB
     public $incrementing = true;
 
+    // Tambahkan kolom baru di dalam array fillable ini
     protected $fillable = [
         'judul',
         'no_seri',
+        'pengarang',
+        'penerbit',
+        'tahun_terbit',
+        'jumlah_halaman',
     ];
 }

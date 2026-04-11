@@ -57,6 +57,8 @@ label {
 font-size: 14px;
 font-weight: 500;
 color: #444;
+display: block;
+margin-top: 15px;
 }
 
 input {
@@ -73,6 +75,15 @@ input:focus {
 border-color: #3498db;
 outline: none;
 box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
+}
+
+.row {
+display: flex;
+gap: 20px;
+}
+
+.col {
+flex: 1;
 }
 
 .error {
@@ -92,7 +103,7 @@ margin-bottom: 20px;
 }
 
 .button-group {
-margin-top: 15px;
+margin-top: 25px;
 display: flex;
 gap: 10px;
 }
@@ -104,6 +115,7 @@ border: none;
 padding: 12px 20px;
 border-radius: 8px;
 cursor: pointer;
+font-weight: 500;
 }
 
 .btn-secondary {
@@ -112,6 +124,10 @@ color: white;
 padding: 12px 20px;
 border-radius: 8px;
 text-decoration: none;
+font-size: 14px;
+display: inline-flex;
+align-items: center;
+justify-content: center;
 }
 </style>
 </head>
@@ -149,10 +165,32 @@ text-decoration: none;
 @csrf
 
 <label>Judul Buku</label>
-<input type="text" name="judul" value="{{ old('judul') }}" required>
+<input type="text" name="judul" value="{{ old('judul') }}" placeholder="Contoh: Pemrograman Laravel" required>
 
 <label>No Seri Buku</label>
-<input type="text" name="no_seri" value="{{ old('no_seri') }}" required>
+<input type="text" name="no_seri" value="{{ old('no_seri') }}" placeholder="Masukkan no seri buku" required>
+
+<div class="row">
+    <div class="col">
+        <label>Pengarang</label>
+        <input type="text" name="pengarang" value="{{ old('pengarang') }}" placeholder="Nama pengarang">
+    </div>
+    <div class="col">
+        <label>Penerbit</label>
+        <input type="text" name="penerbit" value="{{ old('penerbit') }}" placeholder="Nama penerbit">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <label>Tahun Terbit</label>
+        <input type="number" name="tahun_terbit" value="{{ old('tahun_terbit') }}" placeholder="Contoh: 2024">
+    </div>
+    <div class="col">
+        <label>Jumlah Halaman</label>
+        <input type="number" name="jumlah_halaman" value="{{ old('jumlah_halaman') }}" placeholder="Contoh: 250">
+    </div>
+</div>
 
 <div class="button-group">
 <button type="submit" class="btn-primary">
