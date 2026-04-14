@@ -12,14 +12,16 @@ use Illuminate\Support\Facades\DB;
 
 class TransaksiController extends Controller
 {
-    public function index(Request $request)
+   public function index(Request $request)
     {
         $query = Transaksi::with(['anggota', 'detail.buku']);
 
         if ($request->search) {
             $search = $request->search;
             $query->whereHas('anggota', function ($q) use ($search) {
+                // Menambahkan pencarian berdasarkan NIPD di sini
                 $q->where('nama', 'like', '%' . $search . '%')
+                  ->orWhere('nipd', 'like', '%' . $search . '%') // <-- Tambahan NIPD
                   ->orWhere('kelas', 'like', '%' . $search . '%')
                   ->orWhere('jurusan', 'like', '%' . $search . '%');
             })
@@ -31,7 +33,6 @@ class TransaksiController extends Controller
         $transaksis = $query->orderBy('created_at', 'desc')->get();
         return view('transaksi.index', compact('transaksis'));
     }
-
     public function create()
     {
         $m_anggotas = Anggota::all();

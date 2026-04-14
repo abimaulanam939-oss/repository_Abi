@@ -61,22 +61,22 @@ class BukuController extends Controller
     // Form edit buku
     public function edit($id)
     {
-        $buku = Buku::findOrFail($id);
+        $m_bukus = Buku::findOrFail($id);
 
-        return view('buku.edit', compact('buku'));
+        return view('buku.edit', compact('m_bukus'));
     }
 
     // Update buku
     public function update(Request $request, $id)
     {
-        $buku = Buku::findOrFail($id);
+        $m_bukus = Buku::findOrFail($id);
 
         $request->validate([
             'judul'   => 'required',
             'no_seri' => 'required|unique:m_bukus,no_seri,'.$id.',buku_id'
         ]);
 
-        $buku->update([
+        $m_bukus->update([
             'judul'           => $request->judul,
             'no_seri'         => $request->no_seri,
             'pengarang'       => $request->pengarang,
@@ -101,10 +101,10 @@ class BukuController extends Controller
                 DB::table('detail_transaksis')->where('buku_id', $buku_id)->delete();
 
                 // LANGKAH 2: Cari data buku di tabel m_bukus
-                $buku = Buku::findOrFail($buku_id);
+                $m_bukus = Buku::findOrFail($buku_id);
                 
                 // LANGKAH 3: Hapus bukunya
-                $buku->delete();
+                $m_bukus->delete();
             });
 
             // Jika berhasil, balik ke halaman daftar buku

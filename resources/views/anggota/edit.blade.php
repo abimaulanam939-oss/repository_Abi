@@ -4,87 +4,84 @@
     <meta charset="UTF-8">
     <title>Edit Data Anggota - Perpustakaan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
             background: #eef1f5;
-        }
-
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            background: linear-gradient(#0d1b2a,#1b263b);
-            color: white;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            padding: 15px;
-        }
-
-        .profile {
-            text-align: center;
-            padding: 10px;
-        }
-
-        .profile img {
-            width: 80px;
-            border-radius: 50%;
-        }
-
-        .menu {
-            margin-top: 20px;
-        }
-
-        .menu a {
-            display: block;
-            padding: 12px 20px;
-            color: white;
-            text-decoration: none;
-        }
-
-        .menu a:hover {
-            background: #415a77;
+            /* Membuat konten berada di tengah layar secara vertikal & horizontal */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .content {
-            margin-left: 250px;
-            padding: 30px;
+            width: 100%;
+            padding: 20px;
         }
 
         .card {
             background: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
-            width: 600px;
+            width: 100%;
+            max-width: 550px;
             margin: auto;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        h2.title {
+            margin-bottom: 25px;
+            color: #1b263b;
+            text-align: center;
+            font-size: 24px;
         }
 
         label {
+            display: block;
             font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
         }
 
         input {
             width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 15px;
+            padding: 12px;
+            margin-bottom: 20px;
             border-radius: 6px;
             border: 1px solid #ccc;
+            box-sizing: border-box;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
         }
 
         .btn {
-            padding: 10px 15px;
+            padding: 12px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 1;
+            font-size: 15px;
         }
 
         .btn-save {
@@ -92,65 +89,64 @@
             color: white;
         }
 
+        .btn-save:hover { background: #27ae60; }
+
         .btn-back {
             background: #95a5a6;
             color: white;
         }
+
+        .btn-back:hover { background: #7f8c8d; }
     </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <h2>Perpustakaan</h2>
-
-    <div class="profile">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-        <p>Admin</p>
-    </div>
-
-    <div class="menu">
-        <a href="/home">Dashboard</a>
-        <a href="/anggota">Data Anggota</a>
-        <a href="/buku">Data Buku</a>
-        <a href="/transaksi">Transaksi</a>
-        <a href="/admin">Data Admin</a>
-    </div>
-</div>
-
 <div class="content">
     <div class="card">
 
-        <h2>Edit Data Anggota</h2>
+        <h2 class="title"><i class="fa fa-user-edit"></i> Edit Data Anggota</h2>
 
-        <form action="{{ route('anggota.update', $anggota->id) }}" method="POST">
+        <form action="{{ route('anggota.update', $m_anggotas->id) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <label>Nama</label>
+            <label>NIPD</label>
+            <input type="text" 
+                   name="nipd" 
+                   value="{{ $m_anggotas->nipd }}" 
+                   placeholder="Masukkan NIPD..." 
+                   required>
+
+            <label>Nama Lengkap</label>
             <input type="text"
                    name="nama"
-                   value="{{ $anggota->nama }}"
+                   value="{{ $m_anggotas->nama }}"
+                   placeholder="Masukkan nama lengkap..."
                    required>
 
             <label>Kelas</label>
             <input type="text"
                    name="kelas"
-                   value="{{ $anggota->kelas }}"
+                   value="{{ $m_anggotas->kelas }}"
+                   placeholder="Contoh: XII"
                    required>
 
             <label>Jurusan</label>
             <input type="text"
                    name="jurusan"
-                   value="{{ $anggota->jurusan }}"
+                   value="{{ $m_anggotas->jurusan }}"
+                   placeholder="Contoh: RPL"
                    required>
 
-            <button class="btn btn-save">Update</button>
-
-            <a href="/anggota">
-                <button type="button" class="btn btn-back">
-                    Kembali
+            <div class="btn-group">
+                <button type="submit" class="btn btn-save">
+                    <i class="fa fa-save"></i> Simpan Perubahan
                 </button>
-            </a>
+
+                <a href="{{ route('anggota.index') }}" class="btn btn-back">
+                    <i class="fa fa-arrow-left"></i> Kembali
+                </a>
+            </div>
 
         </form>
 

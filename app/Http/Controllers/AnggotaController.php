@@ -17,7 +17,7 @@ class AnggotaController extends Controller
 
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
-                  ->orWhere('nipd', 'like', "%{$search}%") // Tambahan search NIPD
+                  ->orWhere('nipd', 'like', "%{$search}%") // Pencarian berdasarkan NIPD
                   ->orWhere('kelas', 'like', "%{$search}%")
                   ->orWhere('jurusan', 'like', "%{$search}%");
             });
@@ -39,14 +39,14 @@ class AnggotaController extends Controller
     {
         $request->validate([
             'nama'    => 'required',
-            'nipd'    => 'required|unique:m_anggotas,nipd', // NIPD divalidasi harus unik
+            'nipd'    => 'required|unique:m_anggotas,nipd', // Validasi unik
             'kelas'   => 'required',
             'jurusan' => 'required',
         ]);
 
         Anggota::create([
             'nama'    => $request->nama,
-            'nipd'    => $request->nipd, // Tambahkan ini
+            'nipd'    => $request->nipd, 
             'kelas'   => $request->kelas,
             'jurusan' => $request->jurusan,
         ]);
@@ -58,30 +58,31 @@ class AnggotaController extends Controller
     // Tampilkan form edit anggota
     public function edit($id)
     {
-        $anggota = Anggota::findOrFail($id);
+        $m_anggotas = Anggota::findOrFail($id);
 
-        return view('anggota.edit', compact('anggota'));
+        return view('anggota.edit', compact('m_anggotas'));
     }
 
     // Update data anggota
     public function update(Request $request, $id)
     {
-        $anggota = Anggota::findOrFail($id);
+        $m_anggotas = Anggota::findOrFail($id);
 
         $request->validate([
             'nama'    => 'required',
-            'nipd'    => 'required|unique:m_anggotas,nipd,'.$id, // Unik kecuali ID yang sedang diedit
+            'nipd'    => 'required|unique:m_anggotas,nipd,'.$id, // Unik kecuali milik sendiri
             'kelas'   => 'required',
             'jurusan' => 'required',
         ]);
 
-        $anggota->update([
+        $m_anggotas->update([
             'nama'    => $request->nama,
-            'nipd'    => $request->nipd, // Tambahkan ini
+            'nipd'    => $request->nipd, 
             'kelas'   => $request->kelas,
             'jurusan' => $request->jurusan,
         ]);
 
+        // SUDAH DIPERBAIKI: Dari 'angagota.index' menjadi 'anggota.index'
         return redirect()->route('anggota.index')
                          ->with('success', 'Data anggota berhasil diupdate');
     }
@@ -89,8 +90,8 @@ class AnggotaController extends Controller
     // Hapus anggota
     public function destroy($id)
     {
-        $anggota = Anggota::findOrFail($id);
-        $anggota->delete();
+        $m_anggotas = Anggota::findOrFail($id);
+        $m_anggotas->delete();
 
         return redirect()->route('anggota.index')
                          ->with('success', 'Data anggota berhasil dihapus');
