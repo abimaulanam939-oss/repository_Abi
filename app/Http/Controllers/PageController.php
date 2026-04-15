@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Anggota;
 use App\Models\Buku;
-use App\Models\Transaksi;
+use App\Models\peminjaman;
 
 class PageController extends Controller
 {
@@ -13,12 +13,12 @@ class PageController extends Controller
     {
         $totalAnggota = Anggota::count();
         $totalBuku = Buku::count();
-        $totalTransaksi = Transaksi::count();
+        $totalPeminjaman = Peminjaman::count();
 
         return view('dashboard.home', compact(
             'totalAnggota',
             'totalBuku',
-            'totalTransaksi'
+            'totalPeminjaman'
         ));
     }
 }

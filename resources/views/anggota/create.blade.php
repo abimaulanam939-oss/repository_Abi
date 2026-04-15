@@ -1,179 +1,175 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Tambah Anggota - Perpustakaan</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Tambah Data Anggota - Perpustakaan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eef1f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        .content {
+            width: 100%;
+            padding: 20px;
+        }
 
-body {
-background: #f1f4f9;
-padding: 40px;
-}
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 550px;
+            margin: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
 
-.topbar {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 30px;
-}
+        h2.title {
+            margin-bottom: 25px;
+            color: #1b263b;
+            text-align: center;
+            font-size: 24px;
+        }
 
-.topbar h2 { font-weight: 600; color: #333; }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
 
-.admin {
-background: white;
-padding: 8px 15px;
-border-radius: 30px;
-box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-font-weight: 500;
-}
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            outline: none;
+            font-size: 14px;
+            background-color: white;
+        }
 
-.form-wrapper {
-display: flex;
-justify-content: center;
-}
+        input:focus, select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
 
-.card {
-background: white;
-padding: 35px;
-border-radius: 15px;
-box-shadow: 0 8px 25px rgba(0,0,0,0.05);
-width: 100%;
-max-width: 900px;
-}
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
 
-.card h3 { 
-margin-bottom: 25px; 
-font-weight: 600; 
-color: #333; 
-}
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 1;
+            font-size: 15px;
+        }
 
-label { 
-font-size: 14px; 
-font-weight: 500; 
-color: #444; 
-display: block;
-margin-top: 10px;
-}
+        .btn-save {
+            background: #3498db;
+            color: white;
+        }
 
-input {
-width: 100%;
-padding: 12px;
-margin-top: 6px;
-margin-bottom: 10px;
-border: 1px solid #ddd;
-border-radius: 8px;
-font-size: 14px;
-}
+        .btn-save:hover { background: #2980b9; }
 
-input:focus {
-border-color: #3498db;
-outline: none;
-box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
-}
+        .btn-back {
+            background: #95a5a6;
+            color: white;
+        }
 
-.error {
-background: #f8d7da;
-color: #721c24;
-padding: 10px;
-border-radius: 8px;
-margin-bottom: 20px;
-}
-
-.button-group {
-margin-top: 25px;
-display: flex;
-gap: 10px;
-}
-
-.btn-primary {
-background: linear-gradient(135deg, #3498db, #2980b9);
-color: white;
-border: none;
-padding: 12px 20px;
-border-radius: 8px;
-cursor: pointer;
-font-weight: 500;
-display: inline-flex;
-align-items: center;
-gap: 8px;
-}
-
-.btn-secondary {
-background: #6c757d;
-color: white;
-padding: 12px 20px;
-border-radius: 8px;
-text-decoration: none;
-font-size: 14px;
-display: inline-flex;
-align-items: center;
-gap: 8px;
-}
-</style>
+        .btn-back:hover { background: #7f8c8d; }
+    </style>
 </head>
-
 <body>
 
-<div class="topbar">
-<h2>Tambah Anggota</h2>
-<div class="admin">
-<i class="fa fa-user-circle"></i> Admin
-</div>
-</div>
+<div class="content">
+    <div class="card">
 
-<div class="form-wrapper">
-<div class="card">
-<h3>Form Tambah Anggota</h3>
+        <h2 class="title"><i class="fa fa-user-plus"></i> Tambah Data Anggota</h2>
 
-@if ($errors->any())
-<div class="error">
-<ul>
-@foreach ($errors->all() as $error)
-<li>{{ $error }}</li>
-@endforeach
-</ul>
-</div>
-@endif
+        <form action="{{ route('anggota.store') }}" method="POST">
+            @csrf
 
-<form action="{{ route('anggota.store') }}" method="POST">
-@csrf
+        <label>NIPD</label>
+<input type="text" 
+       name="nipd" 
+       value="{{ old('nipd', $m_anggotas->nipd ?? '') }}" 
+       style="border: 1px solid @error('nipd') #e74c3c @else #ccc @enderror;"
+       placeholder="Masukkan NIPD anggota..." 
+       required>
 
-<label>Nama Lengkap</label>
-<input type="text" name="nama" value="{{ old('nama') }}" placeholder="Masukkan nama lengkap" required>
-
-<label>NIPD</label>
-<input type="text" name="nipd" value="{{ old('nipd') }}" placeholder="Masukkan NIPD anggota" required>
-
-<div style="display: flex; gap: 20px;">
-    <div style="flex: 1;">
-        <label>Kelas</label>
-        <input type="text" name="kelas" value="{{ old('kelas') }}" placeholder="Contoh: XII" required>
+{{-- Pesan Error NIPD --}}
+@error('nipd')
+    <div style="color: #e74c3c; font-size: 13px; margin-top: -15px; margin-bottom: 15px; font-weight: bold;">
+        <i class="fa fa-exclamation-circle"></i> {{ $message }}
     </div>
-    <div style="flex: 1;">
-        <label>Jurusan</label>
-        <input type="text" name="jurusan" value="{{ old('jurusan') }}" placeholder="Contoh: RPL" required>
+@enderror
+            <input type="text" 
+       name="nama" 
+       value="{{ old('nama', $m_anggotas->nama ?? '') }}" 
+       style="border: 1px solid @error('nama') #e74c3c @else #ccc @enderror;"
+       placeholder="Masukkan nama lengkap..." 
+       required>
+
+{{-- Pesan Error Nama --}}
+@error('nama')
+    <div style="color: #e74c3c; font-size: 13px; margin-top: -15px; margin-bottom: 15px; font-weight: bold;">
+        <i class="fa fa-exclamation-circle"></i> {{ $message }}
     </div>
-</div>
+@enderror
 
-<div class="button-group">
-<button type="submit" class="btn-primary">
-<i class="fa fa-save"></i> Simpan Anggota
-</button>
+            <label>Kelas</label>
+            <select name="kelas" required>
+                <option value="" disabled selected>-- Pilih Kelas --</option>
+                <option value="X">X</option>
+                <option value="XI">XI</option>
+                <option value="XII">XII</option>
+            </select>
 
-<a href="{{ route('anggota.index') }}" class="btn-secondary">
-<i class="fa fa-arrow-left"></i> Kembali
-</a>
-</div>
+            <label>Jurusan</label>
+            <select name="jurusan" required>
+                <option value="" disabled selected>-- Pilih Jurusan --</option>
+                <option value="RPL">Rekayasa Perangkat Lunak (RPL)</option>
+                <option value="DKV">Desain komunikasi visual (DKV)</option>
+                <option value="TKJ">Teknik Komputer dan Jaringan (TKJ1)</option>
+                 <option value="TKJ">Teknik Komputer dan Jaringan (TKJ2)</option>
+                <option value="BD">Bisnis Digital (BD1)</option>>
+                <option value="BD">Bisnis Digital (BD2)</option>>
+                 <option value="BD">Bisnis Digital (BD3)</option>>
+            </select>
 
-</form>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-save">
+                    <i class="fa fa-save"></i> Simpan Anggota
+                </button>
 
-</div>
+                <a href="{{ route('anggota.index') }}" class="btn btn-back">
+                    <i class="fa fa-arrow-left"></i> Kembali
+                </a>
+            </div>
+
+        </form>
+
+    </div>
 </div>
 
 </body>

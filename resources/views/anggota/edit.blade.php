@@ -11,7 +11,6 @@
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
             background: #eef1f5;
-            /* Membuat konten berada di tengah layar secara vertikal & horizontal */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -47,7 +46,7 @@
             color: #333;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
@@ -56,9 +55,10 @@
             box-sizing: border-box;
             outline: none;
             font-size: 14px;
+            background-color: white; /* Menjaga konsistensi warna select */
         }
 
-        input:focus {
+        input:focus, select:focus {
             border-color: #3498db;
             box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
         }
@@ -125,18 +125,22 @@
                    required>
 
             <label>Kelas</label>
-            <input type="text"
-                   name="kelas"
-                   value="{{ $m_anggotas->kelas }}"
-                   placeholder="Contoh: XII"
-                   required>
+            <select name="kelas" required>
+                <option value="">-- Pilih Kelas --</option>
+                <option value="X" {{ $m_anggotas->kelas == 'X' ? 'selected' : '' }}>X</option>
+                <option value="XI" {{ $m_anggotas->kelas == 'XI' ? 'selected' : '' }}>XI</option>
+                <option value="XII" {{ $m_anggotas->kelas == 'XII' ? 'selected' : '' }}>XII</option>
+            </select>
 
             <label>Jurusan</label>
-            <input type="text"
-                   name="jurusan"
-                   value="{{ $m_anggotas->jurusan }}"
-                   placeholder="Contoh: RPL"
-                   required>
+            <select name="jurusan" required>
+                <option value="">-- Pilih Jurusan --</option>
+                <option value="RPL" {{ $m_anggotas->jurusan == 'RPL' ? 'selected' : '' }}>Rekayasa Perangkat Lunak (RPL)</option>
+                <option value="TKJ" {{ $m_anggotas->jurusan == 'TKJ' ? 'selected' : '' }}>Teknik Komputer dan Jaringan (TKJ)</option>
+                <option value="BD" {{ $m_anggotas->jurusan == 'BD' ? 'selected' : '' }}>Bisnis Digital (BD)</option>
+                <option value="MPLB" {{ $m_anggotas->jurusan == 'MPLB' ? 'selected' : '' }}>Manajemen Perkantoran & Layanan Bisnis (MPLB)</option>
+                <option value="AK" {{ $m_anggotas->jurusan == 'AK' ? 'selected' : '' }}>Akuntansi (AK)</option>
+            </select>
 
             <div class="btn-group">
                 <button type="submit" class="btn btn-save">

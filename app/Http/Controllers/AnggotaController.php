@@ -35,25 +35,21 @@ class AnggotaController extends Controller
     }
 
     // Simpan data anggota
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama'    => 'required',
-            'nipd'    => 'required|unique:m_anggotas,nipd', // Validasi unik
-            'kelas'   => 'required',
-            'jurusan' => 'required',
-        ]);
+  public function store(Request $request)
+{
+    $request->validate([
+        // Ubah 'anggotas' menjadi 'm_anggotas'
+        'nipd' => 'required|unique:m_anggotas,nipd', 
+        'nama' => 'required|unique:m_anggotas,nama',
+        'kelas' => 'required',
+        'jurusan' => 'required',
+    ], [
+        'nipd.unique' => 'NIPD sudah terdaftar! Gunakan NIPD lain.',
+        'nama.unique' => 'Nama anggota ini sudah ada di database!',
+    ]);
 
-        Anggota::create([
-            'nama'    => $request->nama,
-            'nipd'    => $request->nipd, 
-            'kelas'   => $request->kelas,
-            'jurusan' => $request->jurusan,
-        ]);
-
-        return redirect()->route('anggota.index')
-                         ->with('success', 'Data anggota berhasil ditambahkan');
-    }
+    // ... sisa kode simpan ...
+}
 
     // Tampilkan form edit anggota
     public function edit($id)

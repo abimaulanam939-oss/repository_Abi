@@ -211,7 +211,7 @@
     <a href="{{ route('home') }}"><i class="fa fa-th-large"></i> Dashboard</a>
     <a href="{{ route('anggota.index') }}" class="active"><i class="fa fa-users"></i> Data Anggota</a>
     <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
-    <a href="{{ route('transaksi.index') }}"><i class="fa fa-file-invoice"></i> Data Transaksi</a>
+    <a href="{{ route('peminjaman.index') }}"><i class="fa fa-file-invoice"></i> Data Peminjaman</a>
 
     <form action="{{ route('logout') }}" method="POST" style="margin-top: 20px;">
         @csrf
