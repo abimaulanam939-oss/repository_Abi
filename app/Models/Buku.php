@@ -10,10 +10,9 @@ class Buku extends Model
     use HasFactory;
 
     protected $table = 'm_bukus';
-    protected $primaryKey = 'buku_id'; // WAJIB
+    protected $primaryKey = 'buku_id'; 
     public $incrementing = true;
 
-    // Tambahkan kolom baru di dalam array fillable ini
     protected $fillable = [
         'judul',
         'no_seri',

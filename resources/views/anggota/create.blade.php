@@ -103,58 +103,57 @@
 
 <div class="content">
     <div class="card">
-
         <h2 class="title"><i class="fa fa-user-plus"></i> Tambah Data Anggota</h2>
 
         <form action="{{ route('anggota.store') }}" method="POST">
             @csrf
 
-        <label>NIPD</label>
-<input type="text" 
-       name="nipd" 
-       value="{{ old('nipd', $m_anggotas->nipd ?? '') }}" 
-       style="border: 1px solid @error('nipd') #e74c3c @else #ccc @enderror;"
-       placeholder="Masukkan NIPD anggota..." 
-       required>
-
-{{-- Pesan Error NIPD --}}
-@error('nipd')
-    <div style="color: #e74c3c; font-size: 13px; margin-top: -15px; margin-bottom: 15px; font-weight: bold;">
-        <i class="fa fa-exclamation-circle"></i> {{ $message }}
-    </div>
-@enderror
+            <label>NIPD</label>
             <input type="text" 
-       name="nama" 
-       value="{{ old('nama', $m_anggotas->nama ?? '') }}" 
-       style="border: 1px solid @error('nama') #e74c3c @else #ccc @enderror;"
-       placeholder="Masukkan nama lengkap..." 
-       required>
+                   name="nipd" 
+                   value="{{ old('nipd') }}" 
+                   style="border: 1px solid @error('nipd') #e74c3c @else #ccc @enderror;"
+                   placeholder="Masukkan NIPD anggota..." 
+                   required>
 
-{{-- Pesan Error Nama --}}
-@error('nama')
-    <div style="color: #e74c3c; font-size: 13px; margin-top: -15px; margin-bottom: 15px; font-weight: bold;">
-        <i class="fa fa-exclamation-circle"></i> {{ $message }}
-    </div>
-@enderror
+            @error('nipd')
+                <div style="color: #e74c3c; font-size: 13px; margin-top: -15px; margin-bottom: 15px; font-weight: bold;">
+                    <i class="fa fa-exclamation-circle"></i> {{ $message }}
+                </div>
+            @enderror
+
+            <label>Nama Lengkap</label>
+            <input type="text" 
+                   name="nama" 
+                   value="{{ old('nama') }}" 
+                   style="border: 1px solid @error('nama') #e74c3c @else #ccc @enderror;"
+                   placeholder="Masukkan nama lengkap..." 
+                   required>
+
+            @error('nama')
+                <div style="color: #e74c3c; font-size: 13px; margin-top: -15px; margin-bottom: 15px; font-weight: bold;">
+                    <i class="fa fa-exclamation-circle"></i> {{ $message }}
+                </div>
+            @enderror
 
             <label>Kelas</label>
             <select name="kelas" required>
-                <option value="" disabled selected>-- Pilih Kelas --</option>
-                <option value="X">X</option>
-                <option value="XI">XI</option>
-                <option value="XII">XII</option>
+                <option value="" disabled {{ old('kelas') == '' ? 'selected' : '' }}>-- Pilih Kelas --</option>
+                <option value="X" {{ old('kelas') == 'X' ? 'selected' : '' }}>X</option>
+                <option value="XI" {{ old('kelas') == 'XI' ? 'selected' : '' }}>XI</option>
+                <option value="XII" {{ old('kelas') == 'XII' ? 'selected' : '' }}>XII</option>
             </select>
 
             <label>Jurusan</label>
             <select name="jurusan" required>
-                <option value="" disabled selected>-- Pilih Jurusan --</option>
-                <option value="RPL">Rekayasa Perangkat Lunak (RPL)</option>
-                <option value="DKV">Desain komunikasi visual (DKV)</option>
-                <option value="TKJ">Teknik Komputer dan Jaringan (TKJ1)</option>
-                 <option value="TKJ">Teknik Komputer dan Jaringan (TKJ2)</option>
-                <option value="BD">Bisnis Digital (BD1)</option>>
-                <option value="BD">Bisnis Digital (BD2)</option>>
-                 <option value="BD">Bisnis Digital (BD3)</option>>
+                <option value="" disabled {{ old('jurusan') == '' ? 'selected' : '' }}>-- Pilih Jurusan --</option>
+                <option value="RPL" {{ old('jurusan') == 'RPL' ? 'selected' : '' }}>Rekayasa Perangkat Lunak (RPL)</option>
+                <option value="DKV" {{ old('jurusan') == 'DKV' ? 'selected' : '' }}>Desain komunikasi visual (DKV)</option>
+                <option value="TKJ1" {{ old('jurusan') == 'TKJ1' ? 'selected' : '' }}>Teknik Komputer dan Jaringan (TKJ1)</option>
+                <option value="TKJ2" {{ old('jurusan') == 'TKJ2' ? 'selected' : '' }}>Teknik Komputer dan Jaringan (TKJ2)</option>
+                <option value="BD1" {{ old('jurusan') == 'BD1' ? 'selected' : '' }}>Bisnis Digital (BD1)</option>
+                <option value="BD2" {{ old('jurusan') == 'BD2' ? 'selected' : '' }}>Bisnis Digital (BD2)</option>
+                <option value="BD3" {{ old('jurusan') == 'BD3' ? 'selected' : '' }}>Bisnis Digital (BD3)</option>
             </select>
 
             <div class="btn-group">
@@ -166,9 +165,7 @@
                     <i class="fa fa-arrow-left"></i> Kembali
                 </a>
             </div>
-
         </form>
-
     </div>
 </div>
 

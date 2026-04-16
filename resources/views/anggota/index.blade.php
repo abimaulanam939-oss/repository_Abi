@@ -25,6 +25,8 @@
             color: white;
             min-height: 100vh;
             position: fixed;
+            transition: 0.3s;
+            z-index: 1001;
         }
 
         .sidebar .brand {
@@ -76,7 +78,11 @@
         }
 
         /* MAIN CONTENT */
-        .main { margin-left: 240px; width: 100%; }
+        .main { 
+            margin-left: 240px; 
+            width: 100%; 
+            transition: 0.3s;
+        }
 
         .top-nav {
             background: white;
@@ -85,6 +91,45 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* DROPDOWN STYLING */
+        .user-menu {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        .dropdown-content a, .dropdown-content button {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 13px;
+            text-align: left;
+            width: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-content a:hover, .dropdown-content button:hover {
+            background-color: #f8fafc;
         }
 
         .content { padding: 30px; }
@@ -98,7 +143,6 @@
 
         .page-header h1 { font-size: 22px; color: #2d3748; }
 
-        /* SEARCH CONTAINER (Like Photo) */
         .search-container {
             display: flex;
             gap: 10px;
@@ -133,7 +177,6 @@
             font-weight: 600;
         }
 
-        /* TABLE STYLING */
         .card {
             background: white;
             border-radius: 12px;
@@ -160,10 +203,6 @@
             font-size: 13px;
         }
 
-        .nipd-text { color: var(--primary-blue); font-weight: 600; font-size: 12px; }
-        .nama-text { font-weight: bold; color: #2d3748; display: block; }
-
-        /* BUTTONS */
         .btn-add {
             background: var(--success-green);
             color: white;
@@ -177,16 +216,10 @@
         }
 
         .btn-action {
-            width: 32px;
-            height: 32px;
+            width: 32px; height: 32px;
             display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
-            color: white;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
+            align-items: center; justify-content: center;
+            border-radius: 6px; color: white; border: none; cursor: pointer;
         }
 
         .btn-edit { background: #f6ad55; }
@@ -198,9 +231,9 @@
 </head>
 <body>
 
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
     <div class="brand">
-        <i class="fa fa-exchange-alt"></i> Kelola Data Anggota
+        <i class="fa fa-exchange-alt"></i> Perpustakaan
     </div>
 
     <div class="profile-section">
@@ -212,17 +245,24 @@
     <a href="{{ route('anggota.index') }}" class="active"><i class="fa fa-users"></i> Data Anggota</a>
     <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
     <a href="{{ route('peminjaman.index') }}"><i class="fa fa-file-invoice"></i> Data Peminjaman</a>
-
-    <form action="{{ route('logout') }}" method="POST" style="margin-top: 20px;">
-        @csrf
-        <button type="submit"><i class="fa fa-sign-out-alt"></i> Logout</button>
-    </form>
 </div>
 
-<div class="main">
+<div class="main" id="mainContent">
     <div class="top-nav">
-        <span><i class="fa fa-bars"></i></span>
-        <span><i class="fa fa-user-circle"></i> Administrator</span>
+        <span style="cursor: pointer; font-size: 1.2rem;" onclick="toggleSidebar()">
+            <i class="fa fa-bars"></i>
+        </span>
+        
+        <div class="user-menu" onclick="toggleDropdown()">
+            <span><i class="fa fa-user-circle"></i> Administrator <i class="fa fa-caret-down"></i></span>
+            <div class="dropdown-content" id="myDropdown">
+                <a href="#"><i class="fa fa-user"></i> Profil</a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit"><i class="fa fa-sign-out-alt"></i> Logout</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div class="content">
@@ -255,8 +295,8 @@
                     <tr>
                         <td>{{ $i + 1 }}</td>
                         <td>
-                            <span class="nipd-text">{{ $a->nipd ?? '-' }}</span>
-                            <span class="nama-text">{{ $a->nama }}</span>
+                            <div style="color: var(--primary-blue); font-weight: 600; font-size: 12px;">{{ $a->nipd ?? '-' }}</div>
+                            <div style="font-weight: bold;">{{ $a->nama }}</div>
                         </td>
                         <td>
                             <div>{{ $a->kelas }}</div>
@@ -277,9 +317,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" style="text-align: center; padding: 40px; color: #a0aec0;">
-                            Data anggota tidak ditemukan
-                        </td>
+                        <td colspan="4" class="text-center" style="padding: 40px; color: #a0aec0;">Data tidak ditemukan</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -287,6 +325,34 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Fungsi untuk Toggle Sidebar
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const main = document.getElementById('mainContent');
+        if (sidebar.style.transform === 'translateX(-240px)') {
+            sidebar.style.transform = 'translateX(0)';
+            main.style.marginLeft = '240px';
+        } else {
+            sidebar.style.transform = 'translateX(-240px)';
+            main.style.marginLeft = '0';
+        }
+    }
+
+    // Fungsi untuk Dropdown Administrator
+    function toggleDropdown() {
+        const dropdown = document.getElementById('myDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Menutup dropdown jika klik di luar elemen
+    window.onclick = function(event) {
+        if (!event.target.closest('.user-menu')) {
+            document.getElementById('myDropdown').style.display = 'none';
+        }
+    }
+</script>
 
 </body>
 </html>
