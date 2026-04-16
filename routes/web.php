@@ -25,9 +25,14 @@ use Illuminate\Http\Request;
 |--------------------------------------------------------------------------
 */
 
+// Route Login
 Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'authenticate']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// --- PASTIKAN DUA BARIS INI ADA ---
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'storeRegister'])->name('register.store');
 
 
 /*
@@ -38,33 +43,37 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('ceklogin')->group(function () {
 
-Route::get('/home', [PageController::class, 'home'])->name('home');
+    Route::get('/home', [PageController::class, 'home'])->name('home');
 
 
-Route::resource('anggota', AnggotaController::class);
-Route::get('/anggota/create', [AnggotaController::class, 'create'])->name('anggota.create');
-Route::post('/anggota', [AnggotaController::class, 'store'])->name('anggota.store');
+    Route::resource('anggota', AnggotaController::class);
+    Route::get('/anggota/create', [AnggotaController::class, 'create'])->name('anggota.create');
+    Route::post('/anggota', [AnggotaController::class, 'store'])->name('anggota.store');
 
 
-Route::resource('buku', BukuController::class);
-Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
-Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
+    Route::resource('buku', BukuController::class);
+    Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
+    Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
 
 
-Route::get('/transaksi',[PeminjamanController::class,'index'])->name('peminjaman.index');
-Route::get('/transaksi/create',[PeminjamanController::class,'create'])->name('peminjaman.create');
-Route::post('/transaksi/store',[PeminjamanController::class,'store'])->name('peminjaman.store');
+    Route::get('/transaksi',[PeminjamanController::class,'index'])->name('peminjaman.index');
+    Route::get('/transaksi/create',[PeminjamanController::class,'create'])->name('peminjaman.create');
+    Route::post('/transaksi/store',[PeminjamanController::class,'store'])->name('peminjaman.store');
 
-Route::get('/transaksi/kembalikan/{id}',[PeminjamanController::class,'kembalikan'])->name('peminjaman.kembalikan');
-Route::get('/transaksi/hilang/{id}',[PeminjamanController::class,'hilang'])->name('peminjaman.hilang');
-Route::get('/transaksi/rusak/{id}',[PeminjamanController::class,'rusak'])->name('peminjaman.rusak');
+    Route::get('/transaksi/kembalikan/{id}',[PeminjamanController::class,'kembalikan'])->name('peminjaman.kembalikan');
+    Route::get('/transaksi/hilang/{id}',[PeminjamanController::class,'hilang'])->name('peminjaman.hilang');
+    Route::get('/transaksi/rusak/{id}',[PeminjamanController::class,'rusak'])->name('peminjaman.rusak');
 
-Route::post('/transaksi/kembalikan/{id}', [PeminjamanController::class,'prosesKembali'])->name('peminjaman.prosesKembali');
-Route::get('/transaksi/{id}/edit', [PeminjamanController::class,'edit'])->name('peminjaman.edit');
-Route::put('/transaksi/{id}', [PeminjamanController::class,'update'])->name('peminjaman.update');
+    Route::post('/transaksi/kembalikan/{id}', [PeminjamanController::class,'prosesKembali'])->name('peminjaman.prosesKembali');
+    Route::get('/transaksi/{id}/edit', [PeminjamanController::class,'edit'])->name('peminjaman.edit');
+    Route::put('/transaksi/{id}', [PeminjamanController::class,'update'])->name('peminjaman.update');
 
-Route::put('/detail/{id}', [DetailPeminjamanController::class,'update'])->name('detail.update');
-Route::delete('/transaksi/{id}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
+    Route::put('/detail/{id}', [DetailPeminjamanController::class,'update'])->name('detail.update');
+    Route::delete('/transaksi/{id}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
 
-Route::get('/peminjaman/cetak', [PeminjamanController::class, 'cetak'])->name('peminjaman.cetak');
+    Route::get('/peminjaman/cetak', [PeminjamanController::class, 'cetak'])->name('peminjaman.cetak');
+
+    // Cari baris ini di routes/web.php
+// Ubah dari Route::get menjadi Route::post
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

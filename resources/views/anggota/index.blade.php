@@ -256,7 +256,6 @@
         <div class="user-menu" onclick="toggleDropdown()">
             <span><i class="fa fa-user-circle"></i> Administrator <i class="fa fa-caret-down"></i></span>
             <div class="dropdown-content" id="myDropdown">
-                <a href="#"><i class="fa fa-user"></i> Profil</a>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit"><i class="fa fa-sign-out-alt"></i> Logout</button>

@@ -173,9 +173,8 @@
         </span>
         
         <div class="user-menu" onclick="toggleDropdown()">
-            <span><i class="fa fa-user-circle"></i> Abi Maulana <i class="fa fa-caret-down"></i></span>
+            <span><i class="fa fa-user-circle"></i> Admin <i class="fa fa-caret-down"></i></span>
             <div class="dropdown-content" id="myDropdown">
-                <a href="#"><i class="fa fa-user"></i> Profil Saya</a>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit"><i class="fa fa-sign-out-alt"></i> Keluar</button>
