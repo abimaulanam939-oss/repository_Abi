@@ -12,11 +12,14 @@
             --sidebar-dark: #0b1120;
             --primary-blue: #3498db;
             --success-green: #2ecc71;
+            --warning-orange: #f6ad55;
+            --danger-red: #fc8181;
+            --text-gray: #718096;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
-        body { display: flex; background: var(--bg-body); color: #333; }
+        body { display: flex; background: var(--bg-body); color: #333; overflow-x: hidden; }
 
         /* SIDEBAR */
         .sidebar {
@@ -25,13 +28,13 @@
             color: white;
             min-height: 100vh;
             position: fixed;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             z-index: 1001;
         }
 
         .sidebar .brand {
             padding: 20px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -51,6 +54,7 @@
             border: 2px solid rgba(255,255,255,0.2);
             padding: 3px;
             background: #fff;
+            object-fit: cover;
         }
 
         .profile-section p {
@@ -59,7 +63,7 @@
             font-size: 14px;
         }
 
-        .sidebar a, .sidebar button {
+        .sidebar a {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -68,20 +72,20 @@
             text-decoration: none;
             font-size: 14px;
             transition: 0.3s;
-            background: none; border: none; width: 100%; cursor: pointer;
+            border-left: 4px solid transparent;
         }
 
-        .sidebar a:hover, .sidebar .active {
+        .sidebar a:hover, .sidebar a.active {
             background: rgba(255,255,255,0.1);
             color: white;
-            border-left: 4px solid var(--primary-blue);
+            border-left-color: var(--primary-blue);
         }
 
         /* MAIN CONTENT */
         .main { 
             margin-left: 240px; 
-            width: 100%; 
-            transition: 0.3s;
+            width: calc(100% - 240px); 
+            transition: all 0.3s ease;
         }
 
         .top-nav {
@@ -96,17 +100,22 @@
             z-index: 1000;
         }
 
-        /* DROPDOWN STYLING */
+        /* USER MENU DROPDOWN */
         .user-menu {
             position: relative;
             cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: 0.2s;
         }
+
+        .user-menu:hover { background: #f8fafc; }
 
         .dropdown-content {
             display: none;
             position: absolute;
             right: 0;
-            top: 40px;
+            top: 45px;
             background-color: white;
             min-width: 160px;
             box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
@@ -115,23 +124,23 @@
             border: 1px solid #eee;
         }
 
-        .dropdown-content a, .dropdown-content button {
+        .dropdown-content button {
             color: #333;
             padding: 12px 16px;
-            text-decoration: none;
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 13px;
-            text-align: left;
             width: 100%;
             background: none;
             border: none;
             cursor: pointer;
+            transition: 0.2s;
         }
 
-        .dropdown-content a:hover, .dropdown-content button:hover {
-            background-color: #f8fafc;
-        }
+        .dropdown-content button:hover { background-color: #fff5f5; color: #e53e3e; }
 
+        /* PAGE CONTENT */
         .content { padding: 30px; }
 
         .page-header {
@@ -143,9 +152,8 @@
 
         .page-header h1 { font-size: 22px; color: #2d3748; }
 
+        /* SEARCH BAR */
         .search-container {
-            display: flex;
-            gap: 10px;
             background: #fff;
             padding: 20px;
             border-radius: 8px;
@@ -153,14 +161,10 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.02);
         }
 
-        .search-box-wrapper {
-            display: flex;
-            flex: 1;
-            max-width: 400px;
-        }
+        .search-form { display: flex; max-width: 500px; }
 
-        .search-box-wrapper input {
-            width: 100%;
+        .search-input {
+            flex: 1;
             padding: 10px 15px;
             border: 1px solid #e2e8f0;
             border-radius: 6px 0 0 6px;
@@ -171,12 +175,16 @@
             background: var(--primary-blue);
             color: white;
             border: none;
-            padding: 0 15px;
+            padding: 0 20px;
             border-radius: 0 6px 6px 0;
             cursor: pointer;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
+        /* TABLE STYLING */
         .card {
             background: white;
             border-radius: 12px;
@@ -188,52 +196,61 @@
 
         th {
             background: #f8fafc;
-            color: #718096;
+            color: var(--text-gray);
             text-transform: uppercase;
             font-size: 11px;
-            letter-spacing: 0.05em;
+            font-weight: 700;
             padding: 15px 20px;
             text-align: left;
             border-bottom: 2px solid #edf2f7;
         }
 
-        td {
-            padding: 15px 20px;
-            border-bottom: 1px solid #edf2f7;
-            font-size: 13px;
-        }
+        td { padding: 15px 20px; border-bottom: 1px solid #edf2f7; font-size: 14px; }
 
+        /* BUTTONS */
         .btn-add {
             background: var(--success-green);
             color: white;
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
             font-size: 13px;
             display: flex;
-            align-items: center; gap: 8px;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
         }
+
+        .btn-add:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .action-group { display: flex; gap: 8px; justify-content: center; }
 
         .btn-action {
-            width: 32px; height: 32px;
+            width: 34px; height: 34px;
             display: inline-flex;
             align-items: center; justify-content: center;
-            border-radius: 6px; color: white; border: none; cursor: pointer;
+            border-radius: 8px; color: white; border: none; cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
         }
 
-        .btn-edit { background: #f6ad55; }
-        .btn-delete { background: #fc8181; }
+        .btn-edit { background: var(--warning-orange); }
+        .btn-delete { background: var(--danger-red); }
+        .btn-action:hover { opacity: 0.8; transform: scale(1.05); }
 
+        /* UTILS */
         .text-center { text-align: center; }
+        .sidebar-hidden { transform: translateX(-240px); }
+        .main-full { margin-left: 0; width: 100%; }
 
     </style>
 </head>
 <body>
 
-<div class="sidebar" id="sidebar">
+<aside class="sidebar" id="sidebar">
     <div class="brand">
-        <i class="fa fa-exchange-alt"></i> Perpustakaan
+        <i class="fa fa-book-reader"></i> Perpustakaan
     </div>
 
     <div class="profile-section">
@@ -241,20 +258,24 @@
         <p>Admin Sistem</p>
     </div>
 
-    <a href="{{ route('home') }}"><i class="fa fa-th-large"></i> Dashboard</a>
-    <a href="{{ route('anggota.index') }}" class="active"><i class="fa fa-users"></i> Data Anggota</a>
-    <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
-    <a href="{{ route('peminjaman.index') }}"><i class="fa fa-file-invoice"></i> Data Peminjaman</a>
-</div>
+    <nav>
+        <a href="{{ route('home') }}"><i class="fa fa-th-large"></i> Dashboard</a>
+        <a href="{{ route('anggota.index') }}" class="active"><i class="fa fa-users"></i> Data Anggota</a>
+        <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
+        <a href="{{ route('peminjaman.index') }}"><i class="fa fa-file-invoice"></i> Data Peminjaman</a>
+    </nav>
+</aside>
 
-<div class="main" id="mainContent">
-    <div class="top-nav">
-        <span style="cursor: pointer; font-size: 1.2rem;" onclick="toggleSidebar()">
+<main class="main" id="mainContent">
+    <header class="top-nav">
+        <span style="cursor: pointer; font-size: 1.2rem; color: #4a5568;" onclick="toggleSidebar()">
             <i class="fa fa-bars"></i>
         </span>
         
-        <div class="user-menu" onclick="toggleDropdown()">
-            <span><i class="fa fa-user-circle"></i> Administrator <i class="fa fa-caret-down"></i></span>
+        <div class="user-menu" id="userDropdownTrigger">
+            <span style="font-weight: 600; font-size: 14px;">
+                <i class="fa fa-user-circle" style="color: var(--primary-blue);"></i> Administrator <i class="fa fa-caret-down"></i>
+            </span>
             <div class="dropdown-content" id="myDropdown">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
@@ -262,7 +283,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </header>
 
     <div class="content">
         <div class="page-header">
@@ -273,9 +294,9 @@
         </div>
 
         <div class="search-container">
-            <form action="{{ route('anggota.index') }}" method="GET" class="search-box-wrapper">
-                <input type="text" name="search" placeholder="Cari NIPD, Nama, atau Kelas..." value="{{ request('search') }}">
-                <button class="btn-filter"><i class="fa fa-search"></i> Filter Data</button>
+            <form action="{{ route('anggota.index') }}" method="GET" class="search-form">
+                <input type="text" name="search" class="search-input" placeholder="Cari NIPD, Nama, atau Kelas..." value="{{ request('search') }}">
+                <button type="submit" class="btn-filter"><i class="fa fa-search"></i> Filter</button>
             </form>
         </div>
 
@@ -283,72 +304,75 @@
             <table>
                 <thead>
                     <tr>
-                        <th width="50">NO</th>
+                        <th width="60" class="text-center">NO</th>
                         <th>NIPD & NAMA</th>
                         <th>KELAS / JURUSAN</th>
-                        <th class="text-center">AKSI</th>
+                        <th width="120" class="text-center">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($anggotas as $i => $a)
                     <tr>
-                        <td>{{ $i + 1 }}</td>
+                        <td class="text-center" style="color: var(--text-gray);">{{ $i + 1 }}</td>
                         <td>
-                            <div style="color: var(--primary-blue); font-weight: 600; font-size: 12px;">{{ $a->nipd ?? '-' }}</div>
-                            <div style="font-weight: bold;">{{ $a->nama }}</div>
+                            <div style="color: var(--primary-blue); font-weight: 700; font-size: 11px; letter-spacing: 0.5px;">{{ $a->nipd ?? '-' }}</div>
+                            <div style="font-weight: 600; color: #2d3748; margin-top: 2px;">{{ $a->nama }}</div>
                         </td>
                         <td>
-                            <div>{{ $a->kelas }}</div>
-                            <small style="color: #a0aec0;">{{ $a->jurusan }}</small>
+                            <div style="font-weight: 600;">{{ $a->kelas }}</div>
+                            <div style="color: var(--text-gray); font-size: 12px;">{{ $a->jurusan }}</div>
                         </td>
-                        <td class="text-center">
-                            <a href="{{ route('anggota.edit', $a->id) }}" class="btn-action btn-edit">
-                                <i class="fa fa-pen"></i>
-                            </a>
-                            <form action="{{ route('anggota.destroy', $a->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn-action btn-delete" onclick="return confirm('Yakin hapus?')">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </form>
+                        <td>
+                            <div class="action-group">
+                                <a href="{{ route('anggota.edit', $a->id) }}" class="btn-action btn-edit" title="Edit">
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                                <form action="{{ route('anggota.destroy', $a->id) }}" method="POST" onsubmit="return confirm('Hapus permanen anggota ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-action btn-delete" title="Hapus">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="text-center" style="padding: 40px; color: #a0aec0;">Data tidak ditemukan</td>
+                        <td colspan="4" class="text-center" style="padding: 50px; color: #a0aec0;">
+                            <i class="fa fa-folder-open" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                            Data tidak ditemukan
+                        </td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-</div>
+</main>
 
 <script>
     // Fungsi untuk Toggle Sidebar
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
         const main = document.getElementById('mainContent');
-        if (sidebar.style.transform === 'translateX(-240px)') {
-            sidebar.style.transform = 'translateX(0)';
-            main.style.marginLeft = '240px';
-        } else {
-            sidebar.style.transform = 'translateX(-240px)';
-            main.style.marginLeft = '0';
-        }
+        sidebar.classList.toggle('sidebar-hidden');
+        main.classList.toggle('main-full');
     }
 
     // Fungsi untuk Dropdown Administrator
-    function toggleDropdown() {
-        const dropdown = document.getElementById('myDropdown');
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
+    const dropdownTrigger = document.getElementById('userDropdownTrigger');
+    const dropdownMenu = document.getElementById('myDropdown');
+
+    dropdownTrigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    });
 
     // Menutup dropdown jika klik di luar elemen
     window.onclick = function(event) {
-        if (!event.target.closest('.user-menu')) {
-            document.getElementById('myDropdown').style.display = 'none';
+        if (!event.target.closest('#userDropdownTrigger')) {
+            dropdownMenu.style.display = 'none';
         }
     }
 </script>

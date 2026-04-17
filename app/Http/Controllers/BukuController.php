@@ -59,9 +59,9 @@ class BukuController extends Controller
     }
 
     // Form edit buku
-    public function edit($id)
+    public function edit($buku_id)
     {
-        $m_bukus = Buku::findOrFail($id);
+        $m_bukus = Buku::findOrFail($buku_id);
 
         return view('buku.edit', compact('m_bukus'));
     }
@@ -90,29 +90,17 @@ class BukuController extends Controller
     }
 
     // Hapus buku (DENGAN PROTEKSI ERROR)
-    public function destroy($buku_id)
+ public function destroy($buku_id)
     {
-        try {
-            // Kita gunakan DB Transaction agar aman
-            DB::transaction(function () use ($buku_id) {
-                
-                // LANGKAH 1: Hapus dulu data di tabel detail_transaksis
-                // Ini untuk melepas "kunci" Foreign Key
-                DB::table('detail_transaksis')->where('buku_id', $buku_id)->delete();
+        $m_bukus = Buku::findOrFail($buku_id);
 
-                // LANGKAH 2: Cari data buku di tabel m_bukus
-                $m_bukus = Buku::findOrFail($buku_id);
-                
-                // LANGKAH 3: Hapus bukunya
-                $m_bukus->delete();
-            });
-
-            // Jika berhasil, balik ke halaman daftar buku
-            return redirect()->route('buku.index')->with('success', 'Buku dan riwayat transaksinya berhasil dihapus!');
-
-        } catch (\Exception $e) {
-            // Jika gagal (misal ada error koneksi), balik ke index dengan pesan error
-            return redirect()->route('buku.index')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+         try {
+            $m_bukus->delete();
+            return redirect()->route('buku.index')->with('success', 'Data buku berhasil dihapus');
+        } catch (QueryException $e) {
+            return redirect()->route('buku.index')->with('error', 'Gagal menghapus buku: ' . $e->getMessage());
         }
+        $m_bukus->detail()->delete();
+        $m_bukus ->delete();
     }
 }

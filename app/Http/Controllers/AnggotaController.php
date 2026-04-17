@@ -95,7 +95,7 @@ class AnggotaController extends Controller
     }
 
     // Hapus anggota
-    public function destroy($id)
+  public function destroy($id)
     {
         $m_anggotas = Anggota::findOrFail($id);
         $m_anggotas->delete();

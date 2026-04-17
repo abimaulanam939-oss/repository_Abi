@@ -210,27 +210,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($m_bukus as $i => $b)
-                    <tr>
-                        <td>{{ $i + 1 }}</td>
-                        <td>
-                            <span class="no-seri">SN: {{ $b->no_seri }}</span>
-                            <span class="book-title">{{ $b->judul }}</span>
-                        </td>
-                        <td>{{ $b->pengarang ?? '-' }}</td>
-                        <td>{{ $b->tahun_terbit ?? '-' }}</td>
-                        <td class="text-center">
-                            <a href="{{ route('buku.edit', $b->buku_id) }}" class="btn-action btn-edit"><i class="fa fa-pen"></i></a>
-                            <form action="{{ route('buku.destroy', $b->buku_id) }}" method="POST" style="display:inline;">
-                                @csrf @method('DELETE')
-                                <button class="btn-action btn-delete" onclick="return confirm('Hapus buku ini?')"><i class="fa fa-trash"></i></button>
-                            </form>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr><td colspan="5" class="text-center" style="padding: 40px; color: #a0aec0;">Data tidak ditemukan</td></tr>
-                    @endforelse
-                </tbody>
+    @forelse ($m_bukus as $i => $b)
+    <tr>
+        <td>{{ $i + 1 }}</td>
+        <td>
+            <span class="no-seri">SN: {{ $b->no_seri }}</span>
+            <span class="book-title">{{ $b->judul }}</span>
+        </td>
+        <td>{{ $b->pengarang ?? '-' }}</td>
+        <td>{{ $b->tahun_terbit ?? '-' }}</td>
+        <td class="text-center">
+            <a href="{{ route('buku.edit', $b->buku_id) }}" class="btn-action btn-edit" style="text-decoration: none;">
+                <i class="fa fa-pen"></i>
+            </a>
+
+            <form action="{{ route('buku.destroy', $b->buku_id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn-action btn-delete" onclick="return confirm('Hapus permanen buku ini?')" title="Hapus">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </form>
+        </td>
+    </tr>
+    @empty
+    <tr><td colspan="5" class="text-center" style="padding: 40px; color: #a0aec0;">Data tidak ditemukan</td></tr>
+    @endforelse
+</tbody>
             </table>
         </div>
     </div>

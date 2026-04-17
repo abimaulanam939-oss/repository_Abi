@@ -54,7 +54,8 @@ Route::middleware('ceklogin')->group(function () {
     Route::resource('buku', BukuController::class);
     Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
     Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
-
+    Route::put('/buku/{id}', [BukuController::class, 'update'])->name('buku.update');
+    Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
 
     Route::get('/transaksi',[PeminjamanController::class,'index'])->name('peminjaman.index');
     Route::get('/transaksi/create',[PeminjamanController::class,'create'])->name('peminjaman.create');

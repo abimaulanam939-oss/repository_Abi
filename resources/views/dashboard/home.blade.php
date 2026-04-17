@@ -6,6 +6,7 @@
     <title>Dashboard - Perpustakaan Digital</title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -20,7 +21,7 @@
 
         * {
             margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
@@ -31,12 +32,12 @@
 
         /* SIDEBAR */
         .sidebar {
-            width: 250px;
+            width: 260px;
             min-height: 100vh;
             background: var(--sidebar-dark);
             color: white;
             position: fixed;
-            transition: 0.3s;
+            z-index: 100;
         }
 
         .sidebar .brand {
@@ -46,7 +47,6 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            letter-spacing: 1px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
@@ -56,11 +56,10 @@
         }
 
         .profile-section img {
-            width: 85px;
-            height: 85px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             border: 3px solid rgba(255,255,255,0.1);
-            padding: 4px;
             background: #fff;
             object-fit: cover;
         }
@@ -68,10 +67,9 @@
         .profile-section p {
             margin-top: 12px;
             font-weight: 600;
-            font-size: 15px;
         }
 
-        .sidebar a, .sidebar button {
+        .sidebar a {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -80,184 +78,141 @@
             text-decoration: none;
             font-size: 14px;
             transition: 0.3s;
-            background: none; border: none; width: 100%; cursor: pointer;
-            text-align: left;
         }
 
         .sidebar a:hover, .sidebar .active {
             background: rgba(255,255,255,0.05);
             color: white;
-            border-left: 5px solid #4318ff;
+            border-left: 5px solid var(--primary);
         }
 
         /* MAIN CONTENT */
         .main {
-            margin-left: 250px;
-            width: calc(100% - 250px);
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            display: flex;
+            flex-direction: column;
         }
 
+        /* TOP NAV & DROPDOWN */
         .top-nav {
-            background: transparent;
-            padding: 20px 30px;
+            padding: 25px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .content {
-            padding: 0 30px 30px 30px;
-        }
-
-        .welcome-box {
-            margin-bottom: 30px;
-        }
-
-        .welcome-box h1 {
-            font-size: 28px;
-            font-weight: 700;
-            color: #2B3674;
-        }
-
-        .welcome-box p {
-            color: #707EAE;
-            font-size: 14px;
-        }
-
-        /* DASHBOARD CARDS */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .stat-card {
-            background: var(--white);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            transition: 0.3s;
+        .admin-menu {
             position: relative;
+            display: inline-block;
+        }
+
+        .admin-box { 
+            background: white; 
+            padding: 8px 18px; 
+            border-radius: 30px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .admin-box:hover { background: #f8f9ff; }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 110%;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            z-index: 1000;
             overflow: hidden;
+            border: 1px solid #f0f0f0;
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .icon-box {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
+        .dropdown-content button {
+            width: 100%;
+            padding: 12px 15px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            font-size: 24px;
-            color: white;
+            gap: 10px;
+            color: #2B3674;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            background: none;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
         }
 
+        .dropdown-content button:hover {
+            background-color: #fff5f5;
+            color: #e74c3c;
+        }
+
+        .admin-menu:hover .dropdown-content {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CONTENT STYLES */
+        .content { padding: 0 30px 30px 30px; }
+        .welcome-box { margin-bottom: 30px; }
+        .welcome-box h1 { font-size: 28px; font-weight: 700; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .stat-card { 
+            background: var(--white); padding: 25px; border-radius: 20px; 
+            box-shadow: 0px 10px 30px rgba(112, 144, 176, 0.08); 
+            display: flex; align-items: center; text-decoration: none; transition: 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .icon-box { width: 56px; height: 56px; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 22px; color: white; }
+        
         .bg-gradient-red { background: var(--red-card); }
         .bg-gradient-yellow { background: var(--yellow-card); }
         .bg-gradient-blue { background: var(--blue-card); }
 
-        .stat-info h3 {
-            font-size: 24px;
-            font-weight: 800;
-            color: #2B3674;
-            line-height: 1;
-        }
+        .stat-info h3 { font-size: 24px; font-weight: 800; }
+        .stat-info p { color: #a3aed0; font-size: 14px; }
 
-        .stat-info p {
-            color: #a3aed0;
-            font-size: 14px;
-            font-weight: 500;
-            margin-top: 5px;
+        .history-card { 
+            background: var(--white); padding: 30px; border-radius: 20px; 
+            box-shadow: 0px 10px 30px rgba(112, 144, 176, 0.08); margin-top: 30px; 
         }
-
-        .card-decoration {
-            position: absolute;
-            right: -20px;
-            bottom: -20px;
-            font-size: 80px;
-            opacity: 0.05;
-            transform: rotate(-15deg);
-        }
-
-        /* STYLE TABEL HISTORI */
-        .history-card {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
-            margin-top: 30px;
-        }
-
-        .history-card h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #2B3674;
-            margin-bottom: 25px;
-        }
-
-        .history-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .history-table th {
-            text-align: left;
-            color: #a3aed0;
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #f4f7fe;
-        }
-
-        .history-table td {
-            padding: 15px 0;
-            font-size: 14px;
-            font-weight: 700;
-            color: #2B3674;
-            border-bottom: 1px solid #f4f7fe;
-        }
-
-        .badge {
-            padding: 6px 12px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 700;
-        }
+        .history-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .history-table th { text-align: left; color: #a3aed0; font-size: 12px; text-transform: uppercase; padding-bottom: 15px; border-bottom: 1px solid #f4f7fe; }
+        .history-table td { padding: 15px 0; font-size: 14px; font-weight: 700; border-bottom: 1px solid #f4f7fe; }
+        
+        .badge { padding: 6px 12px; border-radius: 10px; font-size: 11px; }
         .bg-light-success { background: #e6fffa; color: #05cd99; }
         .bg-light-warning { background: #fff9e6; color: #ffb547; }
-
     </style>
 </head>
 
 <body>
 
     <div class="sidebar">
-        <div class="brand">
-            <i class="fa fa-book-open"></i> PERPUS-ID
-        </div>
-
+        <div class="brand"><i class="fa fa-book-open"></i> PERPUS-ID</div>
         <div class="profile-section">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Admin">
             <p>Admin Sistem</p>
         </div>
-
         <a href="{{ route('home') }}" class="active"><i class="fa fa-th-large"></i> Dashboard</a>
         <a href="{{ route('anggota.index') }}"><i class="fa fa-users"></i> Data Anggota</a>
         <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
         <a href="{{ route('peminjaman.index') }}"><i class="fa fa-file-invoice"></i> Data Peminjaman</a>
-
-        <form action="{{ route('logout') }}" method="POST" style="margin-top: 30px;">
-            @csrf
-            <button type="submit"><i class="fa fa-sign-out-alt"></i> Logout Sistem</button>
-        </form>
     </div>
 
     <div class="main">
@@ -266,50 +221,43 @@
                 <span style="color: #707EAE;">Pages /</span>
                 <span style="font-weight: 600;"> Dashboard</span>
             </div>
-            <div style="background: white; padding: 10px 20px; border-radius: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-                <i class="fa fa-user-circle" style="color: var(--primary);"></i> 
-                <span style="font-weight: 700; font-size: 14px; margin-left: 5px;">Administrator</span>
+
+            <div class="admin-menu">
+                <div class="admin-box">
+                    <i class="fa fa-user-circle" style="color: var(--primary); font-size: 18px;"></i> 
+                    <span style="font-weight: 700; font-size: 14px;">Administrator</span>
+                    <i class="fa fa-chevron-down" style="font-size: 10px; color: #a3aed0;"></i>
+                </div>
+                
+                <div class="dropdown-content">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit">
+                            <i class="fa fa-sign-out-alt" style="color: #e74c3c;"></i> Logout
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
 
         <div class="content">
             <div class="welcome-box">
                 <h1>Selamat Datang Kembali! 👋</h1>
-                <p>Berikut adalah ringkasan aktivitas perpustakaan hari ini.</p>
+                <p style="color: #707EAE;">Berikut adalah ringkasan aktivitas perpustakaan hari ini.</p>
             </div>
 
             <div class="stats-grid">
                 <a href="{{ route('anggota.index') }}" class="stat-card">
-                    <div class="icon-box bg-gradient-red">
-                        <i class="fa fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>{{ $totalAnggota }}</h3>
-                        <p>Total Anggota</p>
-                    </div>
-                    <i class="fa fa-users card-decoration"></i>
+                    <div class="icon-box bg-gradient-red"><i class="fa fa-users"></i></div>
+                    <div class="stat-info"><h3>{{ $totalAnggota }}</h3><p>Total Anggota</p></div>
                 </a>
-
                 <a href="{{ route('buku.index') }}" class="stat-card">
-                    <div class="icon-box bg-gradient-yellow">
-                        <i class="fa fa-book"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>{{ $totalBuku }}</h3>
-                        <p>Koleksi Buku</p>
-                    </div>
-                    <i class="fa fa-book card-decoration"></i>
+                    <div class="icon-box bg-gradient-yellow"><i class="fa fa-book"></i></div>
+                    <div class="stat-info"><h3>{{ $totalBuku }}</h3><p>Koleksi Buku</p></div>
                 </a>
-
                 <a href="{{ route('peminjaman.index') }}" class="stat-card">
-                    <div class="icon-box bg-gradient-blue">
-                        <i class="fa fa-exchange-alt"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>{{ $totalPeminjaman }}</h3>
-                        <p>Total Peminjaman</p>
-                    </div>
-                    <i class="fa fa-exchange-alt card-decoration"></i>
+                    <div class="icon-box bg-gradient-blue"><i class="fa fa-exchange-alt"></i></div>
+                    <div class="stat-info"><h3>{{ $totalPeminjaman }}</h3><p>Peminjaman</p></div>
                 </a>
             </div>
 
@@ -329,43 +277,22 @@
                             @forelse($recentPeminjaman as $pinjam)
                             <tr>
                                 <td>{{ $pinjam->anggota->nama ?? 'Umum' }}</td>
-                                
-                                <td>
-                                    @if($pinjam->detail->isNotEmpty())
-                                        {{ $pinjam->detail->first()->buku->judul ?? '-' }}
-                                        @if($pinjam->detail->count() > 1)
-                                            <span style="color: #4318ff; font-size: 11px;">
-                                                (+{{ $pinjam->detail->count() - 1 }} buku)
-                                            </span>
-                                        @endif
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-
+                                <td>{{ $pinjam->detail->first()->buku->judul ?? '-' }}</td>
                                 <td>{{ \Carbon\Carbon::parse($pinjam->tanggal_pinjam)->format('d M Y') }}</td>
-
                                 <td>
-                                    @if($pinjam->status == 'dikembalikan')
-                                        <span class="badge bg-light-success">Dikembalikan</span>
-                                    @else
-                                        <span class="badge bg-light-warning">Dipinjam</span>
-                                    @endif
+                                    <span class="badge {{ $pinjam->status == 'dikembalikan' ? 'bg-light-success' : 'bg-light-warning' }}">
+                                        {{ ucfirst($pinjam->status) }}
+                                    </span>
                                 </td>
                             </tr>
                             @empty
-                            <tr>
-                                <td colspan="4" style="text-align: center; color: #a3aed0; padding: 40px 0;">
-                                    Tidak ada data peminjaman terbaru.
-                                </td>
-                            </tr>
+                            <tr><td colspan="4" style="text-align: center; color: #a3aed0; padding: 40px 0;">Tidak ada data peminjaman terbaru.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
             </div>
-            </div>
+        </div>
     </div>
-
 </body>
 </html>

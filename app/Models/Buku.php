@@ -10,15 +10,16 @@ class Buku extends Model
     use HasFactory;
 
     protected $table = 'm_bukus';
-    protected $primaryKey = 'buku_id'; 
-    public $incrementing = true;
+
+    // WAJIB: Beritahu Laravel bahwa primary key-nya bukan 'id'
+    protected $primaryKey = 'buku_id';
 
     protected $fillable = [
-        'judul',
-        'no_seri',
-        'pengarang',
-        'penerbit',
-        'tahun_terbit',
-        'jumlah_halaman',
+        'judul', 
+        'no_seri', 
+        'pengarang', 
+        'penerbit', 
+        'tahun_terbit', 
+        'jumlah_halaman'
     ];
 }
