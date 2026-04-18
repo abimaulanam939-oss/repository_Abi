@@ -257,13 +257,16 @@
         <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Admin">
         <p>Admin Sistem</p>
     </div>
-
-    <nav>
-        <a href="{{ route('home') }}"><i class="fa fa-th-large"></i> Dashboard</a>
-        <a href="{{ route('anggota.index') }}" class="active"><i class="fa fa-users"></i> Data Anggota</a>
-        <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
-        <a href="{{ route('peminjaman.index') }}"><i class="fa fa-file-invoice"></i> Data Peminjaman</a>
-    </nav>
+<nav>
+    <a href="{{ route('home') }}"><i class="fa fa-th-large"></i> Dashboard</a>
+    <a href="{{ route('anggota.index') }}" class="{{ request()->is('anggota*') ? 'active' : '' }}"><i class="fa fa-users"></i> Data Anggota</a>
+    <a href="{{ route('buku.index') }}" class="{{ request()->is('buku*') ? 'active' : '' }}"><i class="fa fa-book"></i> Data Buku</a>
+    <a href="{{ route('peminjaman.index') }}" class="{{ request()->is('peminjaman*') ? 'active' : '' }}"><i class="fa fa-file-invoice"></i> Data Peminjaman</a>
+    
+    <a href="{{ route('user.index') }}" class="{{ request()->is('user*') ? 'active' : '' }}">
+        <i class="fa fa-user-shield"></i> Data User
+    </a>
+</nav>
 </aside>
 
 <main class="main" id="mainContent">

@@ -31,8 +31,7 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('login.auth
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // --- PASTIKAN DUA BARIS INI ADA ---
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'storeRegister'])->name('register.store');
+
 
 
 /*
@@ -74,6 +73,13 @@ Route::middleware('ceklogin')->group(function () {
 
     Route::get('/peminjaman/cetak', [PeminjamanController::class, 'cetak'])->name('peminjaman.cetak');
 
+    Route::get('/user', [UserController::class, 'index'])->name('user.index');
+Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+
+Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     // Cari baris ini di routes/web.php
 // Ubah dari Route::get menjadi Route::post
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

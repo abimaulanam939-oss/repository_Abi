@@ -56,10 +56,6 @@
                 <i class="fa-solid fa-right-to-bracket"></i> Login
             </button>
         </form>
-
-        <p style="margin-top: 20px; font-size: 13px; color: #666;">
-            Belum punya akun? <a href="{{ route('register') }}" style="color: #2c5364; font-weight: bold; text-decoration: none;">Daftar Akun Baru</a>
-        </p>
     </div>
 
     <script>

@@ -213,6 +213,9 @@
         <a href="{{ route('anggota.index') }}"><i class="fa fa-users"></i> Data Anggota</a>
         <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
         <a href="{{ route('peminjaman.index') }}"><i class="fa fa-file-invoice"></i> Data Peminjaman</a>
+          <a href="{{ route('user.index') }}" class="{{ request()->is('user*') ? 'active' : '' }}">
+        <i class="fa fa-user-shield"></i> Data User
+    </a>
     </div>
 
     <div class="main">
@@ -259,6 +262,7 @@
                     <div class="icon-box bg-gradient-blue"><i class="fa fa-exchange-alt"></i></div>
                     <div class="stat-info"><h3>{{ $totalPeminjaman }}</h3><p>Peminjaman</p></div>
                 </a>
+                
             </div>
 
             <div class="history-card">

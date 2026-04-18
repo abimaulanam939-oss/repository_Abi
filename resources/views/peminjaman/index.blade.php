@@ -66,6 +66,9 @@
         <a href="{{ route('anggota.index') }}"><i class="fa fa-users"></i> Data Anggota</a>
         <a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a>
         <a href="{{ route('peminjaman.index') }}" class="active"><i class="fa fa-file-lines"></i> Data Peminjaman</a>
+        <a href="{{ route('user.index') }}" class="{{ request()->is('user*') ? 'active' : '' }}">
+        <i class="fa fa-user-shield"></i> Data User
+    </a>
     </div>
 
     <div class="main">
@@ -122,68 +125,80 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse($peminjaman as $i => $t)
-                            <tr>
-                                <td>{{ $i+1 }}</td>
-                                <td>
-                                    <small style="color: #64748b;">{{ $t->anggota->nipd ?? '-' }}</small><br>
-                                    <strong>{{ $t->anggota->nama ?? 'Tidak Diketahui' }}</strong>
-                                </td>
-                                <td>
-                                    {{ $t->anggota->kelas }}<br>
-                                    <small style="color: #64748b;">{{ $t->anggota->jurusan }}</small>
-                                </td>
-                                <td>
-                                    @foreach($t->detail as $d)
-                                    <div style="margin-bottom:12px; border-left: 3px solid #3498db; padding-left: 10px;">
-                                        <form action="{{ route('detail.update', $d->id_detail) }}" method="POST">
-                                            @csrf @method('PUT')
-                                            <span class="badge-seri">SN: {{ $d->no_seri ?? 'N/A' }}</span><br>
-                                            <span style="font-size: 13px;">{{ $d->buku->judul ?? '-' }}</span><br>
-                                            <div style="margin-top: 5px; display: flex; gap: 5px;">
-                                                <select name="kondisi" style="padding: 4px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
-                                                    <option value="dipinjam" {{ $d->kondisi=='dipinjam'?'selected':'' }}>Dipinjam</option>
-                                                    <option value="dikembalikan" {{ $d->kondisi=='dikembalikan'?'selected':'' }}>Kembali</option>
-                                                    <option value="rusak" {{ $d->kondisi=='rusak'?'selected':'' }}>Rusak</option>
-                                                    <option value="hilang" {{ $d->kondisi=='hilang'?'selected':'' }}>Hilang</option>
-                                                </select>
-                                                <button type="submit" class="btn btn-save" style="padding: 2px 6px;"><i class="fa fa-save" style="font-size: 10px;"></i></button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    @endforeach
-                                </td>
-                                <td>{{ \Carbon\Carbon::parse($t->tanggal_pinjam)->format('d/m/Y') }}</td>
-                                <td>
-                                    <strong>{{ \Carbon\Carbon::parse($t->tanggal_kembali)->format('d/m/Y') }}</strong><br>
-                                    @if(now()->gt($t->tanggal_kembali) && $t->status=='dipinjam')
-                                        <span style="color: #e11d48; font-size: 11px; font-weight: bold;">Terlambat</span>
-                                    @endif
-                                </td>
-                                <td class="denda">Rp {{ number_format($t->denda, 0, ',', '.') }}</td>
-                                <td>
-                                    @if($t->status=='dipinjam')
-                                        <a href="{{ route('peminjaman.kembalikan',$t->id_transaksi) }}" class="btn btn-kembali" onclick="return confirm('Proses pengembalian?')">
-                                            <i class="fa fa-undo"></i> Kembalikan
-                                        </a>
-                                    @else
-                                        <span class="status dikembalikan">Selesai</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <form action="{{ route('peminjaman.destroy',$t->id_transaksi) }}" method="POST" style="display:inline;">
-                                        @csrf @method('DELETE')
-                                        <button class="btn btn-delete" style="padding: 8px;" onclick="return confirm('Hapus transaksi?')">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr><td colspan="9" style="text-align: center; padding: 40px; color: #94a3b8;">Data tidak ditemukan.</td></tr>
-                            @endforelse
-                        </tbody>
+                       <tbody>
+    @forelse($peminjaman as $i => $t)
+    <tr>
+        <td>{{ $i+1 }}</td>
+        <td>
+            <small style="color: #64748b;">{{ $t->anggota->nipd ?? '-' }}</small><br>
+            <strong>{{ $t->anggota->nama ?? 'Tidak Diketahui' }}</strong>
+        </td>
+        <td>
+            {{ $t->anggota->kelas }}<br>
+            <small style="color: #64748b;">{{ $t->anggota->jurusan }}</small>
+        </td>
+        <td>
+            @foreach($t->detail as $d)
+            <div style="margin-bottom:12px; border-left: 3px solid {{ $t->status == 'dipinjam' ? '#3498db' : '#94a3b8' }}; padding-left: 10px;">
+                <form action="{{ route('detail.update', $d->id_detail) }}" method="POST">
+                    @csrf @method('PUT')
+                    <span class="badge-seri">SN: {{ $d->no_seri ?? 'N/A' }}</span><br>
+                    <span style="font-size: 13px; {{ $t->status != 'dipinjam' ? 'color: #94a3b8;' : '' }}">{{ $d->buku->judul ?? '-' }}</span><br>
+                    
+                    <div style="margin-top: 5px; display: flex; gap: 5px;">
+                        <select name="kondisi" 
+                            style="padding: 4px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;"
+                            {{ $t->status != 'dipinjam' ? 'disabled' : '' }}>
+                            <option value="dipinjam" {{ $d->kondisi=='dipinjam'?'selected':'' }}>Dipinjam</option>
+                            <option value="dikembalikan" {{ $d->kondisi=='dikembalikan'?'selected':'' }}>Kembali</option>
+                            <option value="rusak" {{ $d->kondisi=='rusak'?'selected':'' }}>Rusak</option>
+                            <option value="hilang" {{ $d->kondisi=='hilang'?'selected':'' }}>Hilang</option>
+                        </select>
+
+                        @if($t->status == 'dipinjam')
+                            <button type="submit" class="btn btn-save" style="padding: 2px 6px;">
+                                <i class="fa fa-save" style="font-size: 10px;"></i>
+                            </button>
+                        @else
+                            <span title="Data Terkunci" style="color: #94a3b8; font-size: 12px; align-self: center; margin-left: 5px;">
+                                <i class="fa fa-lock"></i>
+                            </span>
+                        @endif
+                    </div>
+                </form>
+            </div>
+            @endforeach
+        </td>
+        <td>{{ \Carbon\Carbon::parse($t->tanggal_pinjam)->format('d/m/Y') }}</td>
+        <td>
+            <strong>{{ \Carbon\Carbon::parse($t->tanggal_kembali)->format('d/m/Y') }}</strong><br>
+            @if(now()->gt($t->tanggal_kembali) && $t->status=='dipinjam')
+                <span style="color: #e11d48; font-size: 11px; font-weight: bold;">Terlambat</span>
+            @endif
+        </td>
+        <td class="denda">Rp {{ number_format($t->denda, 0, ',', '.') }}</td>
+        <td>
+            @if($t->status=='dipinjam')
+                <a href="{{ route('peminjaman.kembalikan',$t->id_transaksi) }}" class="btn btn-kembali" onclick="return confirm('Proses pengembalian?')">
+                    <i class="fa fa-undo"></i> Kembalikan
+                </a>
+            @else
+                <span class="status dikembalikan">Selesai</span>
+            @endif
+        </td>
+        <td>
+            <form action="{{ route('peminjaman.destroy',$t->id_transaksi) }}" method="POST" style="display:inline;">
+                @csrf @method('DELETE')
+                <button class="btn btn-delete" style="padding: 8px;" onclick="return confirm('Hapus transaksi?')">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </form>
+        </td>
+    </tr>
+    @empty
+    <tr><td colspan="9" style="text-align: center; padding: 40px; color: #94a3b8;">Data tidak ditemukan.</td></tr>
+    @endforelse
+</tbody>
                     </table>
                 </div>
             </div>
